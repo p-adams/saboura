@@ -17,9 +17,7 @@
       </main>
   </div>
 </template>
-
 <script>
-//import socket from '../socket.js'
 import {DB} from '../firebase'
 import Toolbar from './Toolbar'
 export default {

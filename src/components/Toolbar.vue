@@ -15,16 +15,17 @@
                 <v-card-text>
                     <v-form v-model="valid">
                         <v-text-field
-                            label="username"
-                            v-model="username"
-                            :rules="usernameRules"
-                            :counter="10"
+                            label="E-mail"
+                            v-model="email"
+                            :rules="emailRules"
+                            :counter="20"
                             required
                         ></v-text-field>
                         <v-text-field
                             label="password"
                             type="password"
                             v-model="password"
+                             :rules="passwordRules"
                             :counter="10"
                             required
                         ></v-text-field>
@@ -50,7 +51,23 @@
             <v-card>
                 <v-card-title class="headline">Registration</v-card-title>
                 <v-card-text>
-                    registration form
+                    <v-form v-model="valid">
+                        <v-text-field
+                            label="E-mail"
+                            v-model="email"
+                            :rules="emailRules"
+                            :counter="20"
+                            required
+                        ></v-text-field>
+                        <v-text-field
+                            label="password"
+                            type="password"
+                            v-model="password"
+                            :rules="passwordRules"
+                            :counter="10"
+                            required
+                        ></v-text-field>
+                    </v-form>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -71,17 +88,22 @@
     </v-toolbar>
 </template>
 <script>
-//import socket from '../socket.js'
+import {DB} from '../firebase'
+import firebase from 'firebase'
 export default {
   name: 'toolbar',
   data () {
       return {
-          username: '',
+          email: '',
           password: '',
           valid: false,
-          usernameRules: [
-              (v) => !!v || 'Username is required',
-              (v) => v.length < 10 || 'Username must be less than 10 characters'
+          emailRules: [
+              (v) => !!v || 'E-mail is required',
+              (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+          ],
+          passwordRules: [
+              (v) => !!v || 'Password is required',
+              (v) => v.length > 6 || 'password must contain more than 6 characters'
           ],
           loginDialog: false,
           registerDialog: false
@@ -90,12 +112,43 @@ export default {
   methods: {
       handleLogin () {
           this.loginDialog = false
-          //socket.emit('user-login', {username: this.username, password: this.password})
-          this.username = ''
-          this.password = ''
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(this.email, this.password)
+            .then(result => {
+                 this.clearInputs()
+            })
+            .catch(err =>  {
+                const errCode = err.code 
+                const errMsg = err.message 
+                console.log(errCode)
+                this.clearInputs()
+            })
       },
       handleRegistration () {
           this.registerDialog = false
+          firebase
+            .auth()
+            .createUserWithEmailAndPassword(this.email, this.password)
+            .then(result => {
+                DB.ref('Users').push({
+                    uid: result.uid,
+                    username: this.email,
+                    hasPen: false,
+                    boards: ['mockWB']
+                })
+                this.clearInputs()
+            })
+            .catch(err =>  {
+                const errCode = err.code 
+                const errMsg = err.message 
+                console.log(errCode)
+                this.clearInputs()
+            })
+      },
+      clearInputs () {
+        this.email = ''
+        this.password = ''
       }
   }
 }
