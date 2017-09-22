@@ -4,15 +4,25 @@
       <main>
         <v-container>
           <div class="canvas">
-            <canvas
+            <svg
               id="wb"
               ref="wb"
               width="500"
               height="300"
-              @mousemove="getMousePositionOnCanvas"
               style="border:1px solid #81c784; background:#81c784"
             >
-            </canvas>
+            <g>
+              <rect v-for="(rect, idx) in rectangles" :key="idx"
+                :x="rect.x"
+                :y="rect.y"
+                :width="rect.width"
+                :height="rect.height"
+                :fill="rect.fill"
+                @click="selectRect(idx)"
+              >
+              </rect>
+            </g>
+            </svg>
           </div>
         </v-container>
       </main>
@@ -24,24 +34,35 @@ import Toolbar from './Toolbar'
 export default {
   name: 'main',
   mounted () {
-    this.canvas = this.$refs.wb
-    this.ctx = this.canvas.getContext('2d')
     this.renderMockSVG()
   },
   data () {
     return {
       canvas: '',
       ctx: '',
-      loggedIn: false
+      loggedIn: false,
+      rectangles: []
     }
   },
   methods: {
     renderMockSVG () {
       DB.ref('WhiteBoards').on('value', snapshot => {
           let artifact = snapshot.val().mockWB
-          this.ctx.fillRect(artifact.x, artifact.y, artifact.width, artifact.height)
-          this.ctx.fillStyle = artifact.fillStyle
+          this.rectangles.push(
+            {
+              x: artifact.x,
+              y: artifact.y,
+              width: artifact.width,
+              height: artifact.height,
+              fill: artifact.fillStyle
+            }
+          )
         })
+    },
+    selectRect (idx) {
+      let rect = this.rectangles[idx]
+      rect.fill = 'purple'
+      console.log(rect)
     },
     getMousePositionOnCanvas (e) {
       var mousePos = this.getCoordinates(this.canvas, e);
