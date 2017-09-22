@@ -9,6 +9,7 @@
               ref="wb"
               width="500"
               height="300"
+              @mousemove="getMousePositionOnCanvas"
               style="border:1px solid #81c784; background:#81c784"
             >
             </canvas>
@@ -23,11 +24,13 @@ import Toolbar from './Toolbar'
 export default {
   name: 'main',
   mounted () {
-    this.ctx = wb.getContext('2d')
+    this.canvas = this.$refs.wb
+    this.ctx = this.canvas.getContext('2d')
     this.renderMockSVG()
   },
   data () {
     return {
+      canvas: '',
       ctx: '',
       loggedIn: false
     }
@@ -39,6 +42,17 @@ export default {
           this.ctx.fillRect(artifact.x, artifact.y, artifact.width, artifact.height)
           this.ctx.fillStyle = artifact.fillStyle
         })
+    },
+    getMousePositionOnCanvas (e) {
+      var mousePos = this.getCoordinates(this.canvas, e);
+      console.log(`Mouse position: ${mousePos.x} , ${mousePos.y}`);
+    },
+    getCoordinates (canvas, evt) {
+      const rect = canvas.getBoundingClientRect()
+      return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+      }
     }
   },
   components: {
