@@ -1,14 +1,19 @@
 <template>
   <div id="app">
     <v-app dark>
+      <app-bar></app-bar>
       <router-view></router-view>
     </v-app>
   </div>
 </template>
 
 <script>
+import AppBar from './components/AppBar'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    AppBar
+  }
 }
 </script>
 
