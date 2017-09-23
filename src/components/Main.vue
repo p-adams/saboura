@@ -1,26 +1,29 @@
 <template>
   <div class="hello">
-      <toolbar></toolbar>
+      <app-bar></app-bar>
       <main>
         <v-container>
           <div class="canvas">
             <svg
               id="wb"
+              @mousemove="getMousePositionOnCanvas"
               ref="wb"
               width="500"
               height="300"
-              style="border:1px solid #81c784; background:#81c784"
+              style="border:1px solid #81c784; background:white"
             >
             <g>
-              <rect v-for="(rect, idx) in rectangles" :key="idx"
+              <rect
+                v-for="(rect, idx) in rectangles"
+                @click="selectRectangle(idx)"
+                ref="rectangle"
+                :key="idx"
                 :x="rect.x"
                 :y="rect.y"
                 :width="rect.width"
                 :height="rect.height"
                 :fill="rect.fill"
-                @click="selectRect(idx)"
-              >
-              </rect>
+              ></rect>
             </g>
             </svg>
           </div>
@@ -30,7 +33,7 @@
 </template>
 <script>
 import {DB} from '../firebase'
-import Toolbar from './Toolbar'
+import AppBar from './AppBar'
 export default {
   name: 'main',
   mounted () {
@@ -38,9 +41,8 @@ export default {
   },
   data () {
     return {
-      canvas: '',
-      ctx: '',
       loggedIn: false,
+      rectangleRef: '',
       rectangles: []
     }
   },
@@ -59,13 +61,20 @@ export default {
           )
         })
     },
-    selectRect (idx) {
-      let rect = this.rectangles[idx]
-      rect.fill = 'purple'
-      console.log(rect)
+    moveRectHandler () {
+      this.rectangleRef.setAttribute('transform', `translate(${this.x-100}, ${this.y-100})`)
+    },
+    selectRectangle (idx) {
+      this.rectangleRef = this.$refs.rectangle[idx]
+      this.$refs.wb.addEventListener('mousemove', this.moveRectHandler)
+      this.$refs.wb.addEventListener('dblclick', e => {
+        this.$refs.wb.removeEventListener('mousemove', this.moveRectHandler)
+      })
     },
     getMousePositionOnCanvas (e) {
-      var mousePos = this.getCoordinates(this.canvas, e);
+      var mousePos = this.getCoordinates(this.$refs.wb, e);
+      this.x = mousePos.x
+      this.y = mousePos.y
       console.log(`Mouse position: ${mousePos.x} , ${mousePos.y}`);
     },
     getCoordinates (canvas, evt) {
@@ -77,7 +86,7 @@ export default {
     }
   },
   components: {
-    Toolbar
+    AppBar
   }
 }
 </script>
@@ -85,7 +94,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .canvas {
+    border: 1px solid red;
     margin-top:60px;
+  }
+  .draggable {
+    cursor: move;
   }
 </style>
 
