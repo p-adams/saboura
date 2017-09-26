@@ -12,6 +12,13 @@
             <v-btn flat slot="activator">login</v-btn>
             <v-card>
                 <v-card-title class="headline">login</v-card-title>
+                    <transition name="fade">
+                            <v-card-text v-show="showLoginFailure">     
+                            <v-alert error value="true">
+                                {{loginWarning}}
+                            </v-alert>
+                        </v-card-text>
+                    </transition>
                 <v-card-text>
                     <v-form v-model="valid">
                         <v-text-field
@@ -51,7 +58,7 @@
             <v-card>
                 <v-card-title class="headline">Registration</v-card-title>
                 <!-- allow warning to fade out on its own -->
-                <transition>
+                <transition name="fade">
                     <v-card-text v-show="showRegistrationFailure">     
                         <v-alert error value="true">
                         {{registrationWarning}}
@@ -119,25 +126,28 @@ export default {
           loginDialog: false,
           registerDialog: false,
           attemptedRegistration: false,
-          badRegistrationAlert: false,
-          registrationWarning: ''
+          attemptedLogin: false,
+          registrationWarning: '',
+          loginWarning: ''
       }
   },
   methods: {
       handleLogin () {
-          this.loginDialog = false
+          this.attemptedLogin = true
           firebase
             .auth()
             .signInWithEmailAndPassword(this.email, this.password)
             .then(result => {
                 this.$store.dispatch('login')
-                this.registerDialog = false
+                this.loginDialog = false
                 this.clearInputs()
             })
             .catch(err =>  {
                 const errCode = err.code 
                 const errMsg = err.message 
                 console.log(errCode)
+                this.loginWarning = this.email === '' || this.password === '' ? 'please enter email and password' : 'user account not found'
+                this.handleLoginError()
                 this.clearInputs()
             })
       },
@@ -161,12 +171,20 @@ export default {
                 const errCode = err.code 
                 const errMsg = err.message 
                 console.log(errCode)
-                this.registrationWarning = 'email already in use'
+                this.registrationWarning = this.email === '' || this.password === '' ? 'please enter email and password':'email already in use'
+                this.handleRegistrationError()
                 this.clearInputs()
             })
       },
       handleRegistrationError () {
-
+          setTimeout(() => {
+              this.attemptedRegistration = false
+          }, 2000)
+      },
+      handleLoginError () {
+          setTimeout(() => {
+              this.attemptedLogin = false
+          }, 2000)
       },
       handleLogout () {
           firebase
@@ -190,7 +208,19 @@ export default {
       },
       showRegistrationFailure () {
           return this.attemptedRegistration === true && this.isLoggedIn === false
+      },
+      showLoginFailure () {
+          return this.attemptedLogin === true && this.isLoggedIn === false
       }
   }
 }
 </script>
+<style scoped>
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0
+    }
+</style>
+
