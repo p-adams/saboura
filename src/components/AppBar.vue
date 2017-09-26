@@ -12,7 +12,7 @@
             <v-card>
                 <v-card-title class="headline">login</v-card-title>
                     <transition name="fade">
-                        <v-card-text v-show="showLoginFailure">     
+                        <v-card-text v-if="showLoginFailure">     
                             <v-alert error value="true">
                                 {{loginWarning}}
                             </v-alert>
