@@ -1,7 +1,6 @@
 <template>
     <v-toolbar
     absolute
-    class="white teal lighten-3"
     dark
     >
     <v-toolbar-side-icon></v-toolbar-side-icon>
@@ -13,7 +12,7 @@
             <v-card>
                 <v-card-title class="headline">login</v-card-title>
                     <transition name="fade">
-                            <v-card-text v-show="showLoginFailure">     
+                        <v-card-text v-show="showLoginFailure">     
                             <v-alert error value="true">
                                 {{loginWarning}}
                             </v-alert>
@@ -101,6 +100,11 @@
         </v-dialog>
     </v-toolbar-items>
     <v-toolbar-items v-else>
+        <v-card class="black">
+            <v-card-text>
+                Signed in as {{currentUser}}
+            </v-card-text>
+        </v-card>
         <v-btn @click="handleLogout" flat>logout</v-btn>
     </v-toolbar-items>
     </v-toolbar>
@@ -112,6 +116,7 @@ export default {
   name: 'toolbar',
   data () {
       return {
+          currentUser: '',
           email: '',
           password: '',
           valid: false,
@@ -132,27 +137,32 @@ export default {
       }
   },
   methods: {
+      setCurrentUser () {
+          this.currentUser = firebase.auth().currentUser.email
+      },
       handleLogin () {
-          this.attemptedLogin = true
           firebase
             .auth()
             .signInWithEmailAndPassword(this.email, this.password)
             .then(result => {
                 this.$store.dispatch('login')
+                  this.attemptedLogin = true
+                this.setCurrentUser()
                 this.loginDialog = false
+                this.handleLoginErrorAlert()
                 this.clearInputs()
             })
             .catch(err =>  {
                 const errCode = err.code 
                 const errMsg = err.message 
                 console.log(errCode)
+                this.attemptedLogin = true
                 this.loginWarning = this.email === '' || this.password === '' ? 'please enter email and password' : 'user account not found'
-                this.handleLoginError()
+                this.handleLoginErrorAlert()
                 this.clearInputs()
             })
       },
       handleRegistration () {
-          this.attemptedRegistration = true
           firebase
             .auth()
             .createUserWithEmailAndPassword(this.email, this.password)
@@ -164,6 +174,8 @@ export default {
                     boards: ['mockWB']
                 })
                 this.$store.dispatch('login')
+                this.setCurrentUser()
+                this.attemptedRegistration = true
                 this.registerDialog = false
                 this.clearInputs()
             })
@@ -171,17 +183,18 @@ export default {
                 const errCode = err.code 
                 const errMsg = err.message 
                 console.log(errCode)
+                this.attemptedRegistration = true
                 this.registrationWarning = this.email === '' || this.password === '' ? 'please enter email and password':'email already in use'
-                this.handleRegistrationError()
+                this.handleRegistrationErrorAlert()
                 this.clearInputs()
             })
       },
-      handleRegistrationError () {
+      handleRegistrationErrorAlert () {
           setTimeout(() => {
               this.attemptedRegistration = false
           }, 2000)
       },
-      handleLoginError () {
+      handleLoginErrorAlert () {
           setTimeout(() => {
               this.attemptedLogin = false
           }, 2000)
