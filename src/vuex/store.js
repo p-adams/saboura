@@ -4,7 +4,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         mockUsers: [],
-        mockWhiteboards: []
+        mockWhiteboards: [],
+        loggedIn: false
     },
     mutations: {
         loadMockUsers (state, users) {
@@ -12,6 +13,12 @@ const store = new Vuex.Store({
         },
         loadMockWhiteboards (state, boards) {
             state.mockWhiteboards.push(...boards)
+        },
+        login (state) {
+            state.loggedIn = true
+        },
+        logout (state) {
+            state.loggedIn = false
         }
     },
     actions: {
@@ -20,11 +27,18 @@ const store = new Vuex.Store({
         },
         loadMockWhiteboards: (context, payload) => {
             context.commit('loadMockWhiteboards', payload.boards)
+        },
+        login: context => {
+            context.commit('login')
+        },
+        logout: context => {
+            context.commit('logout')
         }
     },
     getters: {
         showMockUsers: state => state.mockUsers,
-        showMockWhiteboards: state => state.mockWhiteboards
+        showMockWhiteboards: state => state.mockWhiteboards,
+        isLoggedIn: state => state.loggedIn
     }
 })
 
