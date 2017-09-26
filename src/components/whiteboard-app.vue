@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-import DrawingBoard from './DrawingBoard'
+import DrawingBoard from './drawing-board'
 export default {
   name: 'whiteboard-app',
   components: {

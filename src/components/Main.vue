@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import WhiteboardApp from './WhiteboardApp'
+import WhiteboardApp from './whiteboard-app'
 export default {
   name: 'main',
   data () {
