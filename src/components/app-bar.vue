@@ -1,5 +1,5 @@
 <template>
-    <v-app>
+    <div>
         <v-navigation-drawer absolute persistent light v-model="drawerIsOpen" overflow>
             <v-toolbar flat class="transparent">
                
@@ -7,6 +7,7 @@
         </v-navigation-drawer>
         <v-toolbar
         absolute
+        class="white teal lighten-3"
         dark
         >
         <v-toolbar-side-icon @click.stop="drawerIsOpen = !drawerIsOpen"></v-toolbar-side-icon>
@@ -106,15 +107,10 @@
             </v-dialog>
         </v-toolbar-items>
         <v-toolbar-items v-else>
-            <v-card class="black">
-                <v-card-text>
-                    Signed in as {{currentUser}}
-                </v-card-text>
-            </v-card>
             <v-btn @click="handleLogout" flat>logout</v-btn>
         </v-toolbar-items>
         </v-toolbar>
-    </v-app>
+    </div>
 </template>
 <script>
 import {DB} from '../firebase'
