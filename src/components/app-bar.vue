@@ -1,9 +1,17 @@
 <template>
     <div>
-        <v-navigation-drawer absolute persistent light v-model="drawerIsOpen" overflow>
+        <v-navigation-drawer absolute persistent dark v-model="drawerIsOpen" overflow>
             <v-toolbar flat class="transparent">
-               
+               <v-list>
+                   <v-list-tile v-if="isLoggedIn">
+                       <p class="tile">User Account</p>
+                   </v-list-tile>
+                   <v-list-tile v-else>
+                       <p class="tile">Login or register to view account</p>
+                   </v-list-tile>
+               </v-list>
             </v-toolbar>
+            <v-divider></v-divider>
         </v-navigation-drawer>
         <v-toolbar
         absolute
@@ -238,6 +246,9 @@ export default {
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0
+    }
+    .tile {
+        color: teal;
     }
 </style>
 
