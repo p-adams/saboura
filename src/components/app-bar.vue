@@ -4,7 +4,7 @@
             <v-toolbar flat class="transparent">
                <v-list>
                    <v-list-tile v-if="isLoggedIn">
-                       <p class="tile">User Account</p>
+                       <p class="tile">Welcome {{currentUser}}!</p>
                    </v-list-tile>
                    <v-list-tile v-else>
                        <p class="tile">Login or register to view account</p>
@@ -12,6 +12,15 @@
                </v-list>
             </v-toolbar>
             <v-divider></v-divider>
+            <v-list dense class="pt-0">
+                <v-list-tile v-for="item in navItems" :key="item.title">
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            {{item.title}}
+                        </v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
         </v-navigation-drawer>
         <v-toolbar
         absolute
@@ -131,6 +140,12 @@ export default {
             email: '',
             password: '',
             valid: false,
+            navItems: [
+                {title: 'Home'},
+                {title: 'About'},
+                {title: 'Account information'},
+                {title: 'Account activity'}
+            ],
             emailRules: [
                 (v) => !!v || 'E-mail is required',
                 (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
