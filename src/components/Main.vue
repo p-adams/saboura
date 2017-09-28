@@ -2,13 +2,15 @@
   <div class="hello">
       <main>
         <v-container>
-          <whiteboard-app></whiteboard-app>
+          <whiteboard-app v-if="isLoggedIn"></whiteboard-app>
+          <welcome-page v-else></welcome-page>
         </v-container>
       </main>
   </div>
 </template>
 <script>
 import WhiteboardApp from './whiteboard-app'
+import WelcomePage from './welcome-page'
 export default {
   name: 'main',
   data () {
@@ -16,8 +18,14 @@ export default {
       loggedIn: false,
     }
   },
+  computed: {
+    isLoggedIn () {
+      return this.$store.getters.isLoggedIn
+    }
+  },
   components: {
-    WhiteboardApp
+    WhiteboardApp,
+    WelcomePage
   }
 }
 </script>

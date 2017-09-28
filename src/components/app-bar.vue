@@ -15,7 +15,9 @@
             <v-list dense class="pt-0">
                 <v-list-tile v-for="item in navItems" :key="item.title">
                     <v-list-tile-content>
-                        <v-list-tile-title>
+                        <v-list-tile-title
+                            class="route"
+                            @click="onHandleRoute(item.path)">
                             {{item.title}}
                         </v-list-tile-title>
                     </v-list-tile-content>
@@ -141,10 +143,9 @@ export default {
             password: '',
             valid: false,
             navItems: [
-                {title: 'Home'},
-                {title: 'About'},
-                {title: 'Account information'},
-                {title: 'Account activity'}
+                {title: 'Home', path: '/'},
+                {title: 'About', path: '/about'},
+                {title: 'Create whiteboard sandbox', path: '/whiteboard-sandbox'}
             ],
             emailRules: [
                 (v) => !!v || 'E-mail is required',
@@ -164,6 +165,10 @@ export default {
       }
   },
   methods: {
+      onHandleRoute (path) {
+          console.log(path)
+          this.$router.push({path})
+      },
       setCurrentUser () {
           this.currentUser = firebase.auth().currentUser.email
       },
@@ -264,6 +269,9 @@ export default {
     }
     .tile {
         color: teal;
+    }
+    .route {
+        cursor: pointer;
     }
 </style>
 
