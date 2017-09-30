@@ -5,6 +5,7 @@ import About from '@/components/about'
 import AccountInformation from '@/components/account-information'
 import AccountActivity from '@/components/account-activity'
 import WhiteboardSandbox from '@/components/whiteboard-sandbox'
+import DashboardPage from '@/components/dashboard-page'
 Vue.use(Router)
 
 export default new Router({
@@ -33,6 +34,11 @@ export default new Router({
       path: '/whiteboard-sandbox',
       name: 'WhiteboardSandbox',
       component: WhiteboardSandbox
+    },
+    {
+      path: '/dashboard-page',
+      name: 'DashboardPage',
+      component: DashboardPage
     }
   ]
 })

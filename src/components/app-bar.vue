@@ -1,13 +1,15 @@
 <template>
     <div>
-        <v-navigation-drawer absolute persistent dark v-model="drawerIsOpen" overflow>
+        <v-navigation-drawer
+            v-model="drawerIsOpen"
+            absolute
+            persistent
+            dark
+            overflow>
             <v-toolbar flat class="transparent">
                <v-list>
-                   <v-list-tile v-if="isLoggedIn">
+                   <v-list-tile>
                        <p class="tile">Welcome {{currentUser}}!</p>
-                   </v-list-tile>
-                   <v-list-tile v-else>
-                       <p class="tile">Login or register to view account</p>
                    </v-list-tile>
                </v-list>
             </v-toolbar>
@@ -29,7 +31,10 @@
         class="white teal lighten-3"
         dark
         >
-        <v-toolbar-side-icon @click.stop="drawerIsOpen = !drawerIsOpen"></v-toolbar-side-icon>
+        <v-toolbar-side-icon
+                v-if="isLoggedIn"
+                @click.stop="drawerIsOpen = !drawerIsOpen"
+        ></v-toolbar-side-icon>
         <v-toolbar-title>Saboura</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items v-if="!isLoggedIn">
@@ -143,9 +148,7 @@ export default {
             password: '',
             valid: false,
             navItems: [
-                {title: 'Home', path: '/'},
-                {title: 'About', path: '/about'},
-                {title: 'Create whiteboard sandbox', path: '/whiteboard-sandbox'}
+                {title: 'Dashboard', path: '/dashboard-page'}
             ],
             emailRules: [
                 (v) => !!v || 'E-mail is required',
