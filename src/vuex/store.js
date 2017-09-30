@@ -5,7 +5,8 @@ const store = new Vuex.Store({
     state: {
         mockUsers: [],
         mockWhiteboards: [],
-        loggedIn: false
+        loggedIn: false,
+        currentUser: ''
     },
     mutations: {
         loadMockUsers (state, users) {
@@ -19,6 +20,9 @@ const store = new Vuex.Store({
         },
         logout (state) {
             state.loggedIn = false
+        }, 
+        setCurrentUser (state, user) {
+            state.currentUser = user
         }
     },
     actions: {
@@ -33,12 +37,16 @@ const store = new Vuex.Store({
         },
         logout: context => {
             context.commit('logout')
+        },
+        setCurrentUser: (context, payload) => {
+            context.commit('setCurrentUser', payload.user)
         }
     },
     getters: {
         showMockUsers: state => state.mockUsers,
         showMockWhiteboards: state => state.mockWhiteboards,
-        isLoggedIn: state => state.loggedIn
+        isLoggedIn: state => state.loggedIn,
+        showCurrentUser: state => state.currentUser
     }
 })
 

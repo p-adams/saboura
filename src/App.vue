@@ -2,7 +2,9 @@
   <div id="app">
     <v-app dark>
       <app-bar></app-bar>
-      <router-view></router-view>
+      <div class="router-view">
+        <router-view></router-view>
+      </div>
     </v-app>
   </div>
 </template>
@@ -22,5 +24,10 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display:inline-block;
+  width: 100%;
+}
+.router-view {
+  margin-top: 60px;
 }
 </style>

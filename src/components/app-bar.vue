@@ -169,11 +169,10 @@ export default {
   },
   methods: {
       onHandleRoute (path) {
-          console.log(path)
           this.$router.push({path})
       },
       setCurrentUser () {
-          this.currentUser = firebase.auth().currentUser.email
+          this.$store.dispatch('setCurrentUser', {user: firebase.auth().currentUser.email})
       },
       handleLogin () {
           firebase
@@ -181,7 +180,7 @@ export default {
             .signInWithEmailAndPassword(this.email, this.password)
             .then(result => {
                 this.$store.dispatch('login')
-                  this.attemptedLogin = true
+                this.attemptedLogin = true
                 this.setCurrentUser()
                 this.loginDialog = false
                 this.handleLoginErrorAlert()
