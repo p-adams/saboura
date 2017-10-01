@@ -6,7 +6,7 @@
                 class="flex"
                 xs5
             >      
-                <v-expansion-panel popout>
+                <v-expansion-panel popout light>
                     <v-expansion-panel-content>
                         <div slot="header">
                             <h5>Create a whiteboard</h5>
@@ -14,7 +14,21 @@
                         <v-card>
                             <v-card-text>
                                 <div>
-                                    <h3>Create whiteboard form</h3>
+                                    <v-form>
+                                        <v-text-field
+                                        label="Whiteboard name"
+                                        :counter="10"
+                                        required
+                                        ></v-text-field>
+                                        <v-text-field
+                                        label="Whiteboard description"
+                                        :counter="75"
+                                        required
+                                        ></v-text-field>
+                                        <v-btn
+                                            primary
+                                            dark>Create whiteboard</v-btn>
+                                    </v-form>
                                 </div>
                             </v-card-text>
                         </v-card>
@@ -25,7 +39,7 @@
                 class="flex"
                 xs5
             >
-               <v-expansion-panel popout>
+               <v-expansion-panel popout light>
                     <v-expansion-panel-content>
                         <div slot="header">
                             <h5>Join a whiteboard</h5>
