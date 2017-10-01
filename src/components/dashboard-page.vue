@@ -8,7 +8,9 @@
             >      
                 <v-expansion-panel popout>
                     <v-expansion-panel-content>
-                        <div slot="header">Create a whiteboard</div>
+                        <div slot="header">
+                            <h5>Create a whiteboard</h5>
+                        </div>
                         <v-card>
                             <v-card-text>
                                 <div>
@@ -25,11 +27,25 @@
             >
                <v-expansion-panel popout>
                     <v-expansion-panel-content>
-                        <div slot="header">Join a whiteboard</div>
+                        <div slot="header">
+                            <h5>Join a whiteboard</h5>
+                        </div>
                         <v-card>
                             <v-card-text>
-                                <div>
-                                    <h3>list of whiteboars</h3>
+                                <div v-if="whiteboards.length === 0">
+                                    <h6>no whiteboards to join</h6>
+                                </div>
+                                <div v-else>
+                                    <v-list-tile
+                                            v-for="whiteboard in whiteboards"
+                                            :key="whiteboard.index">
+                                        <v-list-tile-content>
+                                            <v-list-tile-title>{{whiteboard.name}}</v-list-tile-title>
+                                            <v-list-tile-sub-title>
+                                                {{whiteboard.boardData.participants}}
+                                            </v-list-tile-sub-title>
+                                        </v-list-tile-content>
+                                    </v-list-tile>
                                 </div>
                             </v-card-text>
                         </v-card>
@@ -40,8 +56,30 @@
     </v-container>
 </template>
 <script>
+import {DB} from '../firebase'
+import firebase from 'firebase'
 export default {
-  name: 'dashboard-page'
+  name: 'dashboard-page',
+  created () {
+      console.log('created')
+      this.loadWhiteboards()
+  },
+  data () {
+      return {
+          whiteboards: []
+      }
+  },
+  methods: {
+      loadWhiteboards () {
+          DB.ref('WhiteBoards').on('value', snapshot => {
+              console.log(snapshot.val())
+              Object.keys(snapshot.val()).forEach(key => {
+                  console.log(snapshot.val()[key])
+                  this.whiteboards.push({name: key, boardData: snapshot.val()[key]})
+              })
+          })
+      }
+  }
 }
 </script>
 <style scoped>

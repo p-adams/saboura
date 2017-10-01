@@ -9,7 +9,7 @@
             <v-toolbar flat class="transparent">
                <v-list>
                    <v-list-tile>
-                       <p class="tile">Welcome {{currentUser}}!</p>
+                       <p class="tile">Welcome {{showCurrentUser}}!</p>
                    </v-list-tile>
                </v-list>
             </v-toolbar>
@@ -258,6 +258,9 @@ export default {
       },
       showLoginFailure () {
           return this.attemptedLogin === true && this.isLoggedIn === false
+      },
+      showCurrentUser () {
+          return this.$store.getters.showCurrentUser
       }
   }
 }
