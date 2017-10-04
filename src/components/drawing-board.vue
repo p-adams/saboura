@@ -33,7 +33,11 @@ export default {
     return {
       loggedIn: false,
       rectangleRef: '',
-      rectangles: []
+      rx: 0,
+      ry: 0,
+      rectangles: [
+        {x: 200, y: 10, width: 20, height: 20, fill: 'green'}
+      ]
     }
   },
   methods: {
@@ -52,7 +56,12 @@ export default {
         })
     },
     moveRectHandler () {
-      this.rectangleRef.setAttribute('transform', `translate(${this.x-100}, ${this.y-100})`)
+      const xPos = this.rectangleRef.x.animVal.value
+      const yPos = this.rectangleRef.y.animVal.value
+      this.rectangleRef.setAttribute(
+          'transform',
+          `translate(${this.x - xPos}, ${this.y - yPos})`
+      )
     },
     selectRectangle (idx) {
       this.rectangleRef = this.$refs.rectangle[idx]
@@ -65,7 +74,6 @@ export default {
       var mousePos = this.getCoordinates(this.$refs.wb, e);
       this.x = mousePos.x
       this.y = mousePos.y
-      // console.log(`Mouse position: ${mousePos.x} , ${mousePos.y}`);
     },
     getCoordinates (canvas, evt) {
       const rect = canvas.getBoundingClientRect()
