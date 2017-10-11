@@ -6,7 +6,7 @@
 <script>
 import DrawingBoard from './drawing-board'
 export default {
-  name: 'whiteboard-app',
+  name: 'WhiteboardApp',
   components: {
       DrawingBoard
   }

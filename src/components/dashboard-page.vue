@@ -101,7 +101,7 @@
 import {DB} from '../firebase'
 import firebase from 'firebase'
 export default {
-  name: 'dashboard-page',
+  name: 'DashboardPage',
   created () {
       console.log('created')
       this.loadWhiteboards()

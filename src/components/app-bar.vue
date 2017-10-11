@@ -140,7 +140,7 @@
 import {DB} from '../firebase'
 import firebase from 'firebase'
 export default {
-  name: 'toolbar',
+  name: 'Appbar',
   data () {
       return {
             currentUser: '',

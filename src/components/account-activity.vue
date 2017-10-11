@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: 'account-activity'
+  name: 'AccountActivity'
 }
 </script>
 
