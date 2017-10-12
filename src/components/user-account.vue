@@ -1,8 +1,10 @@
 <template>
-  <v-container :style="{border: '1px solid red'}">
+  <v-container>
     <user-layout>
         <h5 slot="header">User Account</h5>
-        <p>some content</p>
+        <div>
+            some content
+        </div>
     </user-layout>
   </v-container>
 </template>
@@ -10,6 +12,11 @@
 import UserLayout from './user-layout'
 export default {
   name: 'UserAccount',
+  data () {
+      return {
+          userProfileCreated: false
+      }
+  },
   components: {
       UserLayout
   }
