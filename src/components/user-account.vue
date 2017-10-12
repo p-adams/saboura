@@ -1,11 +1,11 @@
 <template>
   <div>
-      Account information
+      User account
   </div>
 </template>
 <script>
 export default {
-  name: 'AccountInformation'
+  name: 'UserAccount'
 }
 </script>
 

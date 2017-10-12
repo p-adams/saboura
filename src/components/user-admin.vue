@@ -1,12 +1,11 @@
 <template>
   <div>
-      Account activity
+      User Admin
   </div>
 </template>
 <script>
 export default {
-  name: 'AccountActivity'
+  name: 'UserAdmin'
 }
 </script>
-
 

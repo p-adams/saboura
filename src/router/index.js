@@ -2,11 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Main from '@/components/Main'
 import About from '@/components/about'
-import AccountInformation from '@/components/account-information'
-import AccountActivity from '@/components/account-activity'
 import WhiteboardSandbox from '@/components/whiteboard-sandbox'
 import DashboardPage from '@/components/dashboard-page'
 import WhiteboardApp from '@/components/whiteboard-app'
+import UserAccount from '@/components/user-account'
+import UserAdmin from '@/components/user-admin'
 Vue.use(Router)
 
 export default new Router({
@@ -22,14 +22,14 @@ export default new Router({
       component: About
     },
     {
-      path: 'account-information',
-      name: 'AccountInformation',
-      component: AccountInformation
+      path: '/user-account',
+      name: 'Account',
+      component: UserAccount
     },
     {
-      path: 'account-activity', 
-      name: 'AccountActivity', 
-      component: AccountActivity
+      path: '/user-admin',
+      name: 'Admin',
+      component: UserAdmin
     },
     {
       path: '/whiteboard-sandbox',

@@ -9,18 +9,22 @@
             <v-toolbar flat class="transparent">
                <v-list>
                    <v-list-tile>
-                       <p class="tile">Welcome {{showCurrentUser}}!</p>
+                       <h6 class="tile"
+                        >Welcome {{showCurrentUser}}!</h6>
                    </v-list-tile>
                </v-list>
             </v-toolbar>
             <v-divider></v-divider>
-            <v-list dense class="pt-0">
+            <v-list dense class="pt-0">   
                 <v-list-tile v-for="item in navItems" :key="item.title">
+                    <v-list-tile-action>
+                        <v-icon dark>{{item.icon}}</v-icon>
+                    </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title
                             class="route"
                             @click="onHandleRoute(item.path)">
-                            {{item.title}}
+                            <h6>{{item.title}}</h6>
                         </v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
@@ -148,7 +152,10 @@ export default {
             password: '',
             valid: false,
             navItems: [
-                {title: 'Dashboard', path: '/dashboard-page'}
+                {title: 'Home', path: '/', icon: 'home'},
+                {title: 'Dashboard', path: '/dashboard-page', icon: 'dashboard'},
+                {title: 'Account', path: '/user-account', icon: 'account_box'},
+                {title: 'Admin', path: '/user-admin', icon: 'gavel'},
             ],
             emailRules: [
                 (v) => !!v || 'E-mail is required',
@@ -260,7 +267,8 @@ export default {
           return this.attemptedLogin === true && this.isLoggedIn === false
       },
       showCurrentUser () {
-          return this.$store.getters.showCurrentUser
+          const username = this.$store.getters.showCurrentUser
+          return username.charAt(0).toUpperCase() + username.slice(1, username.indexOf('@'))
       }
   }
 }
@@ -277,6 +285,8 @@ export default {
     }
     .route {
         cursor: pointer;
+        height: 50px;
+        margin-top: 10px;
     }
 </style>
 
