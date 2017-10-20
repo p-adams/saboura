@@ -6,7 +6,10 @@ const store = new Vuex.Store({
         mockUsers: [],
         mockWhiteboards: [],
         loggedIn: false,
-        currentUser: ''
+        currentUser: '',
+        activeWhiteboards: [],
+        sandboxes: [],
+        contacts: []
     },
     mutations: {
         loadMockUsers (state, users) {
@@ -46,7 +49,10 @@ const store = new Vuex.Store({
         showMockUsers: state => state.mockUsers,
         showMockWhiteboards: state => state.mockWhiteboards,
         isLoggedIn: state => state.loggedIn,
-        showCurrentUser: state => state.currentUser
+        showCurrentUser: state => state.currentUser,
+        activeWhiteboardCount: state => state.activeWhiteboards.length,
+        sandboxCount: state => state.sandboxes.length,
+        contactsCount: state => state.contacts.length
     }
 })
 

@@ -1,8 +1,20 @@
 <template>
   <v-container>
     <user-layout>
-        <h5 slot="header">User Admin</h5>
-        <p>some content</p>
+        <span slot="header">User Admin</span>
+        <template v-for="(task, index) in adminTask">
+            <v-list-tile :key="index">
+                <v-list-tile-content>
+                    <v-list-tile-title
+                        class="admin-item"
+                        @click="getAdminTask(task.title)"
+                    >
+                        {{ task.title }}
+                    </v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+            <v-divider :key="index"></v-divider>
+        </template>
     </user-layout>
   </v-container>
 </template>
@@ -10,9 +22,28 @@
 import UserLayout from './user-layout'
 export default {
   name: 'UserAdmin',
+  data () {
+      return {
+          adminTask: [
+              {title: 'whiteboards'},
+              {title: 'sandboxes'},
+              {title: 'contacts'}
+          ]
+      }
+  },
+  methods: {
+      getAdminTask (task) {
+          console.log(`task ${task}`)
+      }
+  },
   components: {
       UserLayout
   }
 }
 </script>
+<style scoped>
+    .admin-item {
+        cursor: pointer;
+    }
+</style>
 
