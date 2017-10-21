@@ -45,11 +45,34 @@
             <v-tabs-bar class="cyan">
                 <v-tabs-slider color="yellow"></v-tabs-slider>
                 <v-tabs-item
-                    v-for="(item, i) in appBarNavItems"
-                    :key="i"
-                    :href="'#tab-' + (i + 1)"
+                    :key="1"
+                    :href="'#tab-1'"
                 >
-                <span @click="onHandleRoute(item.path)">{{ item.title }}</span>
+                <span @click="onHandleRoute('/')">Home</span>
+                </v-tabs-item>
+                <v-tabs-item
+                    :key="2"
+                    :href="'#tab-2'"
+                >
+                <span @click="onHandleRoute('/about')">About</span>
+                </v-tabs-item>
+                <v-tabs-item
+                    :key="3"
+                    :href="'#tab-3'"
+                >
+                <span @click="onHandleRoute('/whiteboard-sandbox')">Sandbox</span>
+                </v-tabs-item>
+                <v-tabs-item
+                    :key="4"
+                    :href="'#tab-4'"
+                >
+                <span @click="onHandleRoute('/user-login')">Login</span>
+                </v-tabs-item>
+                <v-tabs-item
+                    :key="5"
+                    :href="'#tab-5'"
+                >
+                <span @click="onHandleRoute('/user-registration')">Register</span>
                 </v-tabs-item>
             </v-tabs-bar>
         </v-tabs>

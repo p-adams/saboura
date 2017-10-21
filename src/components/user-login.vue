@@ -70,6 +70,7 @@ export default {
             this.$store.dispatch('login')
             this.attemptedLogin = true
             this.setCurrentUser()
+            this.$router.push({path: '/'})
             this.handleLoginErrorAlert()
             this.clearInputs()
         })
