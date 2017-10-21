@@ -1,35 +1,6 @@
 <template>
     <div>
-        <v-navigation-drawer
-            v-model="drawerIsOpen"
-            absolute
-            persistent
-            dark
-            overflow>
-            <v-toolbar flat class="transparent">
-               <v-list>
-                   <v-list-tile>
-                       <h6 class="tile"
-                        >Welcome {{showCurrentUser}}!</h6>
-                   </v-list-tile>
-               </v-list>
-            </v-toolbar>
-            <v-divider></v-divider>
-            <v-list dense class="pt-0">   
-                <v-list-tile v-for="item in navItems" :key="item.title">
-                    <v-list-tile-action>
-                        <v-icon dark>{{item.icon}}</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title
-                            class="route"
-                            @click="onHandleRoute(item.path)">
-                            <h6>{{item.title}}</h6>
-                        </v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
-        </v-navigation-drawer>
+       <!--
         <v-toolbar
         absolute
         dark
@@ -88,7 +59,7 @@
                 <v-btn flat slot="activator">register</v-btn>
                 <v-card>
                     <v-card-title class="headline">Registration</v-card-title>
-                    <!-- allow warning to fade out on its own -->
+                   
                     <transition name="fade">
                         <v-card-text v-show="showRegistrationFailure">     
                             <v-alert error value="true">
@@ -134,7 +105,70 @@
         <v-toolbar-items v-else>
             <v-btn @click="handleLogout" flat>logout</v-btn>
         </v-toolbar-items>
-        </v-toolbar>
+        </v-toolbar>-->
+
+
+        <v-navigation-drawer
+            v-model="drawerIsOpen"
+            absolute
+            persistent
+            dark
+            overflow>
+            <v-toolbar flat class="transparent">
+               <v-list>
+                   <v-list-tile>
+                       <h6 class="tile"
+                        >Welcome {{showCurrentUser}}!</h6>
+                   </v-list-tile>
+               </v-list>
+            </v-toolbar>
+            <v-divider></v-divider>
+            <v-list dense class="pt-0">   
+                <v-list-tile v-for="item in navItems" :key="item.title">
+                    <v-list-tile-action>
+                        <v-icon dark>{{item.icon}}</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title
+                            class="route"
+                            @click="onHandleRoute(item.path)">
+                            <h6>{{item.title}}</h6>
+                        </v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
+        </v-navigation-drawer>
+        <v-tabs dark fixed centered>
+            <v-toolbar
+                extended
+                dark
+            >
+            <!--v-if="isLoggedIn" -->
+                <v-toolbar-side-icon
+                   @click.stop="drawerIsOpen = !drawerIsOpen"
+                ></v-toolbar-side-icon>
+                <v-spacer></v-spacer>
+                <v-toolbar-title slot="extension" class="display-2">Saboura</v-toolbar-title>
+            </v-toolbar>
+            <v-tabs-bar class="cyan">
+                <v-tabs-slider color="yellow"></v-tabs-slider>
+                <v-tabs-item>
+                    Home
+                </v-tabs-item>
+                <v-tabs-item>
+                    Create sandbox
+                </v-tabs-item>
+                <v-tabs-item>
+                    View sandbox
+                </v-tabs-item>
+                 <v-tabs-item>
+                    Login
+                </v-tabs-item>
+                <v-tabs-item>
+                    Register
+                </v-tabs-item>
+            </v-tabs-bar>
+        </v-tabs>
     </div>
 </template>
 <script>
