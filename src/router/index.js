@@ -1,12 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from '@/components/Main'
-import About from '@/components/about'
-import WhiteboardSandbox from '@/components/whiteboard-sandbox'
-import DashboardPage from '@/components/dashboard-page'
-import WhiteboardApp from '@/components/whiteboard-app'
-import UserAccount from '@/components/user-account'
-import UserAdmin from '@/components/user-admin'
+
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -14,37 +10,47 @@ export default new Router({
     {
       path: '/',
       name: 'Main',
-      component: Main
+      component: () => import('@/components/Main')
     },
     {
       path: '/about',
       name: 'About',
-      component: About
+      component: () => import('@/components/about')
     },
     {
       path: '/user-account',
       name: 'Account',
-      component: UserAccount
+      component: () => import('@/components/user-account')
     },
     {
       path: '/user-admin',
       name: 'Admin',
-      component: UserAdmin
+      component: () => import('@/components/user-account')
     },
     {
       path: '/whiteboard-sandbox',
       name: 'WhiteboardSandbox',
-      component: WhiteboardSandbox
+      component: () => import('@/components/whiteboard-sandbox')
     },
     {
       path: '/dashboard-page',
       name: 'DashboardPage',
-      component: DashboardPage
+      component: () => import('@/components/dashboard-page')
     },
     {
       path: '/whiteboard-app',
       name: 'WhiteboardApp',
-      component: WhiteboardApp
+      component: () => import('@/components/whiteboard-app')
+    },
+    {
+      path: '/user-registration',
+      name: 'UserRegistration',
+      component: () => import('@/components/user-registration')
+    },
+    {
+      path: '/user-login',
+      name: 'UserLogin',
+      component: () => import('@/components/user-login')
     }
   ]
 })
