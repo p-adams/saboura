@@ -32,7 +32,6 @@
         </v-navigation-drawer>
         <v-toolbar
         absolute
-        class="white teal lighten-3"
         dark
         >
         <v-toolbar-side-icon
@@ -75,12 +74,10 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn
-                            class="teal--text darken-1"
                             flat="flat"
                             @click.native="loginDialog = false"
                         >cancel</v-btn>
                         <v-btn
-                            class="teal--text darken-1"
                             flat="flat"
                             @click="handleLogin"
                         >login</v-btn>
