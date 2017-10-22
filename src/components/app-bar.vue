@@ -1,6 +1,7 @@
 <template>
     <div>
         <v-navigation-drawer
+            temporary
             v-model="drawerIsOpen"
             absolute
             persistent
@@ -9,13 +10,23 @@
             <v-toolbar flat class="transparent">
                 <v-list>
                     <v-list-tile>
-                        <h6 class="tile"
+                        <h6
+                            v-if="isLoggedIn"
+                            class="tile"
                         >Welcome {{showCurrentUser}}!</h6>
+                        <h6
+                            v-else
+                            class="tile"
+                        ><router-link class="link" to="/user-login">Login</router-link> or <router-link to="/user-registration">register</router-link> for account</h6>
                     </v-list-tile>
                 </v-list>
             </v-toolbar>
             <v-divider></v-divider>
-            <v-list dense class="pt-0">   
+            <v-list
+                v-show="isLoggedIn"
+                dense
+                class="pt-0"
+            >   
                 <v-list-tile v-for="item in navDrawerItems" :key="item.title">
                     <v-list-tile-action>
                         <v-icon dark>{{item.icon}}</v-icon>
@@ -24,7 +35,7 @@
                         <v-list-tile-title
                             class="route"
                             @click="onHandleRoute(item.path)">
-                            <h6>{{item.title}}</h6>
+                            <p>{{item.title}}</p>
                         </v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
@@ -48,38 +59,52 @@
                     :key="1"
                     :href="'#tab-1'"
                 >
-                <span @click="onHandleRoute('/')">Home</span>
+                    <span @click="onHandleRoute('/')">Home</span>
                 </v-tabs-item>
                 <v-tabs-item
                     :key="2"
                     :href="'#tab-2'"
                 >
-                <span @click="onHandleRoute('/about')">About</span>
+                    <span @click="onHandleRoute('/about')">About</span>
                 </v-tabs-item>
                 <v-tabs-item
                     :key="3"
                     :href="'#tab-3'"
                 >
-                <span @click="onHandleRoute('/whiteboard-sandbox')">Sandbox</span>
+                    <span @click="onHandleRoute('/whiteboard-sandbox')">Sandbox</span>
                 </v-tabs-item>
                 <v-tabs-item
+                    v-show="!isLoggedIn"
                     :key="4"
                     :href="'#tab-4'"
+                
                 >
-                <span @click="onHandleRoute('/user-login')">Login</span>
+                    <span @click="onHandleRoute('/user-login')">Login</span>
                 </v-tabs-item>
                 <v-tabs-item
+                     v-show="!isLoggedIn"
                     :key="5"
                     :href="'#tab-5'"
                 >
-                <span @click="onHandleRoute('/user-registration')">Register</span>
+                    <span @click="onHandleRoute('/user-registration')">Register</span>
+                </v-tabs-item>
+            
+            
+                <v-tabs-item
+                     v-show="isLoggedIn"
+                    :key="6"
+                    :href="'#tab-6'"
+                >
+                    <span @click="handleLogout">Logout</span>
                 </v-tabs-item>
             </v-tabs-bar>
         </v-tabs>
     </div>
 </template>
 <script>
-import FormHelper from './form-helper'
+import {DB} from '../firebase'
+import firebase from 'firebase'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Appbar',
   data () {
@@ -101,7 +126,7 @@ export default {
                 {title: 'Account', path: '/user-account', icon: 'account_box'},
                 {title: 'Admin', path: '/user-admin', icon: 'gavel'},
             ],
-            drawerIsOpen: false
+            drawerIsOpen: true
       }
   },
   methods: {
@@ -110,6 +135,7 @@ export default {
           this.$router.push({path})
       },
       handleLogout () {
+        console.log('meow')
         firebase
         .auth()
         .signOut()
@@ -122,10 +148,14 @@ export default {
       }
   },
   computed: {
+      ...mapGetters([
+          'isLoggedIn'
+      ]),
       showCurrentUser () {
           const username = this.$store.getters.showCurrentUser
           return username.charAt(0).toUpperCase() + username.slice(1, username.indexOf('@'))
       }
+
   }
 }
 </script>
@@ -136,13 +166,14 @@ export default {
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
         opacity: 0
     }
-    .tile {
-        color: teal;
-    }
     .route {
         cursor: pointer;
         height: 50px;
         margin-top: 10px;
+    }
+    h6 {
+        padding: 10px;
+        margin-top: 25px;
     }
 </style>
 

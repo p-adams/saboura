@@ -1,12 +1,14 @@
 <template>
   <form-helper title="login">
-    <transition name="fade">
-      <v-card-text v-if="showLoginFailure">     
-          <v-alert error value="true">
-              {{loginWarning}}
-          </v-alert>
-      </v-card-text>
-    </transition>
+    <div slot="transition">
+      <transition name="fade">
+        <v-card-text v-show="showLoginFailure">     
+            <v-alert error value="true">
+                {{loginWarning}}
+            </v-alert>
+        </v-card-text>
+      </transition>
+    </div>
     <div slot="elements">
       <v-text-field
         label="E-mail"

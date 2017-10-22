@@ -1,5 +1,6 @@
 <template>
     <form-helper title="registration">
+        <div slot="transition">
           <transition name="fade">
             <v-card-text v-show="showRegistrationFailure">     
                 <v-alert error value="true">
@@ -7,41 +8,42 @@
                 </v-alert>
             </v-card-text>
           </transition>
-              <div slot="elements">
-                <v-text-field
-                  label="E-mail"
-                  v-model="email"
-                  :rules="emailRules"
-                  :counter="20"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  label="password"
-                  type="password"
-                  v-model="password"
-                  :rules="passwordRules"
-                  :counter="10"
-                  required
-                ></v-text-field>
-              </div>
-          <div slot="buttons">
-             <v-btn
-                  class="teal--text darken-1"
-                  flat="flat"
-                  @click="cancel"
-              >cancel</v-btn>
-              <v-btn
-                  class="teal--text darken-1"
-                  flat="flat"
-                  @click="handleRegistration"
-              >register</v-btn>
-          </div>
+        </div>
+        <div slot="elements">
+        <v-text-field
+            label="E-mail"
+            v-model="email"
+            :rules="emailRules"
+            :counter="20"
+            required
+        ></v-text-field>
+        <v-text-field
+            label="password"
+            type="password"
+            v-model="password"
+            :rules="passwordRules"
+            :counter="10"
+            required
+        ></v-text-field>
+        </div>
+        <div slot="buttons">
+            <v-btn
+                class="teal--text darken-1"
+                flat="flat"
+                @click="cancel"
+            >cancel</v-btn>
+            <v-btn
+                class="teal--text darken-1"
+                flat="flat"
+                @click="handleRegistration"
+            >register</v-btn>
+        </div>
     </form-helper>
-  
 </template>
 <script>
 import {DB} from '../firebase'
 import firebase from 'firebase'
+import { mapGetters } from 'vuex'
 import FormHelper from './form-helper'
 export default {
   name: 'UserRegistration',
@@ -86,7 +88,7 @@ export default {
             const errMsg = err.message 
             console.log(errCode)
             this.attemptedRegistration = true
-            this.registrationWarning = this.email === '' || this.password === '' ? 'please enter email and password':'email already in use'
+            this.registrationWarning = this.email === '' || this.password === '' ? 'please enter email and password': 'email already in use'
             this.handleRegistrationErrorAlert()
             this.clearInputs()
         })
@@ -105,9 +107,9 @@ export default {
     }
   },
   computed: {
-    isLoggedIn () {
-        return this.$store.getters.isLoggedIn
-    },
+    ...mapGetters([
+        'isLoggedIn'
+    ]),
     showRegistrationFailure () {
         return this.attemptedRegistration === true && this.isLoggedIn === false
     },

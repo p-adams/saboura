@@ -1,7 +1,7 @@
 <template>
   <v-card>
       <v-card-title class="headline">{{ title }}</v-card-title>
-      <slot name="fade"></slot>
+      <slot name="transition"></slot>
       <v-card-text>
         <v-form>
             <slot name="elements"></slot>
