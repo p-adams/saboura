@@ -8,8 +8,8 @@
         <rect
             :width="rectWidth"
             :height="rectHeight"
-            :x="recX"
-            :y="recY"
+            :x="rectX"
+            :y="rectY"
             fill="white"
         >
 
