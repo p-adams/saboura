@@ -23,7 +23,7 @@
           width="200px"
           height="500px"
           x="20"
-          y="30"
+          y="40"
         >
           <div
             class="btn-col"
@@ -31,6 +31,7 @@
             :key="key"
             >
             <toolbar-button
+              class="toolbar-button"
               :text="button.text"
               :textX="button.x"
               :textY="button.y"
@@ -48,7 +49,7 @@ export default {
     return {
       svgWidth: 400,
       svgHeight: 600,
-      toolbarWidth: "50%",
+      toolbarWidth: "200",
       toolbarHeight: "500",
       toolbarX: 20,
       toolbarY: 20,
@@ -82,12 +83,11 @@ export default {
 
       this.$refs.buttons.setAttribute(
         "transform",
-        `translate(${this.x - xPos}, ${this.y - yPos})`
+        `translate(${this.x + 5 - xPos}, ${this.y - yPos})`
       );
     },
     selectToolbar() {
       this.toolbarRef = this.$refs.toolbar;
-      console.log(this.toolbarRef);
       this.$refs.sb.addEventListener("mousemove", this.moveToolbarHandler);
       this.$refs.sb.addEventListener("mouseup", e => {
         this.$refs.sb.removeEventListener("mousemove", this.moveToolbarHandler);
@@ -119,8 +119,11 @@ export default {
   cursor: move;
 }
 .btn-col {
-  padding: 3px;
-  margin-left: 10px;
+  padding: 2px;
+  margin-left: 5px;
+}
+.toolbar-button {
+  box-shadow: 10px 5px 5px black;
 }
 </style>
 

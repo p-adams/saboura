@@ -1,10 +1,12 @@
 <template>
   <v-container>
-        <h6>Create in the sandbox, Not signed in? No problem, your creation is saved in local storage.</h6>
         <v-layout
           v-if="sandboxMenu"
           class="sandbox-menu"
         >
+          <v-flex xs3>
+            <h6>Create in the sandbox, Not signed in? No problem, your creation is saved in local storage.</h6>
+          </v-flex>
           <v-flex
               class="flex"
               xs5
@@ -12,17 +14,10 @@
           <v-card>
               <v-btn @click="createSandbox">
                 create a new sandbox
-              </v-btn>    
-          </v-card>
-          </v-flex>
-          <v-flex
-              class="flex"
-              xs5
-          >
-          <v-card>         
-              <v-btn>
+              </v-btn>
+               <v-btn>
                 open saved sandbox
-              </v-btn>         
+              </v-btn>   
           </v-card>
           </v-flex>
         </v-layout>
