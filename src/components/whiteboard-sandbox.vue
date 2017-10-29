@@ -10,23 +10,19 @@
               xs5
           >
           <v-card>
-         
               <v-btn @click="createSandbox">
                 create a new sandbox
-              </v-btn>
-            
+              </v-btn>    
           </v-card>
           </v-flex>
           <v-flex
               class="flex"
               xs5
           >
-          <v-card>
-            
+          <v-card>         
               <v-btn>
                 open saved sandbox
-              </v-btn>
-           
+              </v-btn>         
           </v-card>
           </v-flex>
         </v-layout>

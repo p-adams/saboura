@@ -62,7 +62,7 @@ export default {
     selectRectangle(idx) {
       this.rectangleRef = this.$refs.rectangle[idx];
       this.$refs.wb.addEventListener("mousemove", this.moveRectHandler);
-      this.$refs.wb.addEventListener("dblclick", e => {
+      this.$refs.wb.addEventListener("mouseup", e => {
         this.$refs.wb.removeEventListener("mousemove", this.moveRectHandler);
       });
     },

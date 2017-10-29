@@ -9,68 +9,88 @@
     <g>
         <rect
             class="draggable"
-            @click="selectRectangle"
-            ref="rectangle"
-            :width="rectWidth"
-            :height="rectHeight"
-            :x="rectX"
-            :y="rectY"
+            @click="selectToolbar"
+            ref="toolbar"
+            :width="toolbarWidth"
+            :height="toolbarHeight"
+            :x="toolbarX"
+            :y="toolbarY"
             fill="gray"
         >
         </rect>
-        <foreignObject ref="text" width="200px" height="500px" x="20" y="50">
-          <div class="btn-col">
-            <v-btn>draw</v-btn>
-            <v-btn>rectangle</v-btn>
-            <v-btn>circle</v-btn>
-            <v-btn>ellipse</v-btn>
-            <v-btn>line</v-btn>
-            <v-btn>polyline</v-btn>
-            <v-btn>polygon</v-btn>
-            <v-btn>path</v-btn>
-             <v-btn>save</v-btn>
+        <foreignObject
+          ref="buttons"
+          width="200px"
+          height="500px"
+          x="20"
+          y="30"
+        >
+          <div
+            class="btn-col"
+            v-for="(button, key) in toolbarButtons"
+            :key="key"
+            >
+            <toolbar-button
+              :text="button.text"
+              :textX="button.x"
+              :textY="button.y"
+            ></toolbar-button>
           </div>
         </foreignObject>
     </g>
   </svg>
 </template>
 <script>
+import ToolbarButton from "./toolbar-button";
 export default {
   name: "SandboxToolbar",
   data() {
     return {
       svgWidth: 400,
       svgHeight: 600,
-      rectWidth: "50%",
-      rectHeight: "500",
-      rectX: 20,
-      rectY: 20,
-      toolbarButtons: [],
+      toolbarWidth: "50%",
+      toolbarHeight: "500",
+      toolbarX: 20,
+      toolbarY: 20,
+      toolbarButtons: [
+        { text: "draw", x: "50", y: "25" },
+        { text: "rectangle", x: "35", y: "25" },
+        { text: "circle", x: "50", y: "25" },
+        { text: "ellipse", x: "45", y: "25" },
+        { text: "line", x: "50", y: "25" },
+        { text: "polyline", x: "40", y: "25" },
+        { text: "polygon", x: "40", y: "25" },
+        { text: "path", x: "50", y: "25" },
+        { text: "save", x: "50", y: "25" }
+      ],
       x: "",
       y: "",
-      rectangleRef: ""
+      toolbarRef: ""
     };
   },
   methods: {
-    moveRectHandler() {
-      const xPos = this.rectangleRef.x.animVal.value;
-      const yPos = this.rectangleRef.y.animVal.value;
-      this.rectangleRef.setAttribute(
+    select(button) {
+      console.log(button);
+    },
+    moveToolbarHandler() {
+      const xPos = this.toolbarRef.x.animVal.value;
+      const yPos = this.toolbarRef.y.animVal.value;
+      this.toolbarRef.setAttribute(
         "transform",
         `translate(${this.x - xPos}, ${this.y - yPos})`
       );
 
-      this.$refs.text.setAttribute(
+      this.$refs.buttons.setAttribute(
         "transform",
         `translate(${this.x - xPos}, ${this.y - yPos})`
       );
     },
-    selectRectangle() {
-      this.rectangleRef = this.$refs.rectangle;
-      console.log(this.rectangleRef);
-      this.$refs.sb.addEventListener("mousemove", this.moveRectHandler);
-      this.$refs.sb.addEventListener("dblclick", e => {
-        this.$refs.sb.removeEventListener("mousemove", this.moveRectHandler);
+    selectToolbar() {
+      this.toolbarRef = this.$refs.toolbar;
+      console.log(this.toolbarRef);
+      this.$refs.sb.addEventListener("mousemove", this.moveToolbarHandler);
+      this.$refs.sb.addEventListener("mouseup", e => {
+        this.$refs.sb.removeEventListener("mousemove", this.moveToolbarHandler);
       });
     },
     getMousePositionOnCanvas(event) {
@@ -79,24 +99,28 @@ export default {
       this.y = mousePos.y;
     },
     getCoordinates(shape, event) {
-      const rect = shape.getBoundingClientRect();
+      const toolbar = shape.getBoundingClientRect();
       return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top
+        x: event.clientX - toolbar.left,
+        y: event.clientY - toolbar.top
       };
     }
+  },
+  components: {
+    ToolbarButton
   }
 };
 </script>
 <style scoped>
 .sandbox-toolbar {
-  border: 1px solid red;
+  border: 5px solid lightgrey;
 }
 .draggable {
-  cursor: pointer;
+  cursor: move;
 }
 .btn-col {
-  border: 1px solid red;
+  padding: 3px;
+  margin-left: 10px;
 }
 </style>
 

@@ -34,7 +34,7 @@ export default {
 </script>
 <style scoped>
 .sandbox-board {
-  border: 1px solid red;
+  border: 5px solid lightgrey;
 }
 </style>
 
