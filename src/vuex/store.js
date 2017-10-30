@@ -10,7 +10,8 @@ const store = new Vuex.Store({
     activeWhiteboards: [],
     sandboxes: [],
     contacts: [],
-    toolbarOption: ""
+    toolbarOption: "",
+    drawingToolbarIsVisible: false
   },
   mutations: {
     loadMockUsers(state, users) {
@@ -30,6 +31,9 @@ const store = new Vuex.Store({
     },
     setToolbarOption(state, option) {
       state.toolbarOption = option;
+    },
+    setDrawingToolbarVisibility(state, visibility) {
+      state.drawingToolbarIsVisible = visibility;
     }
   },
   actions: {
@@ -50,6 +54,9 @@ const store = new Vuex.Store({
     },
     setToolbarOption: (context, payload) => {
       context.commit("setToolbarOption", payload);
+    },
+    setDrawingToolbarVisibility: (context, payload) => {
+      context.commit("setDrawingToolbarVisibility", payload);
     }
   },
   getters: {
@@ -60,7 +67,8 @@ const store = new Vuex.Store({
     activeWhiteboardCount: state => state.activeWhiteboards.length,
     sandboxCount: state => state.sandboxes.length,
     contactsCount: state => state.contacts.length,
-    selectedTool: state => state.toolbarOption
+    selectedTool: state => state.toolbarOption,
+    drawingToolbar: state => state.drawingToolbarIsVisible
   }
 });
 

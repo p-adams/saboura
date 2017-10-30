@@ -40,6 +40,9 @@ export default {
   methods: {
     select(option) {
       this.$store.dispatch("setToolbarOption", option);
+      if (option === "draw") {
+        this.$store.dispatch("setDrawingToolbarVisibility", true);
+      }
     }
   }
 };

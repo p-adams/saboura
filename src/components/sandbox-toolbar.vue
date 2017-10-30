@@ -18,7 +18,7 @@
             fill="gray"
         >
         </rect>
-        <drawing-toolbar v-show="selectedTool === 'draw'"></drawing-toolbar>
+        <drawing-toolbar v-show="drawingToolbar"></drawing-toolbar>
         <foreignObject
           ref="buttons"
           width="200px"
@@ -110,7 +110,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["selectedTool"])
+    ...mapGetters(["drawingToolbar"])
   },
   components: {
     ToolbarButton,

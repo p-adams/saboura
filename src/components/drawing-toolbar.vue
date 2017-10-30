@@ -10,18 +10,19 @@
         </rect>
         <circle
             class="close"
-            cx="341"
-            cy="62"
-            r="15"
-            fill="black"
+            cx="340"
+            cy="63"
+            r="10"
+            fill="lightgray"
         >
         </circle>
         <text
+            @click="closeDrawingToolbar"
             class="close"
             x="335"
             y="70"
-            font-size="20"
-            fill="white"
+            font-size="15"
+            fill="black"
         >
         X
         </text>
@@ -29,7 +30,12 @@
 </template>
 <script>
 export default {
-  name: "DrawingToolbar"
+  name: "DrawingToolbar",
+  methods: {
+    closeDrawingToolbar() {
+      this.$store.dispatch("setDrawingToolbarVisibility", false);
+    }
+  }
 };
 </script>
 <style scoped>
