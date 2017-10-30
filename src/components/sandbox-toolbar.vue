@@ -18,6 +18,7 @@
             fill="gray"
         >
         </rect>
+        <drawing-toolbar v-show="selectedTool === 'draw'"></drawing-toolbar>
         <foreignObject
           ref="buttons"
           width="200px"
@@ -43,6 +44,8 @@
 </template>
 <script>
 import ToolbarButton from "./toolbar-button";
+import DrawingToolbar from "./drawing-toolbar";
+import { mapGetters } from "vuex";
 export default {
   name: "SandboxToolbar",
   data() {
@@ -106,8 +109,12 @@ export default {
       };
     }
   },
+  computed: {
+    ...mapGetters(["selectedTool"])
+  },
   components: {
-    ToolbarButton
+    ToolbarButton,
+    DrawingToolbar
   }
 };
 </script>

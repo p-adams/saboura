@@ -1,10 +1,13 @@
 <template>
   <div>
       <svg
-        class="sandbox-board"
+        :class="{
+          sandboxBoardDrawing: selectedTool === 'draw',
+          sandboxBoardNormal: selectedTool !== 'draw'
+        }"
         :width="width"
         :height="height"
-        v-draw="this.$store.getters.selectedTool"
+        v-draw="selectedTool"
       >
         <rect
             :width="rectWidth"
@@ -19,6 +22,7 @@
 </template>
 <script>
 import * as d3 from "d3";
+import { mapGetters } from "vuex";
 export default {
   name: "SandboxBoard",
   data() {
@@ -62,7 +66,7 @@ export default {
           activeLine = svg
             .append("path")
             .datum([])
-            .attr("class", "sandbox-board");
+            .attr("class", "sandboxBoardDrawing");
           activeLine.datum().push(d3.mouse(this));
         }
         function dragged() {
@@ -74,17 +78,24 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    ...mapGetters(["selectedTool"])
   }
 };
 </script>
 <style scoped>
-.sandbox-board {
+.sandboxBoardDrawing {
   border: 5px solid lightgrey;
   fill: none;
   stroke: #000;
   stroke-width: 3px;
   stroke-linejoin: round;
   stroke-linecap: round;
+  cursor: crosshair;
+}
+.sandboxBoardNormal {
+  border: 5px solid lightgrey;
 }
 </style>
 
