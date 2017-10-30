@@ -59,7 +59,8 @@ const store = new Vuex.Store({
     showCurrentUser: state => state.currentUser,
     activeWhiteboardCount: state => state.activeWhiteboards.length,
     sandboxCount: state => state.sandboxes.length,
-    contactsCount: state => state.contacts.length
+    contactsCount: state => state.contacts.length,
+    selectedTool: state => state.toolbarOption
   }
 });
 

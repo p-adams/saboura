@@ -4,7 +4,7 @@
         class="sandbox-board"
         :width="width"
         :height="height"
-        v-draw
+        v-draw="this.$store.getters.selectedTool"
       >
         <rect
             :width="rectWidth"
@@ -19,7 +19,6 @@
 </template>
 <script>
 import * as d3 from "d3";
-
 export default {
   name: "SandboxBoard",
   data() {
@@ -39,39 +38,40 @@ export default {
   },
   methods: {},
   directives: {
-    draw: el => {
-      let activeLine;
-      const renderPath = d3.svg
-        .line()
-        .x(function(d) {
-          return d[0];
-        })
-        .y(function(d) {
-          return d[1];
-        })
-        .tension(0)
-        .interpolate("cardinal");
-      const svg = d3.select(el).call(
-        d3.behavior
-          .drag()
-          .on("dragstart", dragstarted)
-          .on("drag", dragged)
-          .on("dragend", dragended)
-      );
-      function dragstarted() {
-        activeLine = svg
-          .append("path")
-          .datum([])
-          .attr("class", "sandbox-board");
-        activeLine.datum().push(d3.mouse(this));
-      }
-      function dragged() {
-        activeLine.datum().push(d3.mouse(this));
-        activeLine.attr("d", renderPath);
-      }
-
-      function dragended() {
-        activeLine = null;
+    draw: (el, bindings) => {
+      if (bindings.value === "draw") {
+        let activeLine;
+        const renderPath = d3.svg
+          .line()
+          .x(function(d) {
+            return d[0];
+          })
+          .y(function(d) {
+            return d[1];
+          })
+          .tension(0)
+          .interpolate("cardinal");
+        const svg = d3.select(el).call(
+          d3.behavior
+            .drag()
+            .on("dragstart", dragstarted)
+            .on("drag", dragged)
+            .on("dragend", dragended)
+        );
+        function dragstarted() {
+          activeLine = svg
+            .append("path")
+            .datum([])
+            .attr("class", "sandbox-board");
+          activeLine.datum().push(d3.mouse(this));
+        }
+        function dragged() {
+          activeLine.datum().push(d3.mouse(this));
+          activeLine.attr("d", renderPath);
+        }
+        function dragended() {
+          activeLine = null;
+        }
       }
     }
   }
