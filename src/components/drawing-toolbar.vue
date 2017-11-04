@@ -1,5 +1,5 @@
 <template>
-    <g>
+    <g ref="gref">
         <rect
             width="50"
             height="300"
@@ -16,40 +16,51 @@
             fill="white"
         >   
         </rect>
-        <circle
-            class="close"
-            cx="340"
-            cy="63"
-            r="10"
-            fill="lightgray"
-        >
-        </circle>
-        <text
-            @click="closeDrawingToolbar"
-            class="close"
-            :x="335"
-            :y="70"
-            font-size="15"
-            fill="black"
-        >
-        X
-        </text>
     </g>
 </template>
 <script>
 export default {
   name: "DrawingToolbar",
+  mounted() {
+    this.$refs.gref.addEventListener("mousedown", this.handleMouseDown);
+    this.$refs.gref.addEventListener("mouseup", this.handleMouseUp);
+  },
   data() {
     return {
       buttons: {
         x: 300,
         y: 60
+      },
+      coords: {
+        x: "",
+        y: ""
       }
     };
   },
   methods: {
     closeDrawingToolbar() {
       this.$store.dispatch("setDrawingToolbarVisibility", false);
+    },
+    handleMouseMove(e) {
+      const xDiff = this.coords.x - e.pageX;
+      const yDiff = this.coords.y - e.pageY;
+
+      this.coords.x = e.pageX;
+      this.coords.y = e.pageY;
+
+      this.buttons.x = this.buttons.x - xDiff;
+      this.buttons.y = this.buttons.y - yDiff;
+    },
+    handleMouseDown(e) {
+      this.coords = {
+        x: e.pageX,
+        y: e.pageY
+      };
+      this.$refs.gref.addEventListener("mousemove", this.handleMouseMove);
+    },
+    handleMouseUp() {
+      this.$refs.gref.removeEventListener("mousemove", this.handleMouseMove);
+      this.coords = {};
     }
   }
 };

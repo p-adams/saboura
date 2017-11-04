@@ -17,7 +17,9 @@
             fill="gray"
         >
         </rect>
+        <!-- toolbar for drawing on white -->
         <drawing-toolbar v-show="drawingToolbar"></drawing-toolbar>
+        <!-- custom toolbar buttons -->
         <foreignObject
           width="120px"
           height="330px"
@@ -32,7 +34,6 @@
             :textX="button.x"
             :textY="button.y"
           ></toolbar-button>
-          
         </foreignObject>
     </g>
   </svg>
@@ -67,8 +68,7 @@ export default {
       coords: {
         x: "",
         y: ""
-      },
-      toolbarRef: ""
+      }
     };
   },
   methods: {
