@@ -19,23 +19,20 @@
         </rect>
         <drawing-toolbar v-show="drawingToolbar"></drawing-toolbar>
         <foreignObject
-          :style="{border: '1px solid red'}"
           width="120px"
           height="330px"
           :x="x + 50"
           :y="y + 50"
         >
-          <div
+          <toolbar-button
             v-for="(button, key) in toolbarButtons"
             :key="key"
-            >
-            <toolbar-button
-              class="toolbar-button"
-              :text="button.text"
-              :textX="button.x"
-              :textY="button.y"
-            ></toolbar-button>
-          </div>
+            class="toolbar-button"
+            :text="button.text"
+            :textX="button.x"
+            :textY="button.y"
+          ></toolbar-button>
+          
         </foreignObject>
     </g>
   </svg>
@@ -58,10 +55,10 @@ export default {
         { text: "draw", x: "30", y: "20" },
         { text: "rectangle", x: "20", y: "20" },
         { text: "circle", x: "30", y: "20" },
-        { text: "ellipse", x: "30", y: "20" },
-        { text: "line", x: "30", y: "20" },
-        { text: "polyline", x: "20", y: "20" },
-        { text: "polygon", x: "20", y: "20" },
+        { text: "ellipse", x: "28", y: "20" },
+        { text: "line", x: "32", y: "20" },
+        { text: "polyline", x: "22", y: "20" },
+        { text: "polygon", x: "22", y: "20" },
         { text: "path", x: "30", y: "20" },
         { text: "save", x: "30", y: "20" }
       ],
@@ -115,13 +112,6 @@ export default {
 }
 .draggable {
   cursor: grabbing;
-}
-.btn-col {
-  border: 1px solid red;
-  width: 100px;
-}
-.toolbar-button {
-  box-shadow: 5px 5px 5px black;
 }
 </style>
 
