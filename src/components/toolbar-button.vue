@@ -2,21 +2,21 @@
     <svg
         @click="select(text)"
         class="toolbar-button"
-        width="150"
-        height="40"
+        width="100"
+        height="30"
     >
         <rect
             x="0"
             y="0"
-            width="175"
-            height="50"
+            width="100"
+            height="30"
             fill="#C5E1A5"
         >
         </rect>
         <text
             :x="textX"
             :y="textY"
-            font-size="18"
+            font-size="15"
         >{{ text }}</text>
     </svg>
 </template>

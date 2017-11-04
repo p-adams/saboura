@@ -1,33 +1,31 @@
 <template>
   <svg
     class="sandbox-toolbar"
-    @mousemove="getMousePositionOnCanvas"
-    ref="sb"
+    ref="toolbar"
     :width="svgWidth"
     :height="svgHeight"
   >
     <g>
         <rect
             class="draggable"
-            @click="selectToolbar"
-            ref="toolbar"
+            @mousedown="handleMouseDown"
+            @mouseup="handleMouseUp"
             :width="toolbarWidth"
             :height="toolbarHeight"
-            :x="toolbarX"
-            :y="toolbarY"
+            :x="x"
+            :y="y"
             fill="gray"
         >
         </rect>
         <drawing-toolbar v-show="drawingToolbar"></drawing-toolbar>
         <foreignObject
-          ref="buttons"
-          width="200px"
-          height="500px"
-          x="20"
-          y="40"
+          :style="{border: '1px solid red'}"
+          width="120px"
+          height="330px"
+          :x="x + 50"
+          :y="y + 50"
         >
           <div
-            class="btn-col"
             v-for="(button, key) in toolbarButtons"
             :key="key"
             >
@@ -53,22 +51,26 @@ export default {
       svgWidth: 400,
       svgHeight: 600,
       toolbarWidth: "200",
-      toolbarHeight: "500",
+      toolbarHeight: "425",
       toolbarX: 20,
       toolbarY: 20,
       toolbarButtons: [
-        { text: "draw", x: "50", y: "25" },
-        { text: "rectangle", x: "35", y: "25" },
-        { text: "circle", x: "50", y: "25" },
-        { text: "ellipse", x: "45", y: "25" },
-        { text: "line", x: "50", y: "25" },
-        { text: "polyline", x: "40", y: "25" },
-        { text: "polygon", x: "40", y: "25" },
-        { text: "path", x: "50", y: "25" },
-        { text: "save", x: "50", y: "25" }
+        { text: "draw", x: "30", y: "20" },
+        { text: "rectangle", x: "20", y: "20" },
+        { text: "circle", x: "30", y: "20" },
+        { text: "ellipse", x: "30", y: "20" },
+        { text: "line", x: "30", y: "20" },
+        { text: "polyline", x: "20", y: "20" },
+        { text: "polygon", x: "20", y: "20" },
+        { text: "path", x: "30", y: "20" },
+        { text: "save", x: "30", y: "20" }
       ],
-      x: "",
-      y: "",
+      x: 50,
+      y: 50,
+      coords: {
+        x: "",
+        y: ""
+      },
       toolbarRef: ""
     };
   },
@@ -76,37 +78,26 @@ export default {
     select(button) {
       console.log(button);
     },
-    moveToolbarHandler() {
-      const xPos = this.toolbarRef.x.animVal.value;
-      const yPos = this.toolbarRef.y.animVal.value;
-      this.toolbarRef.setAttribute(
-        "transform",
-        `translate(${this.x - xPos}, ${this.y - yPos})`
-      );
+    handleMouseMove(e) {
+      const xDiff = this.coords.x - e.pageX;
+      const yDiff = this.coords.y - e.pageY;
 
-      this.$refs.buttons.setAttribute(
-        "transform",
-        `translate(${this.x + 5 - xPos}, ${this.y - yPos})`
-      );
+      this.coords.x = e.pageX;
+      this.coords.y = e.pageY;
+
+      this.x = this.x - xDiff;
+      this.y = this.y - yDiff;
     },
-    selectToolbar() {
-      this.toolbarRef = this.$refs.toolbar;
-      this.$refs.sb.addEventListener("mousemove", this.moveToolbarHandler);
-      this.$refs.sb.addEventListener("mouseup", e => {
-        this.$refs.sb.removeEventListener("mousemove", this.moveToolbarHandler);
-      });
-    },
-    getMousePositionOnCanvas(event) {
-      const mousePos = this.getCoordinates(this.$refs.sb, event);
-      this.x = mousePos.x;
-      this.y = mousePos.y;
-    },
-    getCoordinates(shape, event) {
-      const toolbar = shape.getBoundingClientRect();
-      return {
-        x: event.clientX - toolbar.left,
-        y: event.clientY - toolbar.top
+    handleMouseDown(e) {
+      this.coords = {
+        x: e.pageX,
+        y: e.pageY
       };
+      this.$refs.toolbar.addEventListener("mousemove", this.handleMouseMove);
+    },
+    handleMouseUp() {
+      this.$refs.toolbar.removeEventListener("mousemove", this.handleMouseMove);
+      this.coords = {};
     }
   },
   computed: {
@@ -120,17 +111,17 @@ export default {
 </script>
 <style scoped>
 .sandbox-toolbar {
-  border: 5px solid lightgrey;
+  border: 5px solid white;
 }
 .draggable {
-  cursor: move;
+  cursor: grabbing;
 }
 .btn-col {
-  padding: 2px;
-  margin-left: 5px;
+  border: 1px solid red;
+  width: 100px;
 }
 .toolbar-button {
-  box-shadow: 10px 5px 5px black;
+  box-shadow: 5px 5px 5px black;
 }
 </style>
 
