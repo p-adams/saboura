@@ -43,7 +43,7 @@ import ToolbarButton from "./toolbar-button";
 import DrawingToolbar from "./drawing-toolbar";
 import { mapGetters } from "vuex";
 export default {
-  name: "SandboxToolbar",
+  name: "ToolbarMenu",
   data() {
     return {
       svgWidth: 400,

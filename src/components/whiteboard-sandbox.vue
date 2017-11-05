@@ -23,13 +23,13 @@
         </v-layout>
         <v-layout v-else>
           <v-flex xs12>
-            <sandbox-display></sandbox-display>
+            <main-whiteboard></main-whiteboard>
           </v-flex>
         </v-layout>
     </v-container>
 </template>
 <script>
-import SandboxDisplay from "./sandbox-display";
+import MainWhiteboard from "./main-whiteboard";
 export default {
   name: "WhiteboardSandbox",
   data() {
@@ -47,7 +47,7 @@ export default {
     }
   },
   components: {
-    SandboxDisplay
+    MainWhiteboard
   }
 };
 </script>

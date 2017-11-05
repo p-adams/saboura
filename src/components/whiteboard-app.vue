@@ -1,19 +1,19 @@
 <template>
     <div class="whiteboard-app">
-        <drawing-board></drawing-board>
+        <temp-drawing-board></temp-drawing-board>
     </div>
 </template>
 <script>
-import DrawingBoard from './drawing-board'
+import TempDrawingBoard from "./temp-drawing-board";
 export default {
-  name: 'WhiteboardApp',
+  name: "WhiteboardApp",
   components: {
-      DrawingBoard
+    TempDrawingBoard
   }
-}
+};
 </script>
 <style scoped>
-    .whiteboard-app {
-        margin-top: 60px;
-    }
+.whiteboard-app {
+  margin-top: 60px;
+}
 </style>
