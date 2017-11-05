@@ -24,6 +24,7 @@
           rectangleHeight="50"
           rectangleFillColor="green"
         ></adjustable-rectangle>
+        <selected-artifact-toolbar></selected-artifact-toolbar>
       </svg>
   </div>
 </template>
@@ -31,16 +32,25 @@
 import * as d3 from "d3";
 import { mapGetters } from "vuex";
 import AdjustableRectangle from "./adjustable-rectangle";
+import SelectedArtifactToolbar from "./selected-artifact-toolbar";
 export default {
   name: "SandboxBoard",
   data() {
     return {
-      width: 750,
+      width: 900,
       height: 600,
       rectWidth: "100%",
       rectHeight: "100%",
       rectX: 0,
       rectY: 0,
+      position: {
+        x: 0,
+        y: 0
+      },
+      coordinates: {
+        x: 0,
+        y: 0
+      },
       drawing: {
         activeLine: "",
         renderPath: "",
@@ -85,13 +95,33 @@ export default {
           activeLine = null;
         }
       }
+    },
+    handleMouseMove(e) {
+      const xDiff = this.coordinates.x - e.pageX;
+      const yDiff = this.coordinates.y - e.pageY;
+      this.coordinates.x = e.pageX;
+      this.coordinates.y = e.pageY;
+      this.position.x = this.position.x - xDiff;
+      this.position.y = this.position.y - yDiff;
+    },
+    handleMouseDown(e) {
+      this.coordinates = {
+        x: e.pageX,
+        y: e.pageY
+      };
+      document.addEventListener("mousemove", this.handleMouseMove);
+    },
+    handleMouseUp() {
+      document.removeEventListener("mousemove", this.handleMouseMove);
+      this.coordinates = {};
     }
   },
   computed: {
     ...mapGetters(["selectedTool"])
   },
   components: {
-    AdjustableRectangle
+    AdjustableRectangle,
+    SelectedArtifactToolbar
   }
 };
 </script>

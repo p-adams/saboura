@@ -1,9 +1,11 @@
 <template>
     <v-layout>
-        <v-flex xs8>
+        <v-flex xs16>
         <drawing-area></drawing-area>
-        </v-flex xs8>
-        <toolbar-menu></toolbar-menu>
+        </v-flex>
+        <v-flex xs2>
+          <toolbar-menu></toolbar-menu>
+        </v-flex>
     </v-layout>
 </template>
 <script>
