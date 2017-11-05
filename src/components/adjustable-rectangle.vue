@@ -1,5 +1,7 @@
 <template>
   <rect
+    @mousedown="handleMouseDown"
+    @mouseup="handleMouseUp"
     :x="x"
     :y="y"
     :width="width"
@@ -8,8 +10,10 @@
   ></rect>
 </template>
 <script>
+import { Draggable } from "./mixins/draggable";
 export default {
   name: "AdjustableRectangle",
+  mixins: [Draggable],
   props: {
     xPosition: {
       type: String,
@@ -37,14 +41,9 @@ export default {
       x: this.xPosition,
       y: this.yPosition,
       width: this.rectangleWidth,
-      rectangleHeight: this.rectangleHeight,
-      fill: this.rectangleFillColor,
-      coordinates: {
-        x: 0,
-        y: 0
-      }
+      height: this.rectangleHeight,
+      fill: this.rectangleFillColor
     };
-  },
-  methods: {}
+  }
 };
 </script>

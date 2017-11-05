@@ -17,12 +17,20 @@
             fill="white"
         >
         </rect>
+        <adjustable-rectangle
+          x-position="50"
+          y-position="50"
+          rectangleWidth="50"
+          rectangleHeight="50"
+          rectangleFillColor="green"
+        ></adjustable-rectangle>
       </svg>
   </div>
 </template>
 <script>
 import * as d3 from "d3";
 import { mapGetters } from "vuex";
+import AdjustableRectangle from "./adjustable-rectangle";
 export default {
   name: "SandboxBoard",
   data() {
@@ -81,6 +89,9 @@ export default {
   },
   computed: {
     ...mapGetters(["selectedTool"])
+  },
+  components: {
+    AdjustableRectangle
   }
 };
 </script>

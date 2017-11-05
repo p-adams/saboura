@@ -1,9 +1,9 @@
-export default (Draggable = {
+export const Draggable = {
   data() {
     return {
       x: "",
       y: "",
-      coords: {
+      coordinates: {
         x: 0,
         y: 0
       }
@@ -11,15 +11,15 @@ export default (Draggable = {
   },
   methods: {
     handleMouseMove(e) {
-      const xDiff = this.coords.x - e.pageX;
-      const yDiff = this.coords.y - e.pageY;
-      this.coords.x = e.pageX;
-      this.coords.y = e.pageY;
+      const xDiff = this.coordinates.x - e.pageX;
+      const yDiff = this.coordinates.y - e.pageY;
+      this.coordinates.x = e.pageX;
+      this.coordinates.y = e.pageY;
       this.x = this.x - xDiff;
       this.y = this.y - yDiff;
     },
     handleMouseDown(e) {
-      this.coords = {
+      this.coordinates = {
         x: e.pageX,
         y: e.pageY
       };
@@ -27,7 +27,7 @@ export default (Draggable = {
     },
     handleMouseUp() {
       document.removeEventListener("mousemove", this.handleMouseMove);
-      this.coords = {};
+      this.coordinates = {};
     }
   }
-});
+};
