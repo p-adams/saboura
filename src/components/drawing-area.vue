@@ -24,7 +24,75 @@
           rectangleHeight="50"
           rectangleFillColor="green"
         ></adjustable-rectangle>
-        <selected-artifact-toolbar></selected-artifact-toolbar>
+      <!-- start: artifact toolbar for selected artifact -->
+       <g v-show="artifactToolbarIsVisible">
+        <rect
+            :x="x"
+            :y="y"
+            width="100"
+            height="180"
+            fill="#E8EAF6"
+          >   
+        </rect>
+        <rect
+          class="draggable"
+          @mousedown="handleMouseDown"
+          @mouseup="handleMouseUp"
+          :x="x + 20"
+          :y="y + 5"
+          width="60"
+          height="20"
+          fill="#FF7043"
+        >   
+        </rect>
+        <foreignObject
+          width="100"
+          height="180"
+          :x="x"
+          :y="y + 30"
+          >
+          <v-container>
+            <v-layout justify-space-around>
+              <v-flex>
+                <v-icon
+                  large
+                  @click="selectArtifactTool('content_copy')"
+                >content_copy</v-icon>
+              </v-flex>
+              <v-flex>
+                <v-tooltip right>
+                <v-icon
+                  large
+                  @click="selectArtifactTool('pan_tool')"
+                >pan_tool</v-icon>
+                </v-tooltip>
+              </v-flex>
+            </v-layout>
+            <v-layout justify-space-around>
+              <v-flex>
+                <v-icon
+                  large
+                  @click="selectArtifactTool('delete')"
+                  >delete</v-icon>
+              </v-flex>
+              <v-flex>
+                <v-icon
+                  large
+                  @click="selectArtifactTool('format_shapes')"
+                  >format_shapes</v-icon>
+                </v-flex>
+            </v-layout>
+          </v-container>
+           <v-btn
+            @click="artifactToolbarIsVisible = false"
+            class="close-button"
+            small
+            outline
+            color="indigo"
+           >close</v-btn>
+        </foreignObject>
+        </g>
+         <!-- end: artifact toolbar for selected artifact -->
       </svg>
   </div>
 </template>
@@ -32,9 +100,10 @@
 import * as d3 from "d3";
 import { mapGetters } from "vuex";
 import AdjustableRectangle from "./adjustable-rectangle";
-import SelectedArtifactToolbar from "./selected-artifact-toolbar";
+import { Draggable } from "./mixins/draggable";
 export default {
   name: "SandboxBoard",
+  mixins: [Draggable],
   data() {
     return {
       width: 900,
@@ -43,22 +112,21 @@ export default {
       rectHeight: "100%",
       rectX: 0,
       rectY: 0,
-      position: {
-        x: 0,
-        y: 0
-      },
-      coordinates: {
-        x: 0,
-        y: 0
-      },
+      x: 0,
+      y: 0,
       drawing: {
         activeLine: "",
         renderPath: "",
         svg: ""
-      }
+      },
+      artifactToolbarIsVisible: true
     };
   },
-  methods: {},
+  methods: {
+    selectArtifactTool(option) {
+      console.log(option);
+    }
+  },
   directives: {
     draw: (el, bindings) => {
       if (bindings.value === "draw") {
@@ -95,33 +163,13 @@ export default {
           activeLine = null;
         }
       }
-    },
-    handleMouseMove(e) {
-      const xDiff = this.coordinates.x - e.pageX;
-      const yDiff = this.coordinates.y - e.pageY;
-      this.coordinates.x = e.pageX;
-      this.coordinates.y = e.pageY;
-      this.position.x = this.position.x - xDiff;
-      this.position.y = this.position.y - yDiff;
-    },
-    handleMouseDown(e) {
-      this.coordinates = {
-        x: e.pageX,
-        y: e.pageY
-      };
-      document.addEventListener("mousemove", this.handleMouseMove);
-    },
-    handleMouseUp() {
-      document.removeEventListener("mousemove", this.handleMouseMove);
-      this.coordinates = {};
     }
   },
   computed: {
     ...mapGetters(["selectedTool"])
   },
   components: {
-    AdjustableRectangle,
-    SelectedArtifactToolbar
+    AdjustableRectangle
   }
 };
 </script>
@@ -137,6 +185,18 @@ export default {
 }
 .sandboxBoardNormal {
   border: 5px solid lightgrey;
+}
+.icon {
+  background: "black";
+  padding: 5px;
+  cursor: pointer;
+}
+.draggable {
+  cursor: move;
+}
+.close-button {
+  margin-top: -10px;
+  margin-left: 5px;
 }
 </style>
 
