@@ -1,5 +1,10 @@
 <template>
   <div>
+      <svg width="900" height="100">
+        <rect width="900" height="105" x="0" y="0" fill="white">
+
+        </rect>
+      </svg>
       <svg
         :class="{
           sandboxBoardDrawing: selectedTool === 'draw',

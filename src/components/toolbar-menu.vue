@@ -2,10 +2,10 @@
   <svg
     class="toolbar-menu"
     ref="toolbar"
-    width="300"
-    height="600"
+    width="200"
+    height="707"
   >
-  <foreignObject width="300" height="600" x="0" y="0">
+  <foreignObject width="300" height="707" x="0" y="0">
    <v-navigation-drawer light right>
     <v-toolbar flat>
       <v-list>
@@ -19,9 +19,6 @@
     <v-divider></v-divider>
     <v-list dense class="pt-0">
       <v-list-tile v-for="item in items" :key="item.title" @click="">
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>{{ item.title }}</v-list-tile-title>
         </v-list-tile-content>
@@ -38,10 +35,13 @@ export default {
   data() {
     return {
       items: [
-        { title: "Themes", icon: "dashboard" },
         { title: "Shapes", icon: "question_answer" },
+        { title: "Lines", icon: "question_answer" },
         { title: "Drawing", icon: "question_answer" },
-        { title: "Text", icon: "question_answer" }
+        { title: "Text", icon: "question_answer" },
+        { title: "UML", icon: "question_answer" },
+        { title: "Post-it", icon: "question_answer" },
+        { title: "Index card", icon: "question_answer" }
       ]
     };
   },
@@ -52,7 +52,7 @@ export default {
 </script>
 <style scoped>
 .toolbar-menu {
-  border: 5px solid white;
+  border: 5px solid lightgray;
 }
 .draggable {
   cursor: grabbing;
