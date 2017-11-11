@@ -1,20 +1,21 @@
 <template>
   <div>
-      <svg width="900" height="100">
-        <rect width="900" height="105" x="0" y="0" fill="white">
-
-        </rect>
-      </svg>
+    {{ selectedTool }}
+    <!-- drawing area top toolbar -->
+      <toolbar-menu></toolbar-menu>
+    <!-- drawing area top toolbar -->
       <svg
         :class="{
-          sandboxBoardDrawing: selectedTool === 'draw',
-          sandboxBoardNormal: selectedTool !== 'draw'
+          sandboxBoardDrawing: selectedTool === 'mode_edit',
+          sandboxBoardNormal: selectedTool !== 'mode_edit'
         }"
         :width="width"
         :height="height"
         v-draw="selectedTool"
       >
         <rect
+       
+            @dblclick="setToolbarOption('shape')"
             :width="rectWidth"
             :height="rectHeight"
             :x="rectX"
@@ -29,7 +30,7 @@
           rectangleHeight="50"
           rectangleFillColor="green"
         ></adjustable-rectangle>
-      <!-- start: artifact toolbar for selected artifact -->
+      <!-- artifact toolbar for selected artifact -->
        <g v-show="artifactToolbarIsVisible">
         <rect
             :x="x"
@@ -64,13 +65,12 @@
                   @click="selectArtifactTool('content_copy')"
                 >content_copy</v-icon>
               </v-flex>
-              <v-flex>
-                <v-tooltip right>
-                <v-icon
-                  large
-                  @click="selectArtifactTool('pan_tool')"
-                >pan_tool</v-icon>
-                </v-tooltip>
+              <v-flex> 
+               <v-icon
+                @click="artifactToolbarIsVisible = false"
+                large
+                color="indigo"
+               >close</v-icon> 
               </v-flex>
             </v-layout>
             <v-layout justify-space-around>
@@ -88,30 +88,26 @@
                 </v-flex>
             </v-layout>
           </v-container>
-           <v-btn
-            @click="artifactToolbarIsVisible = false"
-            class="close-button"
-            small
-            outline
-            color="indigo"
-           >close</v-btn>
+        
         </foreignObject>
         </g>
-         <!-- end: artifact toolbar for selected artifact -->
+         <!-- artifact toolbar for selected artifact -->
       </svg>
   </div>
 </template>
 <script>
 import * as d3 from "d3";
 import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import AdjustableRectangle from "./adjustable-rectangle";
 import { Draggable } from "./mixins/draggable";
+import ToolbarMenu from "./toolbar-menu";
 export default {
   name: "SandboxBoard",
   mixins: [Draggable],
   data() {
     return {
-      width: 900,
+      width: "100%",
       height: 600,
       rectWidth: "100%",
       rectHeight: "100%",
@@ -128,13 +124,12 @@ export default {
     };
   },
   methods: {
-    selectArtifactTool(option) {
-      console.log(option);
-    }
+    ...mapActions(["setToolbarOption"])
   },
   directives: {
-    draw: (el, bindings) => {
-      if (bindings.value === "draw") {
+    draw: {
+      componentUpdated: function(el, binding) {
+        let svg;
         let activeLine;
         const renderPath = d3.svg
           .line()
@@ -146,13 +141,7 @@ export default {
           })
           .tension(0)
           .interpolate("cardinal");
-        const svg = d3.select(el).call(
-          d3.behavior
-            .drag()
-            .on("dragstart", dragstarted)
-            .on("drag", dragged)
-            .on("dragend", dragended)
-        );
+
         function dragstarted() {
           activeLine = svg
             .append("path")
@@ -167,6 +156,25 @@ export default {
         function dragended() {
           activeLine = null;
         }
+        // if in drawing mode, draw on whiteboard
+        if (binding.value === "mode_edit") {
+          svg = d3.select(el).call(
+            d3.behavior
+              .drag()
+              .on("dragstart", dragstarted)
+              .on("drag", dragged)
+              .on("dragend", dragended)
+          );
+        } else {
+          // if other toolbar option selected, remove draw behavior
+          svg = d3.select(el).call(
+            d3.behavior
+              .drag()
+              .on("dragstart", null)
+              .on("drag", null)
+              .on("dragend", null)
+          );
+        }
       }
     }
   },
@@ -174,7 +182,8 @@ export default {
     ...mapGetters(["selectedTool"])
   },
   components: {
-    AdjustableRectangle
+    AdjustableRectangle,
+    ToolbarMenu
   }
 };
 </script>
@@ -190,6 +199,11 @@ export default {
 }
 .sandboxBoardNormal {
   border: 5px solid lightgrey;
+  fill: none;
+  stroke: #000;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
 .icon {
   background: "black";
@@ -198,10 +212,6 @@ export default {
 }
 .draggable {
   cursor: move;
-}
-.close-button {
-  margin-top: -10px;
-  margin-left: 5px;
 }
 </style>
 

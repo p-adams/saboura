@@ -1,39 +1,47 @@
 <template>
-  <svg
-    class="toolbar-menu"
-    ref="toolbar"
-    width="200"
-    height="707"
-  >
-  <foreignObject width="300" height="707" x="0" y="0">
-   <v-navigation-drawer light right>
-    <v-toolbar flat>
-      <v-list>
-        <v-list-tile>
-          <v-list-tile-title class="title">
-            Toolbar
-          </v-list-tile-title>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
-    <v-divider></v-divider>
-    <v-list dense class="pt-0">
-      <v-list-tile v-for="item in items" :key="item.title" @click="">
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
-  </v-navigation-drawer>
-  </foreignObject>
-  </svg>
+   <svg
+        width="100%"
+        height="100"
+      >
+        <rect
+          width="100%"
+          height="105"
+          x="0"
+          y="0"
+          fill="black"
+        >
+        </rect>
+        <foreignObject width="100%" height="100%">
+          <toolbar-icon icon="mode_edit"></toolbar-icon>
+        </foreignObject>
+        <!--
+          marker settings:
+            color
+            width
+            eraser
+          zoom in/out
+          color panel
+          text settings:
+            font size
+            font width
+            bold
+            italic
+            alignment
+          redo/undo
+          insert image/chart?
+          save/download whiteboard state buttons
+          theme stepper
+        -->
+      </svg>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import ToolbarIcon from "./toolbar-icon";
 export default {
   name: "ToolbarMenu",
   data() {
     return {
+      mini: true,
       items: [
         { title: "Shapes", icon: "question_answer" },
         { title: "Lines", icon: "question_answer" },
@@ -47,15 +55,15 @@ export default {
   },
   computed: {
     ...mapGetters(["drawingToolbar"])
+  },
+  components: {
+    ToolbarIcon
   }
 };
 </script>
 <style scoped>
 .toolbar-menu {
   border: 5px solid lightgray;
-}
-.draggable {
-  cursor: grabbing;
 }
 </style>
 
