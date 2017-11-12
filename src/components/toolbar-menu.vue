@@ -1,5 +1,6 @@
 <template>
    <svg
+        :style="{border: '5px solid lightgray'}"
         width="100%"
         height="100"
       >
@@ -12,7 +13,17 @@
         >
         </rect>
         <foreignObject width="100%" height="100%">
-          <toolbar-icon icon="mode_edit"></toolbar-icon>
+          <ul>
+            <li
+              v-for="item in toolbarItems"
+              :key="item.title"
+            >
+            <toolbar-icon 
+              :icon="item.icon"
+              :is-icon="item.isIcon"
+            ></toolbar-icon>
+            </li>
+          </ul>
         </foreignObject>
         <!--
           marker settings:
@@ -42,6 +53,10 @@ export default {
   data() {
     return {
       mini: true,
+      toolbarItems: [
+        { title: "draw", icon: "mode_edit", isIcon: true },
+        { title: "erase", icon: "eraser", isIcon: false }
+      ],
       items: [
         { title: "Shapes", icon: "question_answer" },
         { title: "Lines", icon: "question_answer" },
@@ -64,6 +79,37 @@ export default {
 <style scoped>
 .toolbar-menu {
   border: 5px solid lightgray;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+li {
+  display: inline-block;
+  padding: 5px;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 50px;
+  background-color: white;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+
+  position: absolute;
+  z-index: 1;
+  top: -40px;
+  left: 0;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 </style>
 

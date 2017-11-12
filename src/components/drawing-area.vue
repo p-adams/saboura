@@ -1,26 +1,25 @@
 <template>
   <div>
-    {{ selectedTool }}
+    
     <!-- drawing area top toolbar -->
       <toolbar-menu></toolbar-menu>
     <!-- drawing area top toolbar -->
       <svg
-        :class="{
-          sandboxBoardDrawing: selectedTool === 'mode_edit',
-          sandboxBoardNormal: selectedTool !== 'mode_edit'
-        }"
+       :class="{
+         sandboxBoardDrawing: selectedTool === 'mode_edit',
+         sandboxBoardNormal: selectedTool !== 'mode_edit'
+       }"
         :width="width"
         :height="height"
         v-draw="selectedTool"
       >
         <rect
-       
-            @dblclick="setToolbarOption('shape')"
-            :width="rectWidth"
-            :height="rectHeight"
-            :x="rectX"
-            :y="rectY"
-            fill="white"
+          @dblclick="setToolbarOption('shape')"
+          :width="rectWidth"
+          :height="rectHeight"
+          :x="rectX"
+          :y="rectY"
+          fill="white"
         >
         </rect>
         <adjustable-rectangle
@@ -123,14 +122,13 @@ export default {
       artifactToolbarIsVisible: true
     };
   },
-  methods: {
-    ...mapActions(["setToolbarOption"])
-  },
+  methods: {},
   directives: {
     draw: {
       componentUpdated: function(el, binding) {
         let svg;
         let activeLine;
+        let className;
         const renderPath = d3.svg
           .line()
           .x(function(d) {
@@ -143,10 +141,13 @@ export default {
           .interpolate("cardinal");
 
         function dragstarted() {
+          // console.log(className);
           activeLine = svg
             .append("path")
             .datum([])
-            .attr("class", "sandboxBoardDrawing");
+            .style("fill", "none")
+            .style("stroke", className)
+            .style("stroke-width", 12);
           activeLine.datum().push(d3.mouse(this));
         }
         function dragged() {
@@ -158,6 +159,16 @@ export default {
         }
         // if in drawing mode, draw on whiteboard
         if (binding.value === "mode_edit") {
+          className = "green";
+          svg = d3.select(el).call(
+            d3.behavior
+              .drag()
+              .on("dragstart", dragstarted)
+              .on("drag", dragged)
+              .on("dragend", dragended)
+          );
+        } else if (binding.value === "eraser") {
+          className = "white";
           svg = d3.select(el).call(
             d3.behavior
               .drag()
@@ -190,20 +201,14 @@ export default {
 <style scoped>
 .sandboxBoardDrawing {
   border: 5px solid lightgrey;
-  fill: none;
-  stroke: #000;
-  stroke-width: 3px;
-  stroke-linejoin: round;
-  stroke-linecap: round;
+
   cursor: crosshair;
 }
 .sandboxBoardNormal {
   border: 5px solid lightgrey;
-  fill: none;
+  /*fill: none;
   stroke: #000;
-  stroke-width: 3px;
-  stroke-linejoin: round;
-  stroke-linecap: round;
+  stroke-width: 3px;*/
 }
 .icon {
   background: "black";

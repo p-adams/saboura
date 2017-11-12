@@ -47,3 +47,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+rect {
+  cursor: move;
+}
+</style>
+

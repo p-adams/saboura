@@ -1,3 +1,4 @@
+import { mapActions } from "vuex";
 export const Draggable = {
   data() {
     return {
@@ -10,6 +11,7 @@ export const Draggable = {
     };
   },
   methods: {
+    ...mapActions(["restorePreviousToolbarOption", "setToolbarOption"]),
     handleMouseMove(e) {
       const xDiff = this.coordinates.x - e.pageX;
       const yDiff = this.coordinates.y - e.pageY;
@@ -19,6 +21,9 @@ export const Draggable = {
       this.y = this.y - yDiff;
     },
     handleMouseDown(e) {
+      // when mousedown on toolbar, previous mode needs
+      // to be deselected
+      this.setToolbarOption("none");
       this.coordinates = {
         x: e.pageX,
         y: e.pageY
@@ -26,6 +31,10 @@ export const Draggable = {
       document.addEventListener("mousemove", this.handleMouseMove);
     },
     handleMouseUp() {
+      // when mouseup on toolbar, previous mode needs
+      // to be restored. For example
+      // this.setToolbarOption("mode_edit");
+      this.restorePreviousToolbarOption();
       document.removeEventListener("mousemove", this.handleMouseMove);
       this.coordinates = {};
     }

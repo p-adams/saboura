@@ -10,6 +10,7 @@ const store = new Vuex.Store({
     activeWhiteboards: [],
     sandboxes: [],
     contacts: [],
+    previousToolbarOption: "",
     toolbarOption: "",
     drawingToolbarIsVisible: false
   },
@@ -30,6 +31,9 @@ const store = new Vuex.Store({
       state.currentUser = user;
     },
     setToolbarOption(state, option) {
+      // store reference to previously selected option
+      // so when drawing, drawing does not occuring when dragging a shape, for example.
+      state.previousToolbarOption = state.toolbarOption;
       state.toolbarOption = option;
     },
     setDrawingToolbarVisibility(state, visibility) {
@@ -37,26 +41,29 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    loadMockUsers: (context, payload) => {
-      context.commit("loadMockUsers", payload.users);
+    loadMockUsers({ commit }, payload) {
+      commit("loadMockUsers", payload.users);
     },
-    loadMockWhiteboards: (context, payload) => {
-      context.commit("loadMockWhiteboards", payload.boards);
+    loadMockWhiteboards({ commit }, payload) {
+      commit("loadMockWhiteboards", payload.boards);
     },
-    login: context => {
-      context.commit("login");
+    login({ commit }) {
+      commit("login");
     },
-    logout: context => {
-      context.commit("logout");
+    logout({ commit }) {
+      commit("logout");
     },
-    setCurrentUser: (context, payload) => {
-      context.commit("setCurrentUser", payload.user);
+    setCurrentUser({ commit }, payload) {
+      commit("setCurrentUser", payload.user);
     },
-    setToolbarOption: (context, payload) => {
-      context.commit("setToolbarOption", payload);
+    restorePreviousToolbarOption({ commit, state }) {
+      commit("setToolbarOption", state.previousToolbarOption);
     },
-    setDrawingToolbarVisibility: (context, payload) => {
-      context.commit("setDrawingToolbarVisibility", payload);
+    setToolbarOption({ commit }, payload) {
+      commit("setToolbarOption", payload);
+    },
+    setDrawingToolbarVisibility({ context }, payload) {
+      commit("setDrawingToolbarVisibility", payload);
     }
   },
   getters: {
