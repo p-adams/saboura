@@ -2,11 +2,11 @@
    <svg
         :style="{border: '5px solid lightgray'}"
         width="100%"
-        height="100"
+        height="135px"
       >
         <rect
           width="100%"
-          height="105"
+          height="135px"
           x="0"
           y="0"
           fill="black"
@@ -55,16 +55,17 @@ export default {
       mini: true,
       toolbarItems: [
         { title: "draw", icon: "mode_edit", isIcon: true },
-        { title: "erase", icon: "eraser", isIcon: false }
-      ],
-      items: [
-        { title: "Shapes", icon: "question_answer" },
-        { title: "Lines", icon: "question_answer" },
-        { title: "Drawing", icon: "question_answer" },
-        { title: "Text", icon: "question_answer" },
-        { title: "UML", icon: "question_answer" },
-        { title: "Post-it", icon: "question_answer" },
-        { title: "Index card", icon: "question_answer" }
+        { title: "erase", icon: "eraser", isIcon: false },
+        { title: "rectangle", icon: "rectangle", isIcon: false },
+        { title: "circle", icon: "circle", isIcon: false },
+        { title: "ellipse", icon: "ellipse", isIcon: false },
+        { title: "line", icon: "line", isIcon: false },
+        { title: "polyline", icon: "polyline", isIcon: false },
+        { title: "polygon", icon: "polygon", isIcon: false },
+        { title: "path", icon: "path", isIcon: false },
+        { title: "flow_chart", icon: "flow_chart", isIcon: false },
+        { title: "post_it", icon: "post_it", isIcon: false },
+        { title: "index_card", icon: "index_card", isIcon: false }
       ]
     };
   },

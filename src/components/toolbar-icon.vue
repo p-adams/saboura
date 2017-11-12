@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- might make all icons img -->
     <v-icon
       v-if="isIcon"
       @click="selectTool(icon)"
@@ -36,6 +37,7 @@ export default {
   },
   computed: {
     srcURL() {
+      // .png should be 38px
       return `./static/${this.icon}.png`;
     }
   }

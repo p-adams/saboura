@@ -5,23 +5,30 @@
       <toolbar-menu></toolbar-menu>
     <!-- drawing area top toolbar -->
       <svg
-       :class="{
-         sandboxBoardDrawing: selectedTool === 'mode_edit',
-         sandboxBoardNormal: selectedTool !== 'mode_edit'
-       }"
+        :width="width"
+        :height="height"
+      >
+      <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
+       <svg 
+        :class="{
+          sandboxBoardDrawing: selectedTool === 'mode_edit',
+          sandboxBoardNormal: selectedTool !== 'mode_edit'
+        }"
         :width="width"
         :height="height"
         v-draw="selectedTool"
-      >
-        <rect
-          @dblclick="setToolbarOption('shape')"
-          :width="rectWidth"
-          :height="rectHeight"
-          :x="rectX"
-          :y="rectY"
-          fill="white"
         >
-        </rect>
+          <rect
+            @dblclick="setToolbarOption('shape')"
+            :width="rectWidth"
+            :height="rectHeight"
+            :x="rectX"
+            :y="rectY"
+            fill="white"
+          >
+          </rect>
+        </svg>
+        <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
         <adjustable-rectangle
           x-position="50"
           y-position="50"
