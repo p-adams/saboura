@@ -11,8 +11,9 @@
       <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
        <svg 
         :class="{
-          sandboxBoardDrawing: selectedTool === 'mode_edit',
-          sandboxBoardNormal: selectedTool !== 'mode_edit'
+          boardDrawing: selectedTool === 'mode_edit',
+          boardErasing: selectedTool === 'eraser',
+          normal: selectedTool !== 'mode_edit'
         }"
         :width="width"
         :height="height"
@@ -206,16 +207,16 @@ export default {
 };
 </script>
 <style scoped>
-.sandboxBoardDrawing {
+.boardDrawing {
   border: 5px solid lightgrey;
-
   cursor: crosshair;
 }
-.sandboxBoardNormal {
+.boardErasing {
   border: 5px solid lightgrey;
-  /*fill: none;
-  stroke: #000;
-  stroke-width: 3px;*/
+  cursor: url(https://png.icons8.com/rectangular/win10/16/000000), auto;
+}
+.normal {
+  border: 5px solid lightgrey;
 }
 .icon {
   background: "black";
