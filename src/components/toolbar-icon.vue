@@ -38,7 +38,7 @@ export default {
   computed: {
     srcURL() {
       // .png should be 38px
-      return `./static/${this.icon}.png`;
+      return `https://png.icons8.com/${this.icon}/win10/36/ffffff`;
     }
   }
 };
