@@ -62,10 +62,11 @@ export default {
         { title: "line", icon: "line", isIcon: false },
         { title: "polyline", icon: "polyline", isIcon: false },
         { title: "polygon", icon: "polygon", isIcon: false },
-        { title: "path", icon: "path", isIcon: false },
+        { title: "path", icon: "linear_scale", isIcon: true },
+        { title: "text_fields", icon: "text_fields", isIcon: true },
         { title: "flow_chart", icon: "flow_chart", isIcon: false },
-        { title: "post_it", icon: "post_it", isIcon: false },
-        { title: "index_card", icon: "index_card", isIcon: false }
+        { title: "bubble_chart", icon: "bubble_chart", isIcon: true },
+        { title: "post_it", icon: "note", isIcon: false }
       ]
     };
   },
