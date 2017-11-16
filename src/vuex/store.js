@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     contacts: [],
     previousToolbarOption: "",
     toolbarOption: "",
+    artifactTool: "",
     drawingToolbarIsVisible: false
   },
   mutations: {
@@ -35,6 +36,9 @@ const store = new Vuex.Store({
       // so when drawing, drawing does not occuring when dragging a shape, for example.
       state.previousToolbarOption = state.toolbarOption;
       state.toolbarOption = option;
+    },
+    setArtifactTool(state, option) {
+      state.artifactTool = option;
     },
     setDrawingToolbarVisibility(state, visibility) {
       state.drawingToolbarIsVisible = visibility;
@@ -61,6 +65,9 @@ const store = new Vuex.Store({
     },
     setToolbarOption({ commit }, payload) {
       commit("setToolbarOption", payload);
+    },
+    setArtifactTool({ commit }, payload) {
+      commit("setArtifactTool", payload);
     },
     setDrawingToolbarVisibility({ context }, payload) {
       commit("setDrawingToolbarVisibility", payload);

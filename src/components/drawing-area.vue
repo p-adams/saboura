@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <!-- drawing area top toolbar -->
       <toolbar-menu></toolbar-menu>
     <!-- drawing area top toolbar -->
@@ -8,28 +7,11 @@
         :width="width"
         :height="height"
       >
-      <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
-       <svg 
-        :class="{
-          boardDrawing: selectedTool === 'mode_edit',
-          boardErasing: selectedTool === 'eraser',
-          normal: selectedTool !== 'mode_edit'
-        }"
-        :width="width"
-        :height="height"
-        v-draw="selectedTool"
-        >
-          <rect
-            @dblclick="setToolbarOption('shape')"
-            :width="rectWidth"
-            :height="rectHeight"
-            :x="rectX"
-            :y="rectY"
-            fill="white"
-          >
-          </rect>
-        </svg>
-        <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
+      <!-- base drawing layer -->
+        <free-draw-layer></free-draw-layer>
+       <!-- base drawing layer -->
+       <!-- render artifacts layer -->
+       <!-- render artifacts layer -->
         <adjustable-rectangle
           x-position="50"
           y-position="50"
@@ -69,7 +51,7 @@
               <v-flex>
                 <v-icon
                   large
-                  @click="selectArtifactTool('content_copy')"
+                  @click="setArtifactTool('content_copy')"
                 >content_copy</v-icon>
               </v-flex>
               <v-flex> 
@@ -84,13 +66,13 @@
               <v-flex>
                 <v-icon
                   large
-                  @click="selectArtifactTool('delete')"
+                  @click="setArtifactTool('delete')"
                   >delete</v-icon>
               </v-flex>
               <v-flex>
                 <v-icon
                   large
-                  @click="selectArtifactTool('format_shapes')"
+                  @click="setArtifactTool('format_shapes')"
                   >format_shapes</v-icon>
                 </v-flex>
             </v-layout>
@@ -103,12 +85,11 @@
   </div>
 </template>
 <script>
-import * as d3 from "d3";
-import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
 import AdjustableRectangle from "./adjustable-rectangle";
-import { Draggable } from "./mixins/draggable";
+import FreeDrawLayer from "./free-draw-layer";
 import ToolbarMenu from "./toolbar-menu";
+import { Draggable } from "./mixins/draggable";
+import { mapActions } from "vuex";
 export default {
   name: "SandboxBoard",
   mixins: [Draggable],
@@ -116,108 +97,22 @@ export default {
     return {
       width: "100%",
       height: 600,
-      rectWidth: "100%",
-      rectHeight: "100%",
-      rectX: 0,
-      rectY: 0,
       x: 0,
       y: 0,
-      drawing: {
-        activeLine: "",
-        renderPath: "",
-        svg: ""
-      },
       artifactToolbarIsVisible: true
     };
   },
-  methods: {},
-  directives: {
-    draw: {
-      componentUpdated: function(el, binding) {
-        let svg;
-        let activeLine;
-        let className;
-        const renderPath = d3.svg
-          .line()
-          .x(function(d) {
-            return d[0];
-          })
-          .y(function(d) {
-            return d[1];
-          })
-          .tension(0)
-          .interpolate("cardinal");
-
-        function dragstarted() {
-          // console.log(className);
-          activeLine = svg
-            .append("path")
-            .datum([])
-            .style("fill", "none")
-            .style("stroke", className)
-            .style("stroke-width", 12);
-          activeLine.datum().push(d3.mouse(this));
-        }
-        function dragged() {
-          activeLine.datum().push(d3.mouse(this));
-          activeLine.attr("d", renderPath);
-        }
-        function dragended() {
-          activeLine = null;
-        }
-        // if in drawing mode, draw on whiteboard
-        if (binding.value === "mode_edit") {
-          className = "green";
-          svg = d3.select(el).call(
-            d3.behavior
-              .drag()
-              .on("dragstart", dragstarted)
-              .on("drag", dragged)
-              .on("dragend", dragended)
-          );
-        } else if (binding.value === "eraser") {
-          className = "white";
-          svg = d3.select(el).call(
-            d3.behavior
-              .drag()
-              .on("dragstart", dragstarted)
-              .on("drag", dragged)
-              .on("dragend", dragended)
-          );
-        } else {
-          // if other toolbar option selected, remove draw behavior
-          svg = d3.select(el).call(
-            d3.behavior
-              .drag()
-              .on("dragstart", null)
-              .on("drag", null)
-              .on("dragend", null)
-          );
-        }
-      }
-    }
-  },
-  computed: {
-    ...mapGetters(["selectedTool"])
+  methods: {
+    ...mapActions(["setArtifactTool"])
   },
   components: {
     AdjustableRectangle,
-    ToolbarMenu
+    ToolbarMenu,
+    FreeDrawLayer
   }
 };
 </script>
 <style scoped>
-.boardDrawing {
-  border: 5px solid lightgrey;
-  cursor: crosshair;
-}
-.boardErasing {
-  border: 5px solid lightgrey;
-  cursor: url(https://png.icons8.com/rectangular/win10/16/000000), auto;
-}
-.normal {
-  border: 5px solid lightgrey;
-}
 .icon {
   background: "black";
   padding: 5px;
