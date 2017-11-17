@@ -71,7 +71,6 @@
                 </v-flex>
             </v-layout>
           </v-container>
-        
         </foreignObject>
         </g>
          <!-- artifact toolbar for selected artifact -->

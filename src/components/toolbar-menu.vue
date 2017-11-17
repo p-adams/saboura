@@ -39,9 +39,6 @@
             bold
             italic
             alignment
-          redo/undo
-          insert image/chart?
-          save/download whiteboard state buttons
           theme stepper
         -->
       </svg>
@@ -63,7 +60,7 @@ export default {
         { title: "line", icon: "line", isIcon: false },
         { title: "polyline", icon: "polyline", isIcon: false },
         { title: "polygon", icon: "polygon", isIcon: false },
-        { title: "path", icon: "linear_scale", isIcon: true },
+        { title: "path", icon: "radar_plot", isIcon: false },
         { title: "text", icon: "text_fields", isIcon: true },
         { title: "flow", icon: "flow_chart", isIcon: false },
         { title: "bubble", icon: "bubble_chart", isIcon: true },
