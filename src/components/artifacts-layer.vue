@@ -7,14 +7,17 @@
         rectangleHeight="50"
         rectangleFillColor="green"
     ></adjustable-rectangle>
+    <dynamic-shape></dynamic-shape>
   </svg>
 </template>
 <script>
 import AdjustableRectangle from "./adjustable-rectangle";
+import DynamicShape from "./dynamic-shape";
 export default {
-    components:{
-        AdjustableRectangle,
-    }
+  components: {
+    AdjustableRectangle,
+    DynamicShape
+  }
 };
 </script>
 <style scoped>
