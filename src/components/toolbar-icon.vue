@@ -3,7 +3,7 @@
     <!-- might make all icons img -->
     <v-icon
       v-if="isIcon"
-      @click="selectTool(icon)"
+      @click="setToolbarOption(title)"
       large
       class="icon"
     >
@@ -11,7 +11,7 @@
     </v-icon>
     <img
       v-else
-      @click="selectTool(icon)"
+      @click="setToolbarOption(title)"
       class="icon"
       :src="srcURL"  
     />
@@ -27,13 +27,13 @@ export default {
     },
     isIcon: {
       type: Boolean
+    },
+    title: {
+      type: String
     }
   },
   methods: {
-    ...mapActions(["setToolbarOption"]),
-    selectTool(icon) {
-      this.setToolbarOption(icon);
-    }
+    ...mapActions(["setToolbarOption"])
   },
   computed: {
     srcURL() {

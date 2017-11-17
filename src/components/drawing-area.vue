@@ -8,17 +8,11 @@
         :height="height"
       >
       <!-- base drawing layer -->
-        <free-draw-layer></free-draw-layer>
+        <whiteboard-base-layer></whiteboard-base-layer>
        <!-- base drawing layer -->
        <!-- render artifacts layer -->
+        <artifacts-layer></artifacts-layer>
        <!-- render artifacts layer -->
-        <adjustable-rectangle
-          x-position="50"
-          y-position="50"
-          rectangleWidth="50"
-          rectangleHeight="50"
-          rectangleFillColor="green"
-        ></adjustable-rectangle>
       <!-- artifact toolbar for selected artifact -->
        <g v-show="artifactToolbarIsVisible">
         <rect
@@ -85,8 +79,8 @@
   </div>
 </template>
 <script>
-import AdjustableRectangle from "./adjustable-rectangle";
-import FreeDrawLayer from "./free-draw-layer";
+import WhiteboardBaseLayer from "./whiteboard-base-layer";
+import ArtifactsLayer from "./artifacts-layer";
 import ToolbarMenu from "./toolbar-menu";
 import { Draggable } from "./mixins/draggable";
 import { mapActions } from "vuex";
@@ -106,9 +100,9 @@ export default {
     ...mapActions(["setArtifactTool"])
   },
   components: {
-    AdjustableRectangle,
     ToolbarMenu,
-    FreeDrawLayer
+    WhiteboardBaseLayer,
+    ArtifactsLayer
   }
 };
 </script>

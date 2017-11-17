@@ -2,9 +2,9 @@
  <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
     <svg 
         :class="{
-            boardDrawing: selectedTool === 'mode_edit',
-            boardErasing: selectedTool === 'eraser',
-            normal: selectedTool !== 'mode_edit'
+            boardDrawing: selectedTool === 'draw',
+            boardErasing: selectedTool === 'erase',
+            normal: selectedTool !== 'draw'
         }"
         :width="width"
         :height="height"
@@ -27,7 +27,7 @@ import * as d3 from "d3";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 export default {
-  name: "FreeDrawLayer",
+  name: "WhiteboardBaseLayer",
   data() {
     return {
       width: "100%",
@@ -46,6 +46,12 @@ export default {
       componentUpdated: function(el, binding) {
         let svg;
         let activeLine;
+
+        let drawProps = {
+          stroke: "",
+          strokeWidth: ""
+        };
+
         let className;
         const renderPath = d3.svg
           .line()
@@ -59,13 +65,12 @@ export default {
           .interpolate("cardinal");
 
         function dragstarted() {
-          // console.log(className);
           activeLine = svg
             .append("path")
             .datum([])
             .style("fill", "none")
-            .style("stroke", className)
-            .style("stroke-width", 12);
+            .style("stroke", drawProps.stroke)
+            .style("stroke-width", drawProps.strokeWidth);
           activeLine.datum().push(d3.mouse(this));
         }
         function dragged() {
@@ -76,8 +81,9 @@ export default {
           activeLine = null;
         }
         // if in drawing mode, draw on whiteboard
-        if (binding.value === "mode_edit") {
-          className = "green";
+        if (binding.value === "draw") {
+          drawProps.stroke = "black";
+          drawProps.strokeWidth = 3;
           svg = d3.select(el).call(
             d3.behavior
               .drag()
@@ -85,8 +91,9 @@ export default {
               .on("drag", dragged)
               .on("dragend", dragended)
           );
-        } else if (binding.value === "eraser") {
-          className = "white";
+        } else if (binding.value === "erase") {
+          drawProps.stroke = "white";
+          drawProps.strokeWidth = 16;
           svg = d3.select(el).call(
             d3.behavior
               .drag()

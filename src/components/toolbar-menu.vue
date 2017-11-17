@@ -21,6 +21,7 @@
             <toolbar-icon 
               :icon="item.icon"
               :is-icon="item.isIcon"
+              :title="item.title"
             ></toolbar-icon>
             </li>
           </ul>
@@ -63,10 +64,14 @@ export default {
         { title: "polyline", icon: "polyline", isIcon: false },
         { title: "polygon", icon: "polygon", isIcon: false },
         { title: "path", icon: "linear_scale", isIcon: true },
-        { title: "text_fields", icon: "text_fields", isIcon: true },
-        { title: "flow_chart", icon: "flow_chart", isIcon: false },
-        { title: "bubble_chart", icon: "bubble_chart", isIcon: true },
-        { title: "post_it", icon: "note", isIcon: false }
+        { title: "text", icon: "text_fields", isIcon: true },
+        { title: "flow", icon: "flow_chart", isIcon: false },
+        { title: "bubble", icon: "bubble_chart", isIcon: true },
+        { title: "note", icon: "note", isIcon: false },
+        { title: "undo", icon: "undo", isIcon: true },
+        { title: "redo", icon: "redo", isIcon: true },
+        { title: "save", icon: "save", isIcon: false },
+        { title: "clear", icon: "empty_trash", isIcon: false }
       ]
     };
   },
