@@ -13,18 +13,24 @@
         >
         </rect>
         <foreignObject width="100%" height="100%">
-          <ul>
-            <li
-              v-for="item in toolbarItems"
-              :key="item.title"
-            >
-            <toolbar-icon 
-              :icon="item.icon"
-              :is-icon="item.isIcon"
-              :title="item.title"
-            ></toolbar-icon>
-            </li>
-          </ul>
+          <v-container grid-list-xl text-xs-center>
+            <v-layout row wrap>
+              <v-flex>
+                <ul>
+                  <li
+                    v-for="item in toolbarItems"
+                    :key="item.title"
+                  >
+                  <toolbar-icon 
+                    :icon="item.icon"
+                    :is-icon="item.isIcon"
+                    :title="item.title"
+                  ></toolbar-icon>
+                  </li>
+                </ul>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </foreignObject>
         <!--
           marker settings:
