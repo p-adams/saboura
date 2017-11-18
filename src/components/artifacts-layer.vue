@@ -1,12 +1,24 @@
 <template>
   <svg>
-    <template v-for="(shape, key) in artifacts">
+    <!--<template v-for="(shape, key) in artifacts">
       <component :key="key" :is="shape"></component>
-    </template>
-    
+    </template>-->
+    <g>
+      <dynamic-rectangle
+        v-for="(rect, key) in storedRectangles"
+        :key="key"
+        :id="rect.id"
+        :rect-x="rect.x"
+        :rect-y="rect.y"
+        :rect-width="rect.width"
+        :rect-height="rect.height"
+        :rect-fill="rect.fill"
+      ></dynamic-rectangle>
+    </g>
   </svg>
 </template>
 <script>
+import DynamicRectangle from "./dynamic-rectangle";
 import { mapGetters } from "vuex";
 export default {
   name: "ArtifactsLayer",
@@ -16,39 +28,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["selectedTool"]),
-    artifacts() {
-      console.log(this.selectedTool);
-      switch (this.selectedTool) {
-        case "rectangle":
-          this.shapes.push(() => import("./dynamic-rectangle"));
-          break;
-        case "circle":
-          this.shapes.push(() => import("./dynamic-circle"));
-          break;
-        case "ellipse":
-          this.shapes.push(() => import("./dynamic-ellipse"));
-          break;
-        case "line":
-          this.shapes.push(() => import("./dynamic-line"));
-          break;
-        case "polyline":
-          this.shapes.push(() => import("./dynamic-polyline"));
-          break;
-        case "polygon":
-          this.shapes.push(() => import("./dynamic-polygon"));
-          break;
-        case "path":
-          this.shapes.push(() => import("./dynamic-path"));
-          break;
-        case "text":
-          this.shapes.push(() => import("./dynamic-text"));
-          break;
-        default:
-          console.log("no dynamic shape to load");
-      }
-      return this.shapes;
-    }
+    ...mapGetters(["storedRectangles"])
+  },
+  components: {
+    DynamicRectangle
   }
 };
 </script>

@@ -14,7 +14,34 @@ import draggable from "svg.draggable.js";
 import { mapActions } from "vuex";
 export default {
   name: "DynamicRectangle",
+  props: {
+    id: {
+      type: String,
+      required: true
+    },
+    rectX: {
+      type: Number,
+      required: true
+    },
+    rectY: {
+      type: Number,
+      required: true
+    },
+    rectWidth: {
+      type: Number,
+      required: true
+    },
+    rectHeight: {
+      type: Number,
+      required: true
+    },
+    rectFill: {
+      type: String,
+      default: "#E3F2FD"
+    }
+  },
   mounted() {
+    console.log(`id: ${this.id}`);
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
     this.rect.on("dragmove.namespace", function(event) {});
@@ -22,7 +49,12 @@ export default {
   data() {
     return {
       draw: "",
-      rect: ""
+      rect: "",
+      x: this.rectX,
+      y: this.rectY,
+      width: this.rectWidth,
+      height: this.rectHeight,
+      fill: this.rectFill
     };
   },
   watch: {
@@ -36,7 +68,6 @@ export default {
     }
   },
   methods: {
-    // might need this in the future
     ...mapActions(["removeArtifactFromWhiteboard"]),
     select() {
       this.rect.fire("select");
@@ -45,17 +76,17 @@ export default {
       this.rect.fire("deselect");
     },
     remove() {
-      // to clear el from parent el
+      // clear element from parent
       this.draw.clear();
-      // to remove artifact from whiteboard
-      // this.removeArtifactFromWhiteboard(this.rect);
+      // remove artifact from whiteboard
+      this.removeArtifactFromWhiteboard({ id: this.id, shape: "rectangle" });
     },
     initShape() {
       this.rect = this.draw
-        .rect(100, 100)
-        .fill("#f06")
+        .rect(this.width, this.height)
+        .fill(this.fill)
         .style("cursor", "move")
-        .move(20, 40);
+        .move(this.x, this.y);
       this.rect.draggable();
     }
   }

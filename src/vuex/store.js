@@ -1,5 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import remove from "lodash/remove";
+import cuid from "cuid";
 Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
@@ -12,8 +14,14 @@ const store = new Vuex.Store({
     contacts: [],
     previousToolbarOption: "",
     toolbarOption: "",
-    artifactId: "",
-    artifactTool: "",
+    rectangles: [],
+    circles: [],
+    ellipses: [],
+    lines: [],
+    polylines: [],
+    polygons: [],
+    paths: [],
+    texts: [],
     drawingToolbarIsVisible: false
   },
   mutations: {
@@ -33,13 +41,48 @@ const store = new Vuex.Store({
       state.currentUser = user;
     },
     setToolbarOption(state, option) {
-      // reset toolbarOption so that same button can
-      // be used to push components of same type
       state.toolbarOption = "";
       // store reference to previously selected option
       // so when drawing, drawing does not occuring when dragging a shape, for example.
       state.previousToolbarOption = state.toolbarOption;
       state.toolbarOption = option;
+    },
+    createShape(state) {
+      switch (state.toolbarOption) {
+        case "rectangle":
+          state.rectangles.push({
+            id: cuid(),
+            x: 20,
+            y: 40,
+            width: 200,
+            height: 100,
+            fill: "#f06"
+          });
+          break;
+        /*case "circle":
+          this.shapes.push(() => import("./dynamic-circle"));
+          break;
+        case "ellipse":
+          this.shapes.push(() => import("./dynamic-ellipse"));
+          break;
+        case "line":
+          this.shapes.push(() => import("./dynamic-line"));
+          break;
+        case "polyline":
+          this.shapes.push(() => import("./dynamic-polyline"));
+          break;
+        case "polygon":
+          this.shapes.push(() => import("./dynamic-polygon"));
+          break;
+        case "path":
+          this.shapes.push(() => import("./dynamic-path"));
+          break;
+        case "text":
+          this.shapes.push(() => import("./dynamic-text"));
+          break;*/
+        default:
+          console.log("no shape to create");
+      }
     },
     setArtifactTool(state, option) {
       state.artifactTool = option;
@@ -48,8 +91,13 @@ const store = new Vuex.Store({
       state.drawingToolbarIsVisible = visibility;
     },
     removeArtifactFromWhiteboard(state, option) {
-      state.artifactId = option;
-      console.log(`artifact id: ${state.artifactId}`);
+      switch (option.shape) {
+        case "rectangle":
+          remove(state.rectangles, rectangle => rectangle.id === option.id);
+          break;
+        default:
+          console.log("shape does not exist");
+      }
     }
   },
   actions: {
@@ -73,6 +121,7 @@ const store = new Vuex.Store({
     },
     setToolbarOption({ commit }, payload) {
       commit("setToolbarOption", payload);
+      commit("createShape");
     },
     setArtifactTool({ commit }, payload) {
       commit("setArtifactTool", payload);
@@ -94,7 +143,7 @@ const store = new Vuex.Store({
     contactsCount: state => state.contacts.length,
     selectedTool: state => state.toolbarOption,
     drawingToolbar: state => state.drawingToolbarIsVisible,
-    showArtifactId: state => state.artifactId
+    storedRectangles: state => state.rectangles
   }
 });
 
