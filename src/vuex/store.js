@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     contacts: [],
     previousToolbarOption: "",
     toolbarOption: "",
+    artifactId: "",
     artifactTool: "",
     drawingToolbarIsVisible: false
   },
@@ -32,6 +33,9 @@ const store = new Vuex.Store({
       state.currentUser = user;
     },
     setToolbarOption(state, option) {
+      // reset toolbarOption so that same button can
+      // be used to push components of same type
+      state.toolbarOption = "";
       // store reference to previously selected option
       // so when drawing, drawing does not occuring when dragging a shape, for example.
       state.previousToolbarOption = state.toolbarOption;
@@ -42,6 +46,10 @@ const store = new Vuex.Store({
     },
     setDrawingToolbarVisibility(state, visibility) {
       state.drawingToolbarIsVisible = visibility;
+    },
+    removeArtifactFromWhiteboard(state, option) {
+      state.artifactId = option;
+      console.log(`artifact id: ${state.artifactId}`);
     }
   },
   actions: {
@@ -71,6 +79,9 @@ const store = new Vuex.Store({
     },
     setDrawingToolbarVisibility({ context }, payload) {
       commit("setDrawingToolbarVisibility", payload);
+    },
+    removeArtifactFromWhiteboard({ commit }, payload) {
+      commit("removeArtifactFromWhiteboard", payload);
     }
   },
   getters: {
@@ -82,7 +93,8 @@ const store = new Vuex.Store({
     sandboxCount: state => state.sandboxes.length,
     contactsCount: state => state.contacts.length,
     selectedTool: state => state.toolbarOption,
-    drawingToolbar: state => state.drawingToolbarIsVisible
+    drawingToolbar: state => state.drawingToolbarIsVisible,
+    showArtifactId: state => state.artifactId
   }
 });
 

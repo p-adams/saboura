@@ -6,6 +6,7 @@ import router from "./router";
 import store from "./vuex/store.js";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.css";
+import "svg.select.js/dist/svg.select.css";
 Vue.use(Vuetify);
 
 Vue.config.productionTip = false;
