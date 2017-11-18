@@ -15,7 +15,7 @@
        <!-- render artifacts layer -->
       <!-- artifact toolbar for selected artifact -->
        <g v-show="artifactToolbarIsVisible">
-        <rect
+        <!--<rect
             :x="x"
             :y="y"
             width="100"
@@ -70,7 +70,7 @@
                   >format_shapes</v-icon>
                 </v-flex>
             </v-layout>
-          </v-container>
+          </v-container>-->
         </foreignObject>
         </g>
          <!-- artifact toolbar for selected artifact -->
