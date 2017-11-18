@@ -2,7 +2,20 @@ import Vue from "vue";
 import Vuex from "vuex";
 import remove from "lodash/remove";
 import cuid from "cuid";
+import { fetchArtifacts, saveArtifact } from "../api/whiteboard";
 Vue.use(Vuex);
+
+const DRAWABLE_ARTIFACTS = [
+  "rectangle",
+  "circle",
+  "ellipse",
+  "line",
+  "polyline",
+  "polygon",
+  "path",
+  "text"
+];
+
 const store = new Vuex.Store({
   state: {
     mockUsers: [],
@@ -28,8 +41,25 @@ const store = new Vuex.Store({
     loadMockUsers(state, users) {
       state.mockUsers.push(...users);
     },
-    loadMockWhiteboards(state, boards) {
-      state.mockWhiteboards.push(...boards);
+    loadMockWhiteboard(state, DbArtifacts) {
+      state.rectangles = [];
+      for (let artifact in DbArtifacts) {
+        let artifacts = DbArtifacts[artifact];
+        switch (artifacts.type) {
+          case "rectangle":
+            state.rectangles.push({
+              id: artifact,
+              x: artifacts.x,
+              y: artifacts.y,
+              width: artifacts.width,
+              height: artifacts.height,
+              fill: artifacts.fill
+            });
+            break;
+          default:
+            console.log("No artifact to create");
+        }
+      }
     },
     login(state) {
       state.loggedIn = true;
@@ -46,43 +76,6 @@ const store = new Vuex.Store({
       // so when drawing, drawing does not occuring when dragging a shape, for example.
       state.previousToolbarOption = state.toolbarOption;
       state.toolbarOption = option;
-    },
-    createShape(state) {
-      switch (state.toolbarOption) {
-        case "rectangle":
-          state.rectangles.push({
-            id: cuid(),
-            x: 20,
-            y: 40,
-            width: 200,
-            height: 100,
-            fill: "#f06"
-          });
-          break;
-        /*case "circle":
-          this.shapes.push(() => import("./dynamic-circle"));
-          break;
-        case "ellipse":
-          this.shapes.push(() => import("./dynamic-ellipse"));
-          break;
-        case "line":
-          this.shapes.push(() => import("./dynamic-line"));
-          break;
-        case "polyline":
-          this.shapes.push(() => import("./dynamic-polyline"));
-          break;
-        case "polygon":
-          this.shapes.push(() => import("./dynamic-polygon"));
-          break;
-        case "path":
-          this.shapes.push(() => import("./dynamic-path"));
-          break;
-        case "text":
-          this.shapes.push(() => import("./dynamic-text"));
-          break;*/
-        default:
-          console.log("no shape to create");
-      }
     },
     setArtifactTool(state, option) {
       state.artifactTool = option;
@@ -104,8 +97,10 @@ const store = new Vuex.Store({
     loadMockUsers({ commit }, payload) {
       commit("loadMockUsers", payload.users);
     },
-    loadMockWhiteboards({ commit }, payload) {
-      commit("loadMockWhiteboards", payload.boards);
+    loadMockWhiteboard({ commit, state }) {
+      fetchArtifacts().then(artifacts => {
+        commit("loadMockWhiteboard", artifacts);
+      });
     },
     login({ commit }) {
       commit("login");
@@ -121,7 +116,29 @@ const store = new Vuex.Store({
     },
     setToolbarOption({ commit }, payload) {
       commit("setToolbarOption", payload);
-      commit("createShape");
+      if (DRAWABLE_ARTIFACTS.indexOf(payload) !== -1) {
+        switch (payload) {
+          case "rectangle":
+            // create default rectangle
+            const rect = {
+              type: "rectangle",
+              x: 200,
+              y: 100,
+              width: 200,
+              height: 75,
+              fill: "orange"
+            };
+            // store it in the database
+            saveArtifact(rect).then(artifacts => {
+              // update artifacts arrays
+              commit("loadMockWhiteboard", artifacts);
+            });
+            break;
+          default:
+            console.log("No artifact to create");
+        }
+      }
+      // commit("addArtifactToWhiteboard");
     },
     setArtifactTool({ commit }, payload) {
       commit("setArtifactTool", payload);

@@ -51,6 +51,9 @@
                 @click.stop="drawerIsOpen = !drawerIsOpen"
             ></v-toolbar-side-icon>
             <v-spacer></v-spacer>
+            <div>
+                Welcome {{ showCurrentUser === "" ? "Guest" : showCurrentUser }}
+            </div>
             <v-toolbar-title slot="extension" class="display-1">Saboura</v-toolbar-title>
             </v-toolbar>
             <v-tabs-bar class="cyan">
@@ -149,7 +152,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isLoggedIn"]),
+    ...mapGetters(["isLoggedIn", "showCurrentUser"]),
     showCurrentUser() {
       const username = this.$store.getters.showCurrentUser;
       return (

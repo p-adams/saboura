@@ -15,7 +15,7 @@
               <v-btn @click="createSandbox">
                 create a new sandbox
               </v-btn>
-               <v-btn>
+               <v-btn @click="loadSandbox">
                 open saved sandbox
               </v-btn>   
           </v-card>
@@ -30,6 +30,7 @@
 </template>
 <script>
 import MainWhiteboard from "./main-whiteboard";
+import { mapActions } from "vuex";
 export default {
   name: "WhiteboardSandbox",
   data() {
@@ -38,12 +39,13 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["loadMockWhiteboard"]),
     createSandbox() {
       this.sandboxMenu = false;
-      this.initBoard();
     },
-    initBoard() {
-      console.log("initializing board...");
+    loadSandbox() {
+      this.sandboxMenu = false;
+      this.loadMockWhiteboard();
     }
   },
   components: {
