@@ -5,9 +5,9 @@
     </template>-->
     <g>
       <dynamic-rectangle
-        v-for="(rect, key) in storedRectangles"
+        v-for="(rect, key) in artifacts"
         :key="key"
-        :id="rect.id"
+        :item-key="rect['.key']"
         :rect-x="rect.x"
         :rect-y="rect.y"
         :rect-width="rect.width"
@@ -18,17 +18,18 @@
   </svg>
 </template>
 <script>
+import { DB } from "../firebase";
+import firebase from "firebase";
 import DynamicRectangle from "./dynamic-rectangle";
-import { mapGetters } from "vuex";
 export default {
   name: "ArtifactsLayer",
+  firebase: {
+    artifacts: DB.ref("testWB")
+  },
   data() {
     return {
       shapes: []
     };
-  },
-  computed: {
-    ...mapGetters(["storedRectangles"])
   },
   components: {
     DynamicRectangle

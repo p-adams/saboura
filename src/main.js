@@ -5,9 +5,11 @@ import App from "./App";
 import router from "./router";
 import store from "./vuex/store.js";
 import Vuetify from "vuetify";
+import Vuefire from "vuefire";
 import "vuetify/dist/vuetify.css";
 import "svg.select.js/dist/svg.select.css";
 Vue.use(Vuetify);
+Vue.use(Vuefire);
 
 Vue.config.productionTip = false;
 

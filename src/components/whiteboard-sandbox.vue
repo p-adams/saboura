@@ -30,7 +30,6 @@
 </template>
 <script>
 import MainWhiteboard from "./main-whiteboard";
-import { mapActions } from "vuex";
 export default {
   name: "WhiteboardSandbox",
   data() {
@@ -39,13 +38,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["loadMockWhiteboard"]),
     createSandbox() {
       this.sandboxMenu = false;
     },
     loadSandbox() {
       this.sandboxMenu = false;
-      this.loadMockWhiteboard();
     }
   },
   components: {

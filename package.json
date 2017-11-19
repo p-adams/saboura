@@ -14,13 +14,15 @@
   },
   "dependencies": {
     "cuid": "^1.3.8",
-    "firebase": "^4.3.1",
+    "firebase": "^4.6.2",
+    "promise-polyfill": "^6.0.2",
     "svg.draggable.js": "^2.2.1",
     "svg.js": "^2.6.3",
     "svg.resize.js": "^1.4.1",
     "svg.select.js": "^2.1.2",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0",
+    "vuefire": "^1.4.4",
     "vuetify": "^0.15.7",
     "vuex": "^2.4.0"
   },

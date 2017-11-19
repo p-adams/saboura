@@ -7,6 +7,8 @@
   ></svg>
 </template>
 <script>
+import { DB } from "../firebase";
+import firebase from "firebase";
 import svg from "svg.js";
 import selectize from "svg.select.js";
 import resize from "svg.resize.js";
@@ -15,10 +17,6 @@ import { mapActions } from "vuex";
 export default {
   name: "DynamicRectangle",
   props: {
-    id: {
-      type: String,
-      required: true
-    },
     rectX: {
       type: Number,
       required: true
@@ -38,13 +36,19 @@ export default {
     rectFill: {
       type: String,
       default: "#E3F2FD"
+    },
+    itemKey: {
+      type: String
     }
   },
   mounted() {
-    // console.log(`id: ${this.id}`);
+    console.log(this.itemKey);
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
     this.rect.on("dragmove.namespace", function(event) {});
+  },
+  firebase: {
+    artifacts: DB.ref("testWB")
   },
   data() {
     return {
@@ -76,10 +80,7 @@ export default {
       this.rect.fire("deselect");
     },
     remove() {
-      // clear element from parent
-      this.draw.clear();
-      // remove artifact from whiteboard
-      this.removeArtifactFromWhiteboard({ id: this.id, artifact: "rectangle" });
+      this.$firebaseRefs.artifacts.child(this.itemKey).remove();
     },
     initShape() {
       this.rect = this.draw
