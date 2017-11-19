@@ -39,13 +39,26 @@ export default {
     },
     itemKey: {
       type: String
+    },
+    artifactType: {
+      type: String
     }
   },
   mounted() {
-    console.log(this.itemKey);
     this.draw = svg(this.$refs.shape).size(1000, 1000);
-    this.initShape();
-    this.rect.on("dragmove.namespace", function(event) {});
+    this.initArtifact();
+    this.rect.on("dragmove", event => {
+      const x = event.detail.event.target.x.animVal.value;
+      const y = event.detail.event.target.y.animVal.value;
+      this.$firebaseRefs.artifacts.child(this.itemKey).update({ x, y });
+    });
+    this.rect.on("resizing", event => {
+      const width = this.rect.node.width.animVal.value;
+      const height = this.rect.node.height.animVal.value;
+      this.$firebaseRefs.artifacts
+        .child(this.itemKey)
+        .update({ width, height });
+    });
   },
   firebase: {
     artifacts: DB.ref("testWB")
@@ -82,13 +95,19 @@ export default {
     remove() {
       this.$firebaseRefs.artifacts.child(this.itemKey).remove();
     },
-    initShape() {
-      this.rect = this.draw
-        .rect(this.width, this.height)
-        .fill(this.fill)
-        .style("cursor", "move")
-        .move(this.x, this.y);
-      this.rect.draggable();
+    initArtifact() {
+      switch (this.artifactType) {
+        case "rectangle":
+          this.rect = this.draw
+            .rect(this.width, this.height)
+            .fill(this.fill)
+            .style("cursor", "move")
+            .move(this.x, this.y);
+          this.rect.draggable();
+          break;
+        default:
+          console.log("not a dynamic artifact");
+      }
     }
   }
 };

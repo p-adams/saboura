@@ -1,12 +1,17 @@
 <template>
   <svg>
-    <!--<template v-for="(shape, key) in artifacts">
-      <component :key="key" :is="shape"></component>
-    </template>-->
+    <!--<template v-for="(shape, key) in selectedComponent">
+      <component
+        v-bind="shapeProps"
+        :key="key"
+        :is="shape"
+      ></component>
+    </template> -->
     <g>
       <dynamic-rectangle
         v-for="(rect, key) in artifacts"
         :key="key"
+        :artifact-type="rect.type"
         :item-key="rect['.key']"
         :rect-x="rect.x"
         :rect-y="rect.y"
@@ -14,7 +19,7 @@
         :rect-height="rect.height"
         :rect-fill="rect.fill"
       ></dynamic-rectangle>
-    </g>
+    </g>-->
   </svg>
 </template>
 <script>
