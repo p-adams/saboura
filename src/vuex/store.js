@@ -2,7 +2,11 @@ import Vue from "vue";
 import Vuex from "vuex";
 import remove from "lodash/remove";
 import cuid from "cuid";
-import { fetchArtifacts, saveArtifact } from "../api/whiteboard";
+import {
+  fetchArtifacts,
+  saveArtifact,
+  removeArtifact
+} from "../api/whiteboard";
 Vue.use(Vuex);
 
 const DRAWABLE_ARTIFACTS = [
@@ -83,14 +87,9 @@ const store = new Vuex.Store({
     setDrawingToolbarVisibility(state, visibility) {
       state.drawingToolbarIsVisible = visibility;
     },
-    removeArtifactFromWhiteboard(state, option) {
-      switch (option.shape) {
-        case "rectangle":
-          remove(state.rectangles, rectangle => rectangle.id === option.id);
-          break;
-        default:
-          console.log("shape does not exist");
-      }
+    removeRectangle(state, id) {
+      console.log(`remove ${id}`);
+      // remove(state.rectangles, rectangle => rectangle.id === option.id);
     }
   },
   actions: {
@@ -115,7 +114,9 @@ const store = new Vuex.Store({
       commit("setToolbarOption", state.previousToolbarOption);
     },
     setToolbarOption({ commit }, payload) {
+      // set the toolbar option
       commit("setToolbarOption", payload);
+      // check to see that selected artifact is a drawable artifact
       if (DRAWABLE_ARTIFACTS.indexOf(payload) !== -1) {
         switch (payload) {
           case "rectangle":
@@ -138,16 +139,28 @@ const store = new Vuex.Store({
             console.log("No artifact to create");
         }
       }
-      // commit("addArtifactToWhiteboard");
+    },
+    removeArtifactFromWhiteboard({ commit }, payload) {
+      // remove the artifact from the database by ID
+      removeArtifact(payload.id).then(artifacts => {
+        // remove artifact from whiteboard
+        switch (payload.artifact) {
+          case "rectangle":
+            console.log("I make it here");
+            commit("removeRectangle", payload.id);
+            break;
+          default:
+            console.log("Shape does not exist on whiteboard");
+        }
+        // update artifacts arrays
+        // commit("loadMockWhiteboard", artifacts);
+      });
     },
     setArtifactTool({ commit }, payload) {
       commit("setArtifactTool", payload);
     },
     setDrawingToolbarVisibility({ context }, payload) {
       commit("setDrawingToolbarVisibility", payload);
-    },
-    removeArtifactFromWhiteboard({ commit }, payload) {
-      commit("removeArtifactFromWhiteboard", payload);
     }
   },
   getters: {

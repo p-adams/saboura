@@ -41,7 +41,7 @@ export default {
     }
   },
   mounted() {
-    console.log(`id: ${this.id}`);
+    // console.log(`id: ${this.id}`);
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
     this.rect.on("dragmove.namespace", function(event) {});
@@ -79,7 +79,7 @@ export default {
       // clear element from parent
       this.draw.clear();
       // remove artifact from whiteboard
-      this.removeArtifactFromWhiteboard({ id: this.id, shape: "rectangle" });
+      this.removeArtifactFromWhiteboard({ id: this.id, artifact: "rectangle" });
     },
     initShape() {
       this.rect = this.draw

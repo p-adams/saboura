@@ -21,6 +21,16 @@ function saveArtifact(artifact) {
   return fetchArtifacts();
 }
 
-function removeArtifact() {}
+function removeArtifact(id) {
+  console.log(`remove from firebase ${id}`);
+  /*DB.ref("WhiteBoards")
+    .child("testWB")
+    .orderByValue()
+    .equalTo(id)
+    .on("child_added", snapshot => {
+      console.log(snapshot.ref);
+    });*/
+  return fetchArtifacts();
+}
 
-export { fetchArtifacts, saveArtifact };
+export { fetchArtifacts, saveArtifact, removeArtifact };
