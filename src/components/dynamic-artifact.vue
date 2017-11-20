@@ -1,10 +1,10 @@
 <template>
   <svg
     ref="shape"
-    @click.shift="select"
-    @click.alt="remove"
-    @dblclick="deselect"
   ></svg>
+  <!-- @click.shift="select"
+    @click.alt="remove"
+    @dblclick="deselect" -->
 </template>
 <script>
 import { DB } from "../firebase";
@@ -130,7 +130,6 @@ export default {
       this.artifact.fire("select");
     },
     deselect() {
-      console.log(this.artifactKey);
       this.artifact.fire("deselect");
     },
     remove() {

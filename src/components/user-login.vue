@@ -39,76 +39,83 @@
   </form-helper>
 </template>
 <script>
-import {DB} from '../firebase'
-import firebase from 'firebase'
-import FormHelper from './form-helper'
+import { DB } from "../firebase";
+import firebase from "firebase";
+import FormHelper from "./form-helper";
 export default {
-  name: 'UserLogin',
-  data () {
+  name: "UserLogin",
+  data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       emailRules: [
-        (v) => !!v || 'E-mail is required',
-        (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+        v => !!v || "E-mail is required",
+        v =>
+          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "E-mail must be valid"
       ],
       passwordRules: [
-        (v) => !!v || 'Password is required',
-        (v) => v.length > 6 || 'password must contain more than 6 characters'
+        v => !!v || "Password is required",
+        v => v.length > 6 || "password must contain more than 6 characters"
       ],
       attemptedLogin: false,
-      loginWarning: ''
-    }
+      loginWarning: ""
+    };
   },
   methods: {
-    setCurrentUser () {
-        this.$store.dispatch('setCurrentUser', {user: firebase.auth().currentUser.email})
+    setCurrentUser() {
+      this.$store.dispatch("setCurrentUser", {
+        user: firebase.auth().currentUser.email
+      });
     },
-    handleLogin () {
+    handleLogin() {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(result => {
-            this.$store.dispatch('login')
-            this.attemptedLogin = true
-            this.setCurrentUser()
-            this.$router.push({path: '/'})
-            this.handleLoginErrorAlert()
-            this.clearInputs()
+          this.$store.dispatch("login");
+          this.attemptedLogin = true;
+          this.setCurrentUser();
+          this.$router.push({ path: "/" });
+          this.handleLoginErrorAlert();
+          this.clearInputs();
         })
-        .catch(err =>  {
-            const errCode = err.code 
-            const errMsg = err.message 
-            console.log(errCode)
-            this.attemptedLogin = true
-            this.loginWarning = this.email === '' || this.password === '' ? 'please enter email and password' : 'user account not found'
-            this.handleLoginErrorAlert()
-            this.clearInputs()
-        })
-      },
-      handleLoginErrorAlert () {
-        setTimeout(() => {
-            this.attemptedLogin = false
-        }, 2000)
-      },
-      cancel () {
-        this.$router.push({path: '/'})
-      },
-      clearInputs () {
-        this.email = ''
-        this.password = ''
-      }
+        .catch(err => {
+          const errCode = err.code;
+          const errMsg = err.message;
+          console.log(errCode);
+          this.attemptedLogin = true;
+          this.loginWarning =
+            this.email === "" || this.password === ""
+              ? "please enter email and password"
+              : "user account not found";
+          this.handleLoginErrorAlert();
+          this.clearInputs();
+        });
+    },
+    handleLoginErrorAlert() {
+      setTimeout(() => {
+        this.attemptedLogin = false;
+      }, 2000);
+    },
+    cancel() {
+      this.$router.push({ path: "/" });
+    },
+    clearInputs() {
+      this.email = "";
+      this.password = "";
+    }
   },
   computed: {
-    isLoggedIn () {
-          return this.$store.getters.isLoggedIn
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     },
-    showLoginFailure () {
-          return this.attemptedLogin === true && this.isLoggedIn === false
-    },
+    showLoginFailure() {
+      return this.attemptedLogin === true && this.isLoggedIn === false;
+    }
   },
   components: {
-      FormHelper
+    FormHelper
   }
-}
+};
 </script>

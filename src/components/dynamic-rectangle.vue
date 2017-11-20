@@ -48,16 +48,16 @@ export default {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initArtifact();
     this.rect.on("dragmove", event => {
-      const x = event.detail.event.target.x.animVal.value;
+      /*const x = event.detail.event.target.x.animVal.value;
       const y = event.detail.event.target.y.animVal.value;
-      this.$firebaseRefs.artifacts.child(this.itemKey).update({ x, y });
+      this.$firebaseRefs.artifacts.child(this.itemKey).update({ x, y });*/
     });
     this.rect.on("resizing", event => {
-      const width = this.rect.node.width.animVal.value;
+      /*const width = this.rect.node.width.animVal.value;
       const height = this.rect.node.height.animVal.value;
       this.$firebaseRefs.artifacts
         .child(this.itemKey)
-        .update({ width, height });
+        .update({ width, height });*/
     });
   },
   firebase: {
@@ -93,7 +93,7 @@ export default {
       this.rect.fire("deselect");
     },
     remove() {
-      this.$firebaseRefs.artifacts.child(this.itemKey).remove();
+      // this.$firebaseRefs.artifacts.child(this.itemKey).remove();
     },
     initArtifact() {
       switch (this.artifactType) {

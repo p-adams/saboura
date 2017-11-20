@@ -51,6 +51,7 @@ export default {
     ...mapActions(["setToolbarOption"]),
     createdNewArtifact(title) {
       const artifact = {
+        cuid: "",
         type: "",
         x: 0,
         y: 0,
@@ -83,7 +84,8 @@ export default {
             artifact.y = 20;
             (artifact.width = 200), (artifact.height = 75);
             artifact.fill = "blue";
-            this.$firebaseRefs.artifacts.push(artifact);
+            // this.$firebaseRefs.artifacts.push(artifact);
+            DB.ref("testWB").push(artifact);
             break;
           case "circle":
             artifact.type = "circle";

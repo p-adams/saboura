@@ -16,24 +16,24 @@ export default {
   mixins: [Draggable],
   props: {
     xPosition: {
-      type: String,
+      type: Number,
       required: true
     },
     yPosition: {
-      type: String,
+      type: Number,
       required: true
     },
     rectangleWidth: {
-      type: String,
+      type: Number,
       require: true
     },
     rectangleHeight: {
-      type: String,
+      type: Number,
       required: true
     },
     rectangleFillColor: {
       type: String,
-      required: false
+      default: "green"
     }
   },
   data() {
