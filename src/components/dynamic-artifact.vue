@@ -1,10 +1,10 @@
 <template>
   <svg
     ref="shape"
+    @click.shift="select"
+    @dblclick="deselect"
   ></svg>
-  <!-- @click.shift="select"
-    @click.alt="remove"
-    @dblclick="deselect" -->
+
 </template>
 <script>
 import { DB } from "../firebase";
@@ -15,6 +15,9 @@ import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
 export default {
   name: "DynamicArtifact",
+  firebase: {
+    artifacts: DB.ref("testWB")
+  },
   props: {
     artifactX: {
       type: Number,
@@ -93,9 +96,6 @@ export default {
         .update({ width, height });
     });
   },
-  firebase: {
-    artifacts: DB.ref("testWB")
-  },
   data() {
     return {
       draw: "",
@@ -131,9 +131,6 @@ export default {
     },
     deselect() {
       this.artifact.fire("deselect");
-    },
-    remove() {
-      this.$firebaseRefs.artifacts.child(this.artifactKey).remove();
     },
     createDynamicRectangle() {
       this.artifact = this.draw

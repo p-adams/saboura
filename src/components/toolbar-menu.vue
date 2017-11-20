@@ -72,7 +72,10 @@ export default {
         { title: "bubble", icon: "bubble_chart", isIcon: true },
         { title: "note", icon: "note", isIcon: false },
         { title: "undo", icon: "undo", isIcon: true },
-        { title: "redo", icon: "redo", isIcon: true },
+        /*
+          uncomment once redo functionality is implemented
+          { title: "redo", icon: "redo", isIcon: true },
+        */
         { title: "save", icon: "save", isIcon: false },
         { title: "clear", icon: "empty_trash", isIcon: false }
       ]
