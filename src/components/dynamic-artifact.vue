@@ -166,7 +166,6 @@ export default {
       this.artifact.draggable();
     },
     createDynamicPolyline() {
-      console.log(this.points, this.fill);
       this.artifact = this.draw
         .polyline(this.points)
         .stroke({ width: this.stroke.width })
@@ -176,7 +175,6 @@ export default {
       this.artifact.draggable();
     },
     createDynamicPolygon() {
-      console.log(this.stroke, this.fill, this.polyString);
       this.artifact = this.draw
         .polygon(this.polyString)
         .fill("none")

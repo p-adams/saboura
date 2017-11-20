@@ -3,7 +3,7 @@
     <!-- might make all icons img -->
     <v-icon
       v-if="isIcon"
-      @click="setToolbarOption(title)"
+      @click="setToolbarOptionAndCreateArtifact(title)"
       large
       class="icon"
     >
@@ -11,7 +11,7 @@
     </v-icon>
     <img
       v-else
-      @click="setToolbarOption(title)"
+      @click="setToolbarOptionAndCreateArtifact(title)"
       class="icon"
       :src="srcURL"  
     />
@@ -48,7 +48,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["setToolbarOption"])
+    ...mapActions(["setToolbarOptionAndCreateArtifact"])
   },
   computed: {
     srcURL() {
