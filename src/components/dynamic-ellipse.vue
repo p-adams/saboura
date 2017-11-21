@@ -20,19 +20,22 @@ export default {
   props: {
     artifactCx: {
       type: Number,
-      required: false
+      required: true
     },
     artifactCy: {
       type: Number,
-      required: false
+      required: true
     },
     artifactRx: {
       type: Number,
-      required: false
+      required: true
     },
     artifactRy: {
       type: Number,
-      required: false
+      required: true
+    },
+    artifactTransform: {
+      required: true
     },
     artifactFill: {
       type: String,
@@ -55,6 +58,7 @@ export default {
       ry: this.artifactRy,
       cx: this.artifactCx,
       cy: this.artifactCy,
+      transform: this.artifactTransform,
       fill: this.artifactFill
     };
   },
@@ -80,9 +84,13 @@ export default {
 
         this.rx = this.ellipse.node.rx.animVal.value;
         this.ry = this.ellipse.node.ry.animVal.value;
-        this.$firebaseRefs.artifacts
-          .child(this.artifactKey)
-          .update({ cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry });
+        this.$firebaseRefs.artifacts.child(this.artifactKey).update({
+          cx: this.cx,
+          cy: this.cy,
+          rx: this.rx,
+          ry: this.ry,
+          transform: this.ellipse.transform()
+        });
       });
     }
   },
@@ -99,6 +107,9 @@ export default {
         .fill("blue")
         .style("cursor", "move")
         .move(this.cx, this.cy);
+      if (this.transform !== undefined) {
+        this.ellipse.transform(this.transform);
+      }
       this.ellipse.draggable();
     }
   }

@@ -102,7 +102,7 @@ export default {
         .style("cursor", "move")
         .move(this.cx, this.cy);
 
-      if (this.circle.transform !== undefined) {
+      if (this.transform !== undefined) {
         this.circle.transform(this.transform);
       }
       this.circle.draggable();

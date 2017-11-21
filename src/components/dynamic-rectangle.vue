@@ -97,7 +97,7 @@ export default {
         .fill(this.fill)
         .style("cursor", "move")
         .move(this.x, this.y);
-      if (this.rect.tranform !== undefined) {
+      if (this.transform !== undefined) {
         this.rect.transform(this.transform);
       }
       this.rect.draggable();

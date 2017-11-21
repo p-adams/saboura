@@ -42,6 +42,9 @@ export default {
       type: Number,
       required: true
     },
+    artifactTransform: {
+      required: true
+    },
     artifactStrokeWidth: {
       type: Number,
       required: false
@@ -69,6 +72,7 @@ export default {
       x2: this.artifactX2,
       y1: this.artifactY1,
       y2: this.artifactY2,
+      transform: this.artifactTransform,
       fill: this.artifactFill,
       stroke: this.artifactStrokeWidth
     };
@@ -93,14 +97,17 @@ export default {
       });
       // handle resize
       this.line.on("resizing", event => {
-        console.log(this.line.node);
         this.x1 = this.line.node.x1.animVal.value;
         this.x2 = this.line.node.x2.animVal.value;
         this.y1 = this.line.node.y1.animVal.value;
         this.y2 = this.line.node.y2.animVal.value;
-        this.$firebaseRefs.artifacts
-          .child(this.artifactKey)
-          .update({ x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 });
+        this.$firebaseRefs.artifacts.child(this.artifactKey).update({
+          x1: this.x1,
+          y1: this.y1,
+          x2: this.x2,
+          y2: this.y2,
+          transform: this.line.transform()
+        });
       });
     }
   },
@@ -121,6 +128,9 @@ export default {
         .fill(this.artifactFill)
         .style("cursor", "move")
         .move(this.x1, this.y1);
+      if (this.transform !== undefined) {
+        this.line.transform(this.transform);
+      }
       this.line.draggable();
     }
   }
