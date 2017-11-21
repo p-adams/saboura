@@ -2,7 +2,6 @@
   <svg
     ref="shape"
     @click.shift="select"
-    @click.alt="remove"
     @dblclick="deselect"
   ></svg>
 </template>
@@ -13,52 +12,37 @@ import svg from "svg.js";
 import selectize from "svg.select.js";
 import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
-import { mapActions } from "vuex";
 export default {
   name: "DynamicRectangle",
   props: {
-    rectX: {
+    artifactX: {
       type: Number,
       required: true
     },
-    rectY: {
+    artifactY: {
       type: Number,
       required: true
     },
-    rectWidth: {
+    artifactWidth: {
       type: Number,
-      required: true
+      required: false
     },
-    rectHeight: {
+    artifactHeight: {
       type: Number,
-      required: true
+      required: false
     },
-    rectFill: {
+    artifactFill: {
       type: String,
       default: "#E3F2FD"
     },
-    itemKey: {
-      type: String
-    },
-    artifactType: {
-      type: String
+    artifactKey: {
+      type: String,
+      required: true
     }
   },
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initArtifact();
-    this.rect.on("dragmove", event => {
-      /*const x = event.detail.event.target.x.animVal.value;
-      const y = event.detail.event.target.y.animVal.value;
-      this.$firebaseRefs.artifacts.child(this.itemKey).update({ x, y });*/
-    });
-    this.rect.on("resizing", event => {
-      /*const width = this.rect.node.width.animVal.value;
-      const height = this.rect.node.height.animVal.value;
-      this.$firebaseRefs.artifacts
-        .child(this.itemKey)
-        .update({ width, height });*/
-    });
   },
   firebase: {
     artifacts: DB.ref("testWB")
@@ -67,11 +51,11 @@ export default {
     return {
       draw: "",
       rect: "",
-      x: this.rectX,
-      y: this.rectY,
-      width: this.rectWidth,
-      height: this.rectHeight,
-      fill: this.rectFill
+      x: this.artifactX,
+      y: this.artifactY,
+      width: this.artifactWidth,
+      height: this.artifactHeight,
+      fill: this.artifactFill
     };
   },
   watch: {
@@ -82,32 +66,34 @@ export default {
       this.rect.on("deselect", e => {
         this.rect.selectize(false);
       });
+      this.rect.on("dragmove", event => {
+        const x = event.detail.event.target.x.animVal.value;
+        const y = event.detail.event.target.y.animVal.value;
+        this.$firebaseRefs.artifacts.child(this.artifactKey).update({ x, y });
+      });
+      this.rect.on("resizing", event => {
+        const width = this.rect.node.width.animVal.value;
+        const height = this.rect.node.height.animVal.value;
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ width, height });
+      });
     }
   },
   methods: {
-    ...mapActions(["removeArtifactFromWhiteboard"]),
     select() {
       this.rect.fire("select");
     },
     deselect() {
       this.rect.fire("deselect");
     },
-    remove() {
-      // this.$firebaseRefs.artifacts.child(this.itemKey).remove();
-    },
     initArtifact() {
-      switch (this.artifactType) {
-        case "rectangle":
-          this.rect = this.draw
-            .rect(this.width, this.height)
-            .fill(this.fill)
-            .style("cursor", "move")
-            .move(this.x, this.y);
-          this.rect.draggable();
-          break;
-        default:
-          console.log("not a dynamic artifact");
-      }
+      this.rect = this.draw
+        .rect(this.width, this.height)
+        .fill(this.fill)
+        .style("cursor", "move")
+        .move(this.x, this.y);
+      this.rect.draggable();
     }
   }
 };

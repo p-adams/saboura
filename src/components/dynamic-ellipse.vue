@@ -2,27 +2,60 @@
   <svg
     ref="shape"
     @click.shift="select"
-    @click.alt="remove"
     @dblclick="deselect"
   ></svg>
 </template>
 <script>
+import { DB } from "../firebase";
+import firebase from "firebase";
 import svg from "svg.js";
 import selectize from "svg.select.js";
 import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
-import { mapActions } from "vuex";
 export default {
   name: "DynamicEllipse",
+  firebase: {
+    artifacts: DB.ref("testWB")
+  },
+  props: {
+    artifactCx: {
+      type: Number,
+      required: false
+    },
+    artifactCy: {
+      type: Number,
+      required: false
+    },
+    artifactRx: {
+      type: Number,
+      required: false
+    },
+    artifactRy: {
+      type: Number,
+      required: false
+    },
+    artifactFill: {
+      type: String,
+      default: "#E3F2FD"
+    },
+    artifactKey: {
+      type: String,
+      required: true
+    }
+  },
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
-    this.ellipse.on("dragmove.namespace", function(event) {});
   },
   data() {
     return {
       draw: "",
-      ellipse: ""
+      ellipse: "",
+      rx: this.artifactRx,
+      ry: this.artifactRy,
+      cx: this.artifactCx,
+      cy: this.artifactCy,
+      fill: this.artifactFill
     };
   },
   watch: {
@@ -33,25 +66,39 @@ export default {
       this.ellipse.on("deselect", e => {
         this.ellipse.selectize(false);
       });
+      this.ellipse.on("dragmove", event => {
+        this.cx = event.detail.event.target.cx.animVal.value;
+        this.cy = event.detail.event.target.cy.animVal.value;
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ cx: this.cx, cy: this.cy });
+      });
+      // handle resize
+      this.ellipse.on("resizing", event => {
+        this.cx = this.ellipse.node.cx.animVal.value;
+        this.cy = this.ellipse.node.cy.animVal.value;
+
+        this.rx = this.ellipse.node.rx.animVal.value;
+        this.ry = this.ellipse.node.ry.animVal.value;
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry });
+      });
     }
   },
   methods: {
-    ...mapActions(["removeArtifactFromWhiteboard"]),
     select() {
       this.ellipse.fire("select");
     },
     deselect() {
       this.ellipse.fire("deselect");
     },
-    remove() {
-      this.draw.clear();
-    },
     initShape() {
       this.ellipse = this.draw
-        .ellipse(200, 100)
+        .ellipse(this.rx, this.ry)
         .fill("blue")
         .style("cursor", "move")
-        .move(20, 40);
+        .move(this.cx, this.cy);
       this.ellipse.draggable();
     }
   }

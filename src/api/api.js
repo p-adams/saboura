@@ -14,11 +14,15 @@ const DRAWABLE_ARTIFACTS = [
   "text"
 ];
 
-const artifact = {
+let artifact = {
   cuid: cuid(),
   type: "",
   x: 0,
   y: 0,
+  cx: 0,
+  cy: 0,
+  rx: 0,
+  ry: 0,
   width: 0,
   height: 0,
   radius: 0,
@@ -44,51 +48,63 @@ function createArtifact(title) {
   if (DRAWABLE_ARTIFACTS.indexOf(title) !== -1) {
     switch (title) {
       case "rectangle":
-        artifact.type = "rectangle";
-        artifact.x = 20;
-        artifact.y = 20;
-        (artifact.width = 200), (artifact.height = 75);
-        artifact.fill = "blue";
-        artifacts.push(artifact);
+        artifacts.push({
+          cuid: cuid(),
+          type: "rectangle",
+          x: 20,
+          y: 20,
+          width: 200,
+          height: 75,
+          fill: "blue"
+        });
         break;
       case "circle":
-        artifact.type = "circle";
-        artifact.x = 100;
-        artifact.y = 120;
-        artifact.radius = 100;
-        artifact.fill = "green";
-        artifacts.push(artifact);
+        artifacts.push({
+          cuid: cuid(),
+          type: "circle",
+          cx: 100,
+          cy: 120,
+          radius: 100,
+          fill: "green"
+        });
         break;
       case "ellipse":
-        artifact.type = "ellipse";
-        artifact.x = 40;
-        artifact.y = 80;
-        (artifact.width = 175), (artifact.height = 75);
-        artifact.fill = "purple";
-        artifacts.push(artifact);
+        artifacts.push({
+          cuid: cuid(),
+          type: "ellipse",
+          cx: 40,
+          cy: 80,
+          rx: 175,
+          ry: 75,
+          fill: "purple"
+        });
         break;
       case "line":
-        artifact.type = "line";
-        artifact.x = 100;
-        artifact.y = 120;
-        artifact.lineCoords.x1 = 0;
-        artifact.lineCoords.y1 = 0;
-        artifact.lineCoords.x2 = 100;
-        artifact.lineCoords.y2 = 200;
-        artifact.stroke.width = 10;
-        artifact.fill = "green";
-        artifacts.push(artifact);
+        artifacts.push({
+          cuid: cuid(),
+          type: "line",
+          x: 100,
+          y: 120,
+          x1: 0,
+          y1: 0,
+          x2: 100,
+          y2: 200,
+          strokeWidth: 10,
+          fill: "green"
+        });
         break;
       case "polyline":
-        artifact.type = "polyline";
-        artifact.x = 400;
-        artifact.y = 300;
-        artifact.polylinePoints = "0,0 100,50 50,100";
-        artifact.stroke.width = 5;
-        artifact.fill = "red";
-        artifacts.push(artifact);
+        artifacts.push({
+          cuid: cuid(),
+          type: "polyline",
+          x: 400,
+          y: 300,
+          polylinePoints: "0,0 100,50 50,100",
+          strokeWidth: 5,
+          fill: "red"
+        });
         break;
-      case "polygon":
+      /* case "polygon":
         artifact.type = "polygon";
         artifact.x = 100;
         artifact.y = 120;
@@ -116,7 +132,7 @@ function createArtifact(title) {
         artifact.font.fill = "black";
         artifact.font.family = "Helvetica";
         artifacts.push(artifact);
-        break;
+        break;*/
       default:
         console.log("No artifact to create");
     }

@@ -7,6 +7,8 @@
   ></svg>
 </template>
 <script>
+import { DB } from "../firebase";
+import firebase from "firebase";
 import svg from "svg.js";
 import selectize from "svg.select.js";
 import resize from "svg.resize.js";
@@ -14,6 +16,9 @@ import draggable from "svg.draggable.js";
 import { mapActions } from "vuex";
 export default {
   name: "DynamicPolyline",
+  firebase: {
+    artifacts: DB.ref("testWB")
+  },
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
@@ -36,7 +41,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["removeArtifactFromWhiteboard"]),
     select() {
       this.polyline.fire("select");
     },

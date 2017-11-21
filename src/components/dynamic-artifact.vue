@@ -27,6 +27,22 @@ export default {
       type: Number,
       required: true
     },
+    artifactCx: {
+      type: Number,
+      required: false
+    },
+    artifactCy: {
+      type: Number,
+      required: false
+    },
+    artifactRx: {
+      type: Number,
+      required: false
+    },
+    artifactRy: {
+      type: Number,
+      required: false
+    },
     artifactWidth: {
       type: Number,
       required: false
@@ -83,18 +99,6 @@ export default {
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initArtifact();
-    this.artifact.on("dragmove", event => {
-      const x = event.detail.event.target.x.animVal.value;
-      const y = event.detail.event.target.y.animVal.value;
-      this.$firebaseRefs.artifacts.child(this.artifactKey).update({ x, y });
-    });
-    this.artifact.on("resizing", event => {
-      const width = this.artifact.node.width.animVal.value;
-      const height = this.artifact.node.height.animVal.value;
-      this.$firebaseRefs.artifacts
-        .child(this.artifactKey)
-        .update({ width, height });
-    });
   },
   data() {
     return {
@@ -102,6 +106,10 @@ export default {
       artifact: "",
       x: this.artifactX,
       y: this.artifactY,
+      cx: this.artifactCx,
+      cy: this.artifactCy,
+      rx: this.artifactRx,
+      ry: this.artifactRy,
       radius: this.artifactRadius,
       width: this.artifactWidth,
       height: this.artifactHeight,
@@ -117,11 +125,61 @@ export default {
   },
   watch: {
     artifact: function() {
+      // handle artifact select
       this.artifact.on("select", e => {
         this.artifact.selectize().resize();
       });
+      // handle artifact deselect
       this.artifact.on("deselect", e => {
         this.artifact.selectize(false);
+      });
+      // handle drag movement
+      this.artifact.on("dragmove", event => {
+        let moveX = "";
+        let moveY = "";
+        if (this.artifactType === "rectangle") {
+          this.x = event.detail.event.target.x.animVal.value;
+          this.y = event.detail.event.target.y.animVal.value;
+          this.$firebaseRefs.artifacts
+            .child(this.artifactKey)
+            .update({ x: this.x, y: this.y });
+        } else if (
+          this.artifactType === "circle" ||
+          this.artifactType === "ellipse"
+        ) {
+          this.cx = event.detail.event.target.cx.animVal.value;
+          this.cy = event.detail.event.target.cy.animVal.value;
+          this.$firebaseRefs.artifacts
+            .child(this.artifactKey)
+            .update({ cx: this.cx, cy: this.cy });
+        } else if (this.artifactType === "line") {
+          console.log(event.detail.event.target);
+        }
+      });
+      // handle resize
+      this.artifact.on("resizing", event => {
+        if (this.artifactType === "rectangle") {
+          this.width = this.artifact.node.width.animVal.value;
+          this.height = this.artifact.node.height.animVal.value;
+          this.$firebaseRefs.artifacts
+            .child(this.artifactKey)
+            .update({ width: this.width, height: this.height });
+        } else if (this.artifactType === "circle") {
+          this.cx = this.artifact.node.cx.animVal.value;
+          this.cy = this.artifact.node.cy.animVal.value;
+          this.radius = this.artifact.node.r.animVal.value;
+          this.$firebaseRefs.artifacts
+            .child(this.artifactKey)
+            .update({ radius: this.radius, cx: this.cx, cy: this.cy });
+        } else if (this.artifactType === "ellipse") {
+          this.cx = this.artifact.node.cx.animVal.value;
+          this.cy = this.artifact.node.cy.animVal.value;
+          this.rx = this.artifact.node.rx.animVal.value;
+          this.ry = this.artifact.node.ry.animVal.value;
+          this.$firebaseRefs.artifacts
+            .child(this.artifactKey)
+            .update({ cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry });
+        }
       });
     }
   },
@@ -145,15 +203,15 @@ export default {
         .circle(this.radius)
         .fill(this.fill)
         .style("cursor", "move")
-        .move(this.x, this.y);
+        .move(this.cx, this.cy);
       this.artifact.draggable();
     },
     createDynamicEllipse() {
       this.artifact = this.draw
-        .ellipse(this.width, this.height)
+        .ellipse(this.rx, this.ry)
         .fill(this.fill)
         .style("cursor", "move")
-        .move(this.x, this.y);
+        .move(this.cx, this.cy);
       this.artifact.draggable();
     },
     createDynamicLine() {

@@ -2,27 +2,75 @@
   <svg
     ref="shape"
     @click.shift="select"
-    @click.alt="remove"
     @dblclick="deselect"
   ></svg>
 </template>
 <script>
+import { DB } from "../firebase";
+import firebase from "firebase";
 import svg from "svg.js";
 import selectize from "svg.select.js";
 import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
-import { mapActions } from "vuex";
 export default {
   name: "DynamicLine",
+  firebase: {
+    artifacts: DB.ref("testWB")
+  },
+  props: {
+    artifactX: {
+      type: Number,
+      required: true
+    },
+    artifactY: {
+      type: Number,
+      required: true
+    },
+    artifactX1: {
+      type: Number,
+      required: true
+    },
+    artifactX2: {
+      type: Number,
+      required: true
+    },
+    artifactY1: {
+      type: Number,
+      required: true
+    },
+    artifactY2: {
+      type: Number,
+      required: true
+    },
+    artifactStrokeWidth: {
+      type: Number,
+      required: false
+    },
+    artifactFill: {
+      type: String,
+      default: "#E3F2FD"
+    },
+    artifactKey: {
+      type: String,
+      required: true
+    }
+  },
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
-    this.line.on("dragmove.namespace", function(event) {});
   },
   data() {
     return {
       draw: "",
-      line: ""
+      line: "",
+      x: this.artifactX,
+      y: this.artifactY,
+      x1: this.artifactX1,
+      x2: this.artifactX2,
+      y1: this.artifactY1,
+      y2: this.artifactY2,
+      fill: this.artifactFill,
+      stroke: this.artifactStrokeWidth
     };
   },
   watch: {
@@ -33,10 +81,30 @@ export default {
       this.line.on("deselect", e => {
         this.line.selectize(false);
       });
+      // handle drag
+      this.line.on("dragmove", event => {
+        this.x1 = event.detail.event.target.x1.animVal.value;
+        this.x2 = event.detail.event.target.x2.animVal.value;
+        this.y1 = event.detail.event.target.y1.animVal.value;
+        this.y2 = event.detail.event.target.y2.animVal.value;
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 });
+      });
+      // handle resize
+      this.line.on("resizing", event => {
+        console.log(this.line.node);
+        this.x1 = this.line.node.x1.animVal.value;
+        this.x2 = this.line.node.x2.animVal.value;
+        this.y1 = this.line.node.y1.animVal.value;
+        this.y2 = this.line.node.y2.animVal.value;
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 });
+      });
     }
   },
   methods: {
-    ...mapActions(["removeArtifactFromWhiteboard"]),
     select() {
       this.line.fire("select");
     },
@@ -48,11 +116,11 @@ export default {
     },
     initShape() {
       this.line = this.draw
-        .line(0, 0, 100, 150)
-        .stroke({ width: 10 })
-        .fill("green")
+        .line(this.x1, this.y1, this.x2, this.y2)
+        .stroke({ width: this.stroke })
+        .fill(this.artifactFill)
         .style("cursor", "move")
-        .move(20, 40);
+        .move(this.x1, this.y1);
       this.line.draggable();
     }
   }
