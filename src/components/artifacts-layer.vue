@@ -8,6 +8,7 @@
           :artifact-key="artifact['.key']"
           :artifact-x="artifact.x"
           :artifact-y="artifact.y"
+          :artifact-transform="artifact.transform"
           :artifact-width="artifact.width"
           :artifact-height="artifact.height"
           :artifact-fill="artifact.fill"
@@ -18,6 +19,7 @@
           :artifact-key="artifact['.key']"
           :artifact-cx="artifact.cx"
           :artifact-cy="artifact.cy"
+          :artifact-transform="artifact.transform"
           :artifact-radius="artifact.radius"
           :artifact-fill="artifact.fill"
           
@@ -30,6 +32,7 @@
           :artifact-cy="artifact.cy"
           :artifact-rx="artifact.rx"
           :artifact-ry="artifact.ry"
+          :artifact-transform="artifact.transform"
           :artifact-fill="artifact.fill"
         ></dynamic-ellipse>
         <dynamic-line
@@ -42,6 +45,7 @@
           :artifact-x2="artifact.x2"
           :artifact-y1="artifact.y1"
           :artifact-y2="artifact.y2"
+          :artifact-transform="artifact.transform"
           :artifact-fill="artifact.fill"
           :artifact-stroke-width="artifact.strokeWidth"
           ></dynamic-line>

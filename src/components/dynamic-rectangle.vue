@@ -23,6 +23,9 @@ export default {
       type: Number,
       required: true
     },
+    artifactTransform: {
+      required: true
+    },
     artifactWidth: {
       type: Number,
       required: false
@@ -55,7 +58,8 @@ export default {
       y: this.artifactY,
       width: this.artifactWidth,
       height: this.artifactHeight,
-      fill: this.artifactFill
+      fill: this.artifactFill,
+      transform: this.artifactTransform
     };
   },
   watch: {
@@ -76,7 +80,7 @@ export default {
         const height = this.rect.node.height.animVal.value;
         this.$firebaseRefs.artifacts
           .child(this.artifactKey)
-          .update({ width, height });
+          .update({ width, height, transform: this.rect.transform() });
       });
     }
   },
@@ -93,6 +97,9 @@ export default {
         .fill(this.fill)
         .style("cursor", "move")
         .move(this.x, this.y);
+      if (this.rect.tranform !== undefined) {
+        this.rect.transform(this.transform);
+      }
       this.rect.draggable();
     }
   }

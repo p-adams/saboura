@@ -12,6 +12,7 @@ function createArtifact(title) {
         artifacts.push({
           cuid: cuid(),
           type: "rectangle",
+          transform: "",
           x: 20,
           y: 20,
           width: 200,
@@ -23,6 +24,7 @@ function createArtifact(title) {
         artifacts.push({
           cuid: cuid(),
           type: "circle",
+          transform: "",
           cx: 100,
           cy: 120,
           radius: 100,
@@ -33,6 +35,7 @@ function createArtifact(title) {
         artifacts.push({
           cuid: cuid(),
           type: "ellipse",
+          transform: "",
           cx: 40,
           cy: 80,
           rx: 175,
@@ -44,6 +47,7 @@ function createArtifact(title) {
         artifacts.push({
           cuid: cuid(),
           type: "line",
+          transform: "",
           x: 100,
           y: 120,
           x1: 0,
@@ -58,6 +62,7 @@ function createArtifact(title) {
         artifacts.push({
           cuid: cuid(),
           type: "polyline",
+          transform: "",
           x: 400,
           y: 300,
           polylinePoints: [0, 0, 100, 50, 50, 100],

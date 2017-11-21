@@ -26,6 +26,9 @@ export default {
       type: Number,
       required: false
     },
+    artifactTransform: {
+      required: true
+    },
     artifactRadius: {
       type: Number,
       required: false
@@ -49,6 +52,7 @@ export default {
       circle: "",
       cx: this.artifactCx,
       cy: this.artifactCy,
+      transform: this.artifactTransform,
       radius: this.artifactRadius,
       fill: this.artifactFill
     };
@@ -65,18 +69,22 @@ export default {
       this.circle.on("dragmove", event => {
         this.cx = event.detail.event.target.cx.animVal.value;
         this.cy = event.detail.event.target.cy.animVal.value;
-        this.$firebaseRefs.artifacts
-          .child(this.artifactKey)
-          .update({ cx: this.cx, cy: this.cy });
+        this.$firebaseRefs.artifacts.child(this.artifactKey).update({
+          cx: this.cx,
+          cy: this.cy
+        });
       });
       // handle resize
       this.circle.on("resizing", event => {
         this.cx = this.circle.node.cx.animVal.value;
         this.cy = this.circle.node.cy.animVal.value;
         this.radius = this.circle.node.r.animVal.value;
-        this.$firebaseRefs.artifacts
-          .child(this.artifactKey)
-          .update({ radius: this.radius, cx: this.cx, cy: this.cy });
+        this.$firebaseRefs.artifacts.child(this.artifactKey).update({
+          radius: this.radius,
+          cx: this.cx,
+          cy: this.cy,
+          transform: this.circle.transform()
+        });
       });
     }
   },
@@ -93,6 +101,10 @@ export default {
         .fill(this.fill)
         .style("cursor", "move")
         .move(this.cx, this.cy);
+
+      if (this.circle.transform !== undefined) {
+        this.circle.transform(this.transform);
+      }
       this.circle.draggable();
     }
   }
