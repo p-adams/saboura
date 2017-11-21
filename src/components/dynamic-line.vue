@@ -61,6 +61,17 @@ export default {
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
+    DB.ref("testWB").on("value", snapshot => {
+      let updatedProperties = snapshot.val();
+      for (let property in updatedProperties) {
+        let prop = updatedProperties[property];
+        if (prop.type === "line") {
+          this.line.plot(prop.x1, prop.y1, prop.x2, prop.y2);
+          this.line.move(prop.cx, prop.cy);
+          this.line.transform(prop.transform);
+        }
+      }
+    });
   },
   data() {
     return {

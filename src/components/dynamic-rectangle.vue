@@ -46,6 +46,18 @@ export default {
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initArtifact();
+    DB.ref("testWB").on("value", snapshot => {
+      let updatedProperties = snapshot.val();
+      for (let property in updatedProperties) {
+        let prop = updatedProperties[property];
+        if (prop.type === "rectangle") {
+          this.rect.width(prop.width);
+          this.rect.height(prop.height);
+          this.rect.move(prop.x, prop.y);
+          this.rect.transform(prop.transform);
+        }
+      }
+    });
   },
   firebase: {
     artifacts: DB.ref("testWB")
@@ -71,16 +83,20 @@ export default {
         this.rect.selectize(false);
       });
       this.rect.on("dragmove", event => {
-        const x = event.detail.event.target.x.animVal.value;
-        const y = event.detail.event.target.y.animVal.value;
-        this.$firebaseRefs.artifacts.child(this.artifactKey).update({ x, y });
-      });
-      this.rect.on("resizing", event => {
-        const width = this.rect.node.width.animVal.value;
-        const height = this.rect.node.height.animVal.value;
+        this.x = event.detail.event.target.x.animVal.value;
+        this.y = event.detail.event.target.y.animVal.value;
         this.$firebaseRefs.artifacts
           .child(this.artifactKey)
-          .update({ width, height, transform: this.rect.transform() });
+          .update({ x: this.x, y: this.y });
+      });
+      this.rect.on("resizing", event => {
+        this.width = this.rect.node.width.animVal.value;
+        this.height = this.rect.node.height.animVal.value;
+        this.$firebaseRefs.artifacts.child(this.artifactKey).update({
+          width: this.width,
+          height: this.height,
+          transform: this.rect.transform()
+        });
       });
     }
   },
@@ -91,6 +107,7 @@ export default {
     deselect() {
       this.rect.fire("deselect");
     },
+    // handle initial rendering
     initArtifact() {
       this.rect = this.draw
         .rect(this.width, this.height)

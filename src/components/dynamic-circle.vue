@@ -45,6 +45,17 @@ export default {
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
+    DB.ref("testWB").on("value", snapshot => {
+      let updatedProperties = snapshot.val();
+      for (let property in updatedProperties) {
+        let prop = updatedProperties[property];
+        if (prop.type === "circle") {
+          this.circle.radius(prop.radius);
+          this.circle.move(prop.cx, prop.cy);
+          this.circle.transform(prop.transform);
+        }
+      }
+    });
   },
   data() {
     return {

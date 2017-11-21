@@ -49,6 +49,18 @@ export default {
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
+    DB.ref("testWB").on("value", snapshot => {
+      let updatedProperties = snapshot.val();
+      for (let property in updatedProperties) {
+        let prop = updatedProperties[property];
+        if (prop.type === "ellipse") {
+          this.ellipse.rx(prop.rx);
+          this.ellipse.ry(prop.ry);
+          this.ellipse.move(prop.cx, prop.cy);
+          this.ellipse.transform(prop.transform);
+        }
+      }
+    });
   },
   data() {
     return {

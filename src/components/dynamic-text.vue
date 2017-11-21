@@ -47,6 +47,15 @@ export default {
   mounted() {
     this.draw = svg(this.$refs.shape).size(1000, 1000);
     this.initShape();
+    DB.ref("testWB").on("value", snapshot => {
+      let updatedProperties = snapshot.val();
+      for (let property in updatedProperties) {
+        let prop = updatedProperties[property];
+        if (prop.type === "text") {
+          this.text.move(prop.x, prop.y);
+        }
+      }
+    });
   },
   data() {
     return {
