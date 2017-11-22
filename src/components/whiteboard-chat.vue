@@ -14,7 +14,6 @@
             <v-flex>
               <v-card>
               <v-card-title>Collaborators</v-card-title>
-              <!-- add overflow/scroll -->
               <v-container
                 style="max-height: 200px"
                 class="scroll-y"
@@ -67,7 +66,6 @@
                 <v-card-title>Messages</v-card-title>
 
                 <!-- show chat messages -->
-                 <!-- add overflow/scroll -->
                 <v-container
                   style="max-height: 400px"
                   class="scroll-y"
