@@ -3,7 +3,13 @@
     <v-app dark>
       <app-bar></app-bar>
       <div class="router-view">
-        <router-view></router-view>
+        <v-container>
+          <v-layout>
+            <v-flex>
+              <router-view></router-view>
+            </v-flex>
+          </v-layout>
+        </v-container>
       </div>
       <v-footer class="pa-3">
         <v-spacer></v-spacer>

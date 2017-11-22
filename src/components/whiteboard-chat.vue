@@ -14,6 +14,7 @@
             <v-flex>
               <v-card>
               <v-card-title>Collaborators</v-card-title>
+              <!-- add overflow/scroll -->
               <v-container>
                 <v-layout>
                   <v-flex>
@@ -55,9 +56,23 @@
                 <v-card-title>Messages</v-card-title>
 
                 <!-- show chat messages -->
+                 <!-- add overflow/scroll -->
                 <v-container>
                   <v-layout>
                     <v-flex>
+                      <v-list>
+                        <template v-for="(message, index) in messages">
+                          <v-list-tile :key="index">
+                            <v-list-tile-content>
+                              <span>{{ message.author }} ({{ message.time }}) said : {{ message.body }}</span>
+                            </v-list-tile-content>
+                           </v-list-tile>
+                          <v-divider
+                            v-if="index + 1 < messages.length"
+                            :key="index"
+                          ></v-divider>
+                        </template>
+                      </v-list>
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -67,13 +82,12 @@
                 <v-container>
                   <v-layout>
                     <v-flex>
-                      <v-text-field
+                      <input
                         autofocus
                         @keypress.enter="sendMessage"
                         v-model="message"
                         placeholder="type message"
-                        :counter="75"
-                      ></v-text-field>
+                      ></input>
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -90,8 +104,17 @@
   </v-container>
 </template>
 <script>
+import moment from "moment";
+import { DB } from "../firebase";
+import firebase from "firebase";
+import { mapGetters } from "vuex";
 export default {
   name: "WhiteboardChat",
+  firebase: {
+    messages: DB.ref("testMessages"),
+    collaborators: DB.ref("testCollaborators")
+  },
+  created() {},
   data() {
     return {
       message: "",
@@ -102,18 +125,50 @@ export default {
     };
   },
   methods: {
+    generateMockMessages() {
+      this.$firebaseRefs.messages.push({
+        body: "Hi",
+        author: "John",
+        time: moment().format("h:mm:ss a")
+      });
+    },
+    generateMockCollaborators() {
+      this.$firebaseRefs.collaborators.push({
+        active: true,
+        name: "John Smith"
+      });
+      this.$firebaseRefs.collaborators.push({
+        active: false,
+        name: "Mary Smith"
+      });
+    },
     selectCollaborator(collaborator) {
       console.log(collaborator);
     },
     sendMessage() {
-      console.log(this.message);
-      // not clearing text area
+      this.$firebaseRefs.messages.push({
+        body: this.message,
+        author: "Guest",
+        time: moment().format("h:mm:ss a")
+      });
       this.message = " ";
     }
+  },
+  computed: {
+    ...mapGetters(["showCurrentUser"])
   }
 };
 </script>
 <style scoped>
-
+input {
+  border: 1px solid lightb;
+  border-radius: 4px;
+  height: 35px;
+  width: 500px;
+  font-size: 16px;
+  padding: 5px;
+  color: black;
+  background: white;
+}
 </style>
 
