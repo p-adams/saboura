@@ -15,8 +15,19 @@
               <v-card>
               <v-card-title>Collaborators</v-card-title>
               <!-- add overflow/scroll -->
-              <v-container>
-                <v-layout>
+              <v-container
+                style="max-height: 200px"
+                class="scroll-y"
+                id="scroll-target"
+              >
+                <v-layout
+                  column
+                  v-scroll="{
+                    target: '#scroll-target',
+                    callback: this.onScroll
+                  }"
+                  style="height: 1500px"
+                >
                   <v-flex>
                     <v-list>
                       <template v-for="(collaborator, index) in collaborators">
@@ -57,8 +68,19 @@
 
                 <!-- show chat messages -->
                  <!-- add overflow/scroll -->
-                <v-container>
-                  <v-layout>
+                <v-container
+                  style="max-height: 400px"
+                  class="scroll-y"
+                  id="scroll-target"
+                >
+                  <v-layout
+                    column
+                    v-scroll="{
+                      target: '#scroll-target',
+                      callback: this.onScroll
+                    }"
+                    style="height: 2000px"
+                  >
                     <v-flex>
                       <v-list>
                         <template v-for="(message, index) in messages">
