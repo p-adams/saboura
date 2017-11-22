@@ -45,7 +45,7 @@ export default {
     }
   },
   mounted() {
-    this.draw = svg(this.$refs.shape).size(1000, 1000);
+    this.draw = svg(this.$refs.shape).size(1750, 1000);
     this.initShape();
     DB.ref("testWB")
       .child(this.artifactKey)

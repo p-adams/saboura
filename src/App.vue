@@ -14,21 +14,21 @@
 </template>
 
 <script>
-import AppBar from './components/app-bar'
+import AppBar from "./components/app-bar";
 export default {
-  name: 'app',
+  name: "app",
   components: {
     AppBar
   }
-}
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display:inline-block;
+  display: inline-block;
   width: 100%;
 }
 .router-view {

@@ -1,21 +1,29 @@
 <template>
   <div class="about-page">
-      <h1>About Saboura</h1>
+    <v-container>
+      <v-layout>
+        <p>About Saboura</p>
+        <p>temp chat placement</p>
+        <whiteboard-chat></whiteboard-chat>
+      </v-layout>
+    </v-container>
   </div>
 </template>
 <script>
+import WhiteboardChat from "./whiteboard-chat";
 export default {
-  name: 'about'
-}
+  name: "about",
+  components: {
+    WhiteboardChat
+  }
+};
 </script>
 <style scoped>
-  /* setting margin-top moves parent div down too! */
-  .about-page {
-    border: 1px solid red;
-  }
-  h1 {
-    color: white;
-  }
+/* setting margin-top moves parent div down too! */
+
+h1 {
+  color: white;
+}
 </style>
 
 

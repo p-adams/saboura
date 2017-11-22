@@ -56,8 +56,8 @@
             </div>
             <v-toolbar-title slot="extension" class="display-1">Saboura</v-toolbar-title>
             </v-toolbar>
-            <v-tabs-bar class="cyan">
-                <v-tabs-slider color="yellow"></v-tabs-slider>
+            <v-tabs-bar class="black">
+                <v-tabs-slider color="white"></v-tabs-slider>
                 <v-tabs-item
                     :key="1"
                     :href="'#tab-1'"

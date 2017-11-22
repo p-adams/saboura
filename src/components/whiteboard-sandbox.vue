@@ -5,7 +5,7 @@
           class="sandbox-menu"
         >
           <v-flex xs3>
-            <h6>Create in the sandbox, Not signed in? No problem, your creation is saved in local storage.</h6>
+            <h6>Create in the sandbox. You must create an account to save your progress.</h6>
           </v-flex>
           <v-flex
               class="flex"
