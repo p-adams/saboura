@@ -138,12 +138,12 @@ export default {
       this.$router.push({ path });
     },
     handleLogout() {
-      console.log("meow");
       firebase
         .auth()
         .signOut()
         .then(() => {
           this.$store.dispatch("logout");
+          this.$router.push({ path: "/" });
           console.log("goodbye");
         })
         .catch(err => {

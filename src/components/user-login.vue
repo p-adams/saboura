@@ -2,11 +2,11 @@
   <form-helper title="login">
     <div slot="transition">
       <transition name="fade">
-        <v-card-text v-show="showLoginFailure">     
+        <!--<v-card-text v-show="showLoginFailure">     
             <v-alert error value="true">
                 {{loginWarning}}
             </v-alert>
-        </v-card-text>
+        </v-card-text> -->
       </transition>
     </div>
     <div slot="elements">
@@ -76,7 +76,7 @@ export default {
           this.$store.dispatch("login");
           this.attemptedLogin = true;
           this.setCurrentUser();
-          this.$router.push({ path: "/" });
+          this.$router.push({ path: "/dashboard-page" });
           this.handleLoginErrorAlert();
           this.clearInputs();
         })

@@ -1,30 +1,40 @@
 <template>
   <v-container>
-        <v-layout
-          v-if="sandboxMenu"
-          class="sandbox-menu"
-        >
-          <v-flex xs3>
-            <h6>Create in the sandbox. You must create an account to save your progress.</h6>
-          </v-flex>
-          <v-flex
-              class="flex"
-              xs5
-          >
-          <v-card>
-              <v-btn @click="createSandbox">
-                create a new sandbox
-              </v-btn>
-               <v-btn @click="loadSandbox">
-                open saved sandbox
-              </v-btn>   
-          </v-card>
-          </v-flex>
-        </v-layout>
-        <v-layout v-else>
-          <v-flex xs12>
-            <main-whiteboard></main-whiteboard>
-          </v-flex>
+        <v-layout>
+          <v-flex>
+            <v-container
+              v-if="sandboxMenu"
+              class="sandbox-menu">
+              <v-layout>
+                <v-flex>
+                  <v-card>
+                    <v-container>
+                      <v-layout>
+                        <v-flex>
+                          <v-card-title>Create in the sandbox. You must create an account to save your progress.</v-card-title>
+                          <v-card-content>
+                          <v-btn @click="createSandbox">
+                          create a new sandbox
+                          </v-btn>
+                          <v-btn @click="loadSandbox">
+                          open saved sandbox
+                          </v-btn>   
+                          </v-card-content>
+                        </v-flex>
+                      </v-layout>
+                    </v-container>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-container> 
+            <v-container v-else>
+              <v-layout>
+              <v-flex xs12>
+                <main-whiteboard></main-whiteboard>
+              </v-flex>
+              </v-layout>
+            </v-container>
+           </v-flex>
         </v-layout>
     </v-container>
 </template>
@@ -50,5 +60,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+
+</style>
 
 

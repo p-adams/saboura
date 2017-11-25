@@ -2,11 +2,11 @@
     <form-helper title="registration">
         <div slot="transition">
           <transition name="fade">
-            <v-card-text v-show="showRegistrationFailure">     
+            <!--<v-card-text v-show="showRegistrationFailure">     
                 <v-alert error value="true">
                 {{registrationWarning}}
                 </v-alert>
-            </v-card-text>
+            </v-card-text>-->
           </transition>
         </div>
         <div slot="elements">
@@ -41,81 +41,87 @@
     </form-helper>
 </template>
 <script>
-import {DB} from '../firebase'
-import firebase from 'firebase'
-import { mapGetters } from 'vuex'
-import FormHelper from './form-helper'
+import { DB } from "../firebase";
+import firebase from "firebase";
+import { mapGetters } from "vuex";
+import FormHelper from "./form-helper";
 export default {
-  name: 'UserRegistration',
-  data () {
-      return {
-          email: '',
-          password: '',
-          attemptedRegistration: false,
-          registrationWarning: '',
-          emailRules: [
-            (v) => !!v || 'E-mail is required',
-            (v) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
-          ],
-          passwordRules: [
-            (v) => !!v || 'Password is required',
-            (v) => v.length > 6 || 'password must contain more than 6 characters'
-          ],
-      }
+  name: "UserRegistration",
+  data() {
+    return {
+      email: "",
+      password: "",
+      attemptedRegistration: false,
+      registrationWarning: "",
+      emailRules: [
+        v => !!v || "E-mail is required",
+        v =>
+          /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "E-mail must be valid"
+      ],
+      passwordRules: [
+        v => !!v || "Password is required",
+        v => v.length > 6 || "password must contain more than 6 characters"
+      ]
+    };
   },
   methods: {
-    setCurrentUser () {
-        this.$store.dispatch('setCurrentUser', {user: firebase.auth().currentUser.email})
+    setCurrentUser() {
+      this.$store.dispatch("setCurrentUser", {
+        user: firebase.auth().currentUser.email
+      });
     },
-    handleRegistration () {
-        firebase
+    handleRegistration() {
+      firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
         .then(result => {
-            DB.ref('Users').push({
-                uid: result.uid,
-                username: this.email,
-                hasPen: false,
-                boards: ['mockWB']
-            })
-            this.$store.dispatch('login')
-            this.setCurrentUser()
-            this.attemptedRegistration = true
-            this.clearInputs()
+          DB.ref("Users").push({
+            uid: result.uid,
+            username: this.email,
+            hasPen: false,
+            boards: ["mockWB"]
+          });
+          this.$store.dispatch("login");
+          this.setCurrentUser();
+          this.attemptedRegistration = true;
+          this.$router.push({ path: "/dashboard-page" });
+          this.clearInputs();
         })
-        .catch(err =>  {
-            const errCode = err.code 
-            const errMsg = err.message 
-            console.log(errCode)
-            this.attemptedRegistration = true
-            this.registrationWarning = this.email === '' || this.password === '' ? 'please enter email and password': 'email already in use'
-            this.handleRegistrationErrorAlert()
-            this.clearInputs()
-        })
+        .catch(err => {
+          const errCode = err.code;
+          const errMsg = err.message;
+          console.log(errCode);
+          this.attemptedRegistration = true;
+          this.registrationWarning =
+            this.email === "" || this.password === ""
+              ? "please enter email and password"
+              : "email already in use";
+          this.handleRegistrationErrorAlert();
+          this.clearInputs();
+        });
     },
-    handleRegistrationErrorAlert () {
-        setTimeout(() => {
-            this.attemptedRegistration = false
-        }, 2000)
+    handleRegistrationErrorAlert() {
+      setTimeout(() => {
+        this.attemptedRegistration = false;
+      }, 2000);
     },
-    cancel () {
-        this.$router.push({path: '/'})
+    cancel() {
+      this.$router.push({ path: "/" });
     },
-    clearInputs () {
-        this.email = ''
-        this.password = ''
+    clearInputs() {
+      this.email = "";
+      this.password = "";
     }
   },
   computed: {
-    ...mapGetters([
-        'isLoggedIn'
-    ]),
-    showRegistrationFailure () {
-        return this.attemptedRegistration === true && this.isLoggedIn === false
-    },
+    ...mapGetters(["isLoggedIn"]),
+    showRegistrationFailure() {
+      return this.attemptedRegistration === true && this.isLoggedIn === false;
+    }
   },
   components: {
-      FormHelper
+    FormHelper
   }
-}
+};
 </script>

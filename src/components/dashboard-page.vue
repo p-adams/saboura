@@ -70,18 +70,18 @@
                                     <v-list two-line>
                                     <v-list-tile
                                             class="tile-style"
-                                            v-for="whiteboard in whiteboards"
-                                            :key="whiteboard.index">
+                                            v-for="(whiteboard, key) in whiteboards"
+                                            :key="key">
                                             
                                         <v-list-tile-content class="tile-content">
                                             <v-list-tile-title class="tile-title">
-                                                <a href="#">{{whiteboard.name}}</a>
+                                                <a href="#">{{ whiteboard.name }}</a>
                                             </v-list-tile-title>
                                             <v-list-tile-sub-title>
                                                     <div class="board-description">
-                                                    <p>{{whiteboard.name}} is a test whiteboard</p>
+                                                    <p>{{ whiteboard.description }}</p>
                                                     <div>
-                                                        <span>({{participantsCount(whiteboard.boardData.participants)}}) user(s) currently in {{whiteboard.name}}</span>
+                                                        <!-- <span>({{participantsCount(whiteboard.boardData.participants)}}) user(s) currently in {{whiteboard.name}}</span> -->
                                                     </div>
                                                 </div>
                                             </v-list-tile-sub-title>
@@ -98,70 +98,93 @@
     </v-container>
 </template>
 <script>
-import {DB} from '../firebase'
-import firebase from 'firebase'
+import { DB } from "../firebase";
+import firebase from "firebase";
+import cuid from "cuid";
 export default {
-  name: 'DashboardPage',
-  created () {
-      console.log('created')
-      this.loadWhiteboards()
+  name: "DashboardPage",
+  firebase: {
+    whiteboards: DB.ref("mockWhiteboards")
   },
-  data () {
-      return {
-          whiteboards: [],
-          boardName: '',
-          boardDescription: '',
-          creationSuccess: false,
-          success: true
-      }
+  created() {
+    console.log("created");
+    // this.loadWhiteboards();
+  },
+  data() {
+    return {
+      whiteboards: [],
+      boardName: "",
+      boardDescription: "",
+      creationSuccess: false,
+      success: true
+    };
   },
   methods: {
-      loadWhiteboards () {
-          DB.ref('WhiteBoards').on('value', snapshot => {
-              Object.keys(snapshot.val()).forEach(key => {
-                  this.whiteboards.push({name: key, boardData: snapshot.val()[key]})
-              })
-          })
-      },
-      createWhiteboard () {
-          alert('create whiteboard')
-      },
-      participantsCount (participants) {
-            let count = 0
-            for (let p in participants) count++
-            return count
-      }
+    loadWhiteboards() {
+      this.$firebaseRefs.whiteboards.child("testWB").set({
+        cuid: cuid(),
+        name: "testWB",
+        description: "a test whiteboard"
+      });
+
+      this.$firebaseRefs.whiteboards
+        .child("testWB")
+        .child("collaborators")
+        .push({ name: "John Smith" });
+
+      this.$firebaseRefs.whiteboards
+        .child("testWB")
+        .child("artifacts")
+        .push({
+          cuid: cuid(),
+          type: "rectangle",
+          transform: "",
+          x: 20,
+          y: 20,
+          width: 200,
+          height: 75,
+          fill: "blue"
+        });
+    },
+    createWhiteboard() {
+      alert("create whiteboard");
+    },
+    participantsCount(participants) {
+      let count = 0;
+      for (let p in participants) count++;
+      return count;
+    }
   }
-}
+};
 </script>
 <style scoped>
-    .dashboard-layout {
-        margin-top: 60px;
-    }
-    h3 {
-        text-align: center;
-    }
-    .flex {
-        margin-left: 5%;
-        padding: 10px;
-    }
-    .tile-style {
-        margin-top: 10px;
-        padding: 10px;
-        border: 1px solid lightgray;
-        background: white;
-        height: 175px;
-    }
-    .board-description {
-        margin-top: 5px;
-        color: darkgray;
-    }
-    .tile-title {
-        margin-top: 15px;
-    }
-    .tile-content {
-        padding: 0;
-        height: 175px;
-    }
+.dashboard-layout {
+  margin-top: 60px;
+}
+h3 {
+  text-align: center;
+}
+.flex {
+  margin-left: 5%;
+  padding: 10px;
+}
+.tile-style {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid lightgray;
+  background: white;
+  height: 175px;
+}
+.board-description {
+  margin-top: 5px;
+  color: darkgray;
+}
+.tile-title {
+  margin-top: 15px;
+}
+.tile-content {
+  padding: 0;
+  height: 175px;
+}
 </style>
 
