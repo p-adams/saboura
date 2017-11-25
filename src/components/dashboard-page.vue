@@ -1,6 +1,7 @@
 <template>
     <v-container>
         <h3>Dashboard</h3>
+        <!-- only if logged in/registered-->
         <v-layout class="dashboard-layout">
             <v-flex
                 class="flex"
@@ -104,6 +105,7 @@
 import { DB } from "../firebase";
 import firebase from "firebase";
 import cuid from "cuid";
+import { mapActions } from "vuex";
 export default {
   name: "DashboardPage",
   firebase: {
@@ -123,9 +125,10 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["setWhiteboardId"]),
     loadWhiteboard(id) {
       this.$router.push({ path: `/whiteboard/${id}` });
-      console.log(id);
+      this.setWhiteboardId({ id });
     },
     loadWhiteboards() {
       // create test DB

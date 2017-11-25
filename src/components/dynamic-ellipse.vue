@@ -14,9 +14,6 @@ import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
 export default {
   name: "DynamicEllipse",
-  firebase: {
-    artifacts: DB.ref("testWB")
-  },
   props: {
     artifactCx: {
       type: Number,
@@ -44,22 +41,32 @@ export default {
     artifactKey: {
       type: String,
       required: true
+    },
+    whiteboardId: {
+      type: String,
+      required: false
     }
+  },
+  created() {
+    this.$bindAsArray(
+      "artifacts",
+      DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`)
+    );
   },
   mounted() {
     this.draw = svg(this.$refs.shape).size(1750, 1000);
     this.initShape();
-    DB.ref("testWB")
-      .child(this.artifactKey)
-      .on("value", snapshot => {
-        if (snapshot.val()) {
-          let prop = snapshot.val();
-          this.ellipse.rx(prop.rx);
-          this.ellipse.ry(prop.ry);
-          this.ellipse.move(prop.cx, prop.cy);
-          this.ellipse.transform(prop.transform);
-        }
-      });
+    DB.ref(
+      `mockWhiteboards/${this.whiteboardId}/artifacts/${this.artifactKey}`
+    ).on("value", snapshot => {
+      if (snapshot.val()) {
+        let prop = snapshot.val();
+        this.ellipse.rx(prop.rx);
+        this.ellipse.ry(prop.ry);
+        this.ellipse.move(prop.cx, prop.cy);
+        this.ellipse.transform(prop.transform);
+      }
+    });
   },
   data() {
     return {

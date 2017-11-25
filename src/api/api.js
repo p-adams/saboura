@@ -1,11 +1,12 @@
 import cuid from "cuid";
 import { DB } from "../firebase";
 import firebase from "firebase";
-const artifacts = DB.ref("testWB");
 
 const DRAWABLE_ARTIFACTS = ["rectangle", "circle", "ellipse", "line", "text"];
 
-function createArtifact(title) {
+function createArtifact(title, whiteboardId) {
+  console.log("create artifact", whiteboardId);
+  const artifacts = DB.ref(`mockWhiteboards/${whiteboardId}/artifacts`);
   if (DRAWABLE_ARTIFACTS.indexOf(title) !== -1) {
     switch (title) {
       case "rectangle":

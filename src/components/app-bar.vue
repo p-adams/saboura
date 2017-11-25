@@ -74,7 +74,7 @@
                     :key="3"
                     :href="'#tab-3'"
                 >
-                <span @click="onHandleRoute('/whiteboard-sandbox')">Sandbox</span>
+                <span @click="onHandleRoute('/dashboard-page')">Dashboard</span>
                 </v-tabs-item>
                 <v-tabs-item
                     v-show="!isLoggedIn"

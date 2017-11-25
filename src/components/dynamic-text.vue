@@ -15,9 +15,6 @@ import draggable from "svg.draggable.js";
 import { mapActions } from "vuex";
 export default {
   name: "DynamicText",
-  firebase: {
-    artifacts: DB.ref("testWB")
-  },
   props: {
     artifactX: {
       type: Number,
@@ -42,19 +39,29 @@ export default {
     artifactKey: {
       type: String,
       required: true
+    },
+    whiteboardId: {
+      type: String,
+      required: false
     }
+  },
+  created() {
+    this.$bindAsArray(
+      "artifacts",
+      DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`)
+    );
   },
   mounted() {
     this.draw = svg(this.$refs.shape).size(1750, 1000);
     this.initShape();
-    DB.ref("testWB")
-      .child(this.artifactKey)
-      .on("value", snapshot => {
-        if (snapshot.val()) {
-          let prop = snapshot.val();
-          this.text.move(prop.x, prop.y);
-        }
-      });
+    DB.ref(
+      `mockWhiteboards/${this.whiteboardId}/artifacts/${this.artifactKey}`
+    ).on("value", snapshot => {
+      if (snapshot.val()) {
+        let prop = snapshot.val();
+        this.text.move(prop.x, prop.y);
+      }
+    });
   },
   data() {
     return {

@@ -5,13 +5,11 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    mockUsers: [],
-    mockWhiteboards: [],
+    whiteboardId: "",
     loggedIn: false,
     currentUser: "",
     activeWhiteboards: [],
-    sandboxes: [],
-    contacts: [],
+
     previousToolbarOption: "",
     toolbarOption: "",
     drawingToolbarIsVisible: false
@@ -41,6 +39,9 @@ const store = new Vuex.Store({
     },
     setDrawingToolbarVisibility(state, visibility) {
       state.drawingToolbarIsVisible = visibility;
+    },
+    setWhiteboardId(state, options) {
+      state.whiteboardId = options.id;
     }
   },
   actions: {
@@ -59,17 +60,20 @@ const store = new Vuex.Store({
     restorePreviousToolbarOption({ commit, state }) {
       commit("setToolbarOption", state.previousToolbarOption);
     },
-    setToolbarOptionAndCreateArtifact({ commit }, title) {
+    setToolbarOptionAndCreateArtifact({ commit, state }, title) {
       // set the toolbar option
       commit("setToolbarOption", title);
       // create artifact
-      createArtifact(title);
+      createArtifact(title, state.whiteboardId);
     },
     setArtifactTool({ commit }, payload) {
       commit("setArtifactTool", payload);
     },
     setDrawingToolbarVisibility({ context }, payload) {
       commit("setDrawingToolbarVisibility", payload);
+    },
+    setWhiteboardId({ commit }, payload) {
+      commit("setWhiteboardId", payload);
     }
   },
   getters: {

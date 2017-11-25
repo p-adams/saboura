@@ -21,15 +21,12 @@ import WhiteboardBaseLayer from "./whiteboard-base-layer";
 import ArtifactsLayer from "./artifacts-layer";
 import ToolbarMenu from "./toolbar-menu";
 export default {
-  name: "SandboxBoard",
+  name: "DrawingArea",
   props: {
     whiteboardId: {
       type: String,
       required: true
     }
-  },
-  created() {
-    console.log("need to pass down", this.whiteboardId);
   },
   data() {
     return {

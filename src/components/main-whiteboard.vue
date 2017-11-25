@@ -10,9 +10,6 @@ import DrawingArea from "./drawing-area";
 export default {
   name: "MainWhiteboard",
   props: ["id"],
-  created() {
-    console.log("loading route", this.id);
-  },
   components: {
     DrawingArea
   }

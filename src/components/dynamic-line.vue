@@ -14,9 +14,6 @@ import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
 export default {
   name: "DynamicLine",
-  firebase: {
-    artifacts: DB.ref("testWB")
-  },
   props: {
     artifactX: {
       type: Number,
@@ -56,21 +53,31 @@ export default {
     artifactKey: {
       type: String,
       required: true
+    },
+    whiteboardId: {
+      type: String,
+      required: false
     }
+  },
+  created() {
+    this.$bindAsArray(
+      "artifacts",
+      DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`)
+    );
   },
   mounted() {
     this.draw = svg(this.$refs.shape).size(1750, 1000);
     this.initShape();
-    DB.ref("testWB")
-      .child(this.artifactKey)
-      .on("value", snapshot => {
-        if (snapshot.val()) {
-          let prop = snapshot.val();
-          this.line.plot(prop.x1, prop.y1, prop.x2, prop.y2);
-          this.line.move(prop.cx, prop.cy);
-          this.line.transform(prop.transform);
-        }
-      });
+    DB.ref(
+      `mockWhiteboards/${this.whiteboardId}/artifacts/${this.artifactKey}`
+    ).on("value", snapshot => {
+      if (snapshot.val()) {
+        let prop = snapshot.val();
+        this.line.plot(prop.x1, prop.y1, prop.x2, prop.y2);
+        this.line.move(prop.cx, prop.cy);
+        this.line.transform(prop.transform);
+      }
+    });
   },
   data() {
     return {

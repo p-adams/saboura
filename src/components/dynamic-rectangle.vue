@@ -41,25 +41,34 @@ export default {
     artifactKey: {
       type: String,
       required: true
+    },
+    whiteboardId: {
+      type: String,
+      required: false
     }
   },
+  created() {
+    this.$bindAsArray(
+      "artifacts",
+      DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`)
+    );
+  },
   mounted() {
+    console.log(this.artifactKey);
+    console.log(this.whiteboardId);
     this.draw = svg(this.$refs.shape).size(1750, 1000);
     this.initArtifact();
-    DB.ref("testWB")
-      .child(this.artifactKey)
-      .on("value", snapshot => {
-        if (snapshot.val()) {
-          let prop = snapshot.val();
-          this.rect.width(prop.width);
-          this.rect.height(prop.height);
-          this.rect.move(prop.x, prop.y);
-          this.rect.transform(prop.transform);
-        }
-      });
-  },
-  firebase: {
-    artifacts: DB.ref("testWB")
+    DB.ref(
+      `mockWhiteboards/${this.whiteboardId}/artifacts/${this.artifactKey}`
+    ).on("value", snapshot => {
+      if (snapshot.val()) {
+        let prop = snapshot.val();
+        this.rect.width(prop.width);
+        this.rect.height(prop.height);
+        this.rect.move(prop.x, prop.y);
+        this.rect.transform(prop.transform);
+      }
+    });
   },
   data() {
     return {
@@ -90,7 +99,7 @@ export default {
         console.log("f");
         this.width = this.rect.node.width.animVal.value;
         this.height = this.rect.node.height.animVal.value;
-        this.$firebaseRefs.artifacts.child(this.artifactKey).update({
+        this.artifacts.child(this.artifactKey).update({
           width: this.width,
           height: this.height,
           transform: this.rect.transform()
