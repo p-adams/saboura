@@ -11,7 +11,7 @@
         <whiteboard-base-layer></whiteboard-base-layer>
        <!-- base drawing layer -->
        <!-- render artifacts layer -->
-        <artifacts-layer></artifacts-layer>
+        <artifacts-layer :whiteboard-id="whiteboardId"></artifacts-layer>
        <!-- render artifacts layer -->
       </svg>
   </div>
@@ -22,6 +22,15 @@ import ArtifactsLayer from "./artifacts-layer";
 import ToolbarMenu from "./toolbar-menu";
 export default {
   name: "SandboxBoard",
+  props: {
+    whiteboardId: {
+      type: String,
+      required: true
+    }
+  },
+  created() {
+    console.log("need to pass down", this.whiteboardId);
+  },
   data() {
     return {
       width: "100%",

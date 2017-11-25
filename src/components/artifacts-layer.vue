@@ -73,8 +73,17 @@ import dynamicLine from "./dynamic-line";
 import dynamicText from "./dynamic-text";
 export default {
   name: "ArtifactsLayer",
-  firebase: {
-    artifacts: DB.ref("testWB")
+  props: {
+    whiteboardId: {
+      type: String,
+      required: false
+    }
+  },
+  created() {
+    this.$bindAsArray(
+      "artifacts",
+      DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`)
+    );
   },
   components: {
     dynamicRectangle,

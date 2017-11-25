@@ -75,7 +75,10 @@
                                             
                                         <v-list-tile-content class="tile-content">
                                             <v-list-tile-title class="tile-title">
-                                                <a href="#">{{ whiteboard.name }}</a>
+                                                <span
+                                                    :style="{color: 'blue', cursor: 'pointer'}"
+                                                    @click="loadWhiteboard(whiteboard['.key'])"
+                                                >{{ whiteboard.name }}</span>
                                             </v-list-tile-title>
                                             <v-list-tile-sub-title>
                                                     <div class="board-description">
@@ -120,20 +123,24 @@ export default {
     };
   },
   methods: {
+    loadWhiteboard(id) {
+      this.$router.push({ path: `/whiteboard/${id}` });
+      console.log(id);
+    },
     loadWhiteboards() {
-      this.$firebaseRefs.whiteboards.child("testWB").set({
-        cuid: cuid(),
+      // create test DB
+      let newWB = this.$firebaseRefs.whiteboards.push({
         name: "testWB",
         description: "a test whiteboard"
       });
 
       this.$firebaseRefs.whiteboards
-        .child("testWB")
+        .child(newWB.key)
         .child("collaborators")
         .push({ name: "John Smith" });
 
       this.$firebaseRefs.whiteboards
-        .child("testWB")
+        .child(newWB.key)
         .child("artifacts")
         .push({
           cuid: cuid(),

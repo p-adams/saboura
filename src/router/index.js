@@ -1,56 +1,60 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
-
-
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'Main',
-      component: () => import('@/components/Main')
+      path: "/",
+      name: "Main",
+      component: () => import("@/components/Main")
     },
     {
-      path: '/about',
-      name: 'About',
-      component: () => import('@/components/about')
+      path: "/whiteboard/:id",
+      name: "Whiteboard",
+      component: () => import("@/components/main-whiteboard"),
+      props: true
     },
     {
-      path: '/user-account',
-      name: 'Account',
-      component: () => import('@/components/user-account')
+      path: "/about",
+      name: "About",
+      component: () => import("@/components/about")
     },
     {
-      path: '/user-admin',
-      name: 'Admin',
-      component: () => import('@/components/user-account')
+      path: "/user-account",
+      name: "Account",
+      component: () => import("@/components/user-account")
     },
     {
-      path: '/whiteboard-sandbox',
-      name: 'WhiteboardSandbox',
-      component: () => import('@/components/whiteboard-sandbox')
+      path: "/user-admin",
+      name: "Admin",
+      component: () => import("@/components/user-account")
     },
     {
-      path: '/dashboard-page',
-      name: 'DashboardPage',
-      component: () => import('@/components/dashboard-page')
+      path: "/whiteboard-sandbox",
+      name: "WhiteboardSandbox",
+      component: () => import("@/components/whiteboard-sandbox")
     },
     {
-      path: '/whiteboard-app',
-      name: 'WhiteboardApp',
-      component: () => import('@/components/whiteboard-app')
+      path: "/dashboard-page",
+      name: "DashboardPage",
+      component: () => import("@/components/dashboard-page")
     },
     {
-      path: '/user-registration',
-      name: 'UserRegistration',
-      component: () => import('@/components/user-registration')
+      path: "/whiteboard-app",
+      name: "WhiteboardApp",
+      component: () => import("@/components/whiteboard-app")
     },
     {
-      path: '/user-login',
-      name: 'UserLogin',
-      component: () => import('@/components/user-login')
+      path: "/user-registration",
+      name: "UserRegistration",
+      component: () => import("@/components/user-registration")
+    },
+    {
+      path: "/user-login",
+      name: "UserLogin",
+      component: () => import("@/components/user-login")
     }
   ]
-})
+});
