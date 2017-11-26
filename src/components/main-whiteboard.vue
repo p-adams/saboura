@@ -1,6 +1,15 @@
 <template>
   <v-container>
-    <v-layout>
+    <v-layout
+      v-if="showCurrentUser === ''"
+    >
+    <v-flex>
+      <v-card>
+        <v-card-title>Please login or register to view whiteboard</v-card-title>
+      </v-card>
+    </v-flex>
+    </v-layout>
+    <v-layout v-else>
         <v-flex>
         <v-chip color="primary" text-color="white">{{ boardName }}</v-chip>
         <v-chip color="primary" text-color="white">{{ boardDescription }}</v-chip>

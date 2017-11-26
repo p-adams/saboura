@@ -2,13 +2,13 @@
     <v-container>
         <h3>Dashboard</h3>
         <!-- only if logged in/registered-->
-        <layout v-if="!isLoggedIn">
+        <v-layout v-if="!isLoggedIn">
             <v-flex>
                 <v-card>
                     <v-card-title>Please login or register to view dashboard</v-card-title>
                 </v-card>
             </v-flex>
-        </layout>
+        </v-layout>
         <v-layout
             class="dashboard-layout"
             v-else
@@ -124,11 +124,10 @@ export default {
   },
   created() {
     console.log("created");
-    // this.loadWhiteboards();
+    // this.loadMockWhiteboards();
   },
   data() {
     return {
-      whiteboards: [],
       boardName: "",
       boardDescription: "",
       creationSuccess: false,
@@ -141,7 +140,7 @@ export default {
       this.$router.push({ path: `/whiteboard/${id}` });
       this.setWhiteboardId({ id });
     },
-    loadWhiteboards() {
+    loadMockWhiteboards() {
       // create test DB
       let newWB = this.$firebaseRefs.whiteboards.push({
         name: "testWB",
@@ -168,7 +167,12 @@ export default {
         });
     },
     createWhiteboard() {
-      alert("create whiteboard");
+      const newWB = this.$firebaseRefs.whiteboards.push({
+        name: this.boardName,
+        description: this.boardDescription
+      });
+
+      console.log("create whiteboard");
     },
     participantsCount(participants) {
       let count = 0;
@@ -177,7 +181,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["isLoggedIn"])
+    ...mapGetters(["isLoggedIn", "showCurrentUser"])
   }
 };
 </script>

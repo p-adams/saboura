@@ -54,7 +54,7 @@
           :artifact-stroke-width="artifact.strokeWidth"
           ></dynamic-line>
         <dynamic-text
-          v-else
+          v-else-if="artifact.type === 'text'"
           :key="key"
           :artifact-key="artifact['.key']"
           :whiteboard-id="whiteboardId"

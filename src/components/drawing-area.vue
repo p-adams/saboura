@@ -8,7 +8,7 @@
         :height="height"
       >
       <!-- base drawing layer -->
-        <whiteboard-base-layer></whiteboard-base-layer>
+        <whiteboard-base-layer :whiteboard-id="whiteboardId"></whiteboard-base-layer>
        <!-- base drawing layer -->
        <!-- render artifacts layer -->
         <artifacts-layer :whiteboard-id="whiteboardId"></artifacts-layer>

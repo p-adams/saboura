@@ -4,6 +4,11 @@ import firebase from "firebase";
 
 const DRAWABLE_ARTIFACTS = ["rectangle", "circle", "ellipse", "line", "text"];
 
+function addToWhiteboard(id, userName) {
+  const collaborators = DB.ref(`mockWhiteboards/${id}/collaborators`);
+  collaborators.push({ name: userName });
+}
+
 function createArtifact(title, whiteboardId) {
   console.log("create artifact", whiteboardId);
   const artifacts = DB.ref(`mockWhiteboards/${whiteboardId}/artifacts`);
@@ -96,4 +101,4 @@ function createArtifact(title, whiteboardId) {
   }
 }
 
-export { createArtifact };
+export { createArtifact, addToWhiteboard };

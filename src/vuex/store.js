@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { createArtifact } from "../api/api";
+import { createArtifact, addToWhiteboard } from "../api/api";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -72,8 +72,9 @@ const store = new Vuex.Store({
     setDrawingToolbarVisibility({ context }, payload) {
       commit("setDrawingToolbarVisibility", payload);
     },
-    setWhiteboardId({ commit }, payload) {
+    setWhiteboardId({ commit, state }, payload) {
       commit("setWhiteboardId", payload);
+      addToWhiteboard(state.whiteboardId, state.currentUser);
     }
   },
   getters: {

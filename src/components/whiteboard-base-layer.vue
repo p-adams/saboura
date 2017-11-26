@@ -19,15 +19,45 @@
         fill="white"
         >
         </rect>
+        <path :d="pathValue" :style="pathStyle"></path>
     </svg>
  <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
 </template>
 <script>
 import * as d3 from "d3";
+import { DB } from "../firebase";
+import firebase from "firebase";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 export default {
   name: "WhiteboardBaseLayer",
+  props: {
+    whiteboardId: {
+      type: String,
+      required: true
+    }
+  },
+  created() {
+    return this.$bindAsArray(
+      "drawing",
+      DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`)
+    );
+  },
+  mounted() {
+    DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`).on(
+      "value",
+      snapshot => {
+        // console.log(snapshot.val());
+        const prop = snapshot.val();
+
+        this.pathValue = prop.path;
+        this.pathStyle = prop.style;
+
+        //this.pathValue = prop.path;
+        //this.pathStyle = prop.style;
+      }
+    );
+  },
   data() {
     return {
       width: "100%",
@@ -35,7 +65,9 @@ export default {
       rectWidth: "100%",
       rectHeight: "100%",
       rectX: 0,
-      rectY: 0
+      rectY: 0,
+      pathValue: "",
+      pathStyle: ""
     };
   },
   methods: {
@@ -43,10 +75,10 @@ export default {
   },
   directives: {
     draw: {
-      componentUpdated: function(el, binding) {
+      componentUpdated: (el, binding, vnode) => {
+        const vm = vnode.context;
         let svg;
         let activeLine;
-
         let drawProps = {
           stroke: "",
           strokeWidth: ""
@@ -71,13 +103,31 @@ export default {
             .style("fill", "none")
             .style("stroke", drawProps.stroke)
             .style("stroke-width", drawProps.strokeWidth);
-          activeLine.datum().push(d3.mouse(this));
+          // activeLine.datum().push(d3.mouse(this));
+          // console.log(activeLine[0][0]);
+          /*vm.$firebaseRefs.drawing.update({
+            path: el.childNodes[2].attributes.d.value,
+            style: el.childNodes[2].attributes.style.value
+          });*/
+          vm.$firebaseRefs.drawing.update({
+            path: activeLine[0][0].attributes.d.value,
+            style: activeLine[0][0].attributes.style.value
+          });
         }
         function dragged() {
           activeLine.datum().push(d3.mouse(this));
           activeLine.attr("d", renderPath);
+          // console.log(activeLine[0][0].attributes.d.value);
+          vm.$firebaseRefs.drawing.update({
+            path: activeLine[0][0].attributes.d.value,
+            style: activeLine[0][0].attributes.style.value
+          });
         }
         function dragended() {
+          vm.$firebaseRefs.drawing.update({
+            path: activeLine[0][0].attributes.d.value,
+            style: activeLine[0][0].attributes.style.value
+          });
           activeLine = null;
         }
         // if in drawing mode, draw on whiteboard
