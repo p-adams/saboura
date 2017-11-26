@@ -19,7 +19,10 @@
         fill="white"
         >
         </rect>
-        <path :d="pathValue" :style="pathStyle"></path>
+        <path
+          v-for="(path, key) in paths"
+          :key="key"
+          :d="path.path" :style="path.style"></path>
     </svg>
  <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
 </template>
@@ -44,19 +47,20 @@ export default {
     );
   },
   mounted() {
-    DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`).on(
-      "value",
-      snapshot => {
+    DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`)
+      .child("paths")
+      .on("value", snapshot => {
         // console.log(snapshot.val());
         const prop = snapshot.val();
-
-        this.pathValue = prop.path;
-        this.pathStyle = prop.style;
+        for (let i in prop) {
+          this.paths.push({ path: prop[i].path, style: prop[i].style });
+        }
+        /*this.pathValue = prop.path;
+        this.pathStyle = prop.style;*/
 
         //this.pathValue = prop.path;
         //this.pathStyle = prop.style;
-      }
-    );
+      });
   },
   data() {
     return {
@@ -67,7 +71,8 @@ export default {
       rectX: 0,
       rectY: 0,
       pathValue: "",
-      pathStyle: ""
+      pathStyle: "",
+      paths: []
     };
   },
   methods: {
@@ -103,28 +108,15 @@ export default {
             .style("fill", "none")
             .style("stroke", drawProps.stroke)
             .style("stroke-width", drawProps.strokeWidth);
-          // activeLine.datum().push(d3.mouse(this));
-          // console.log(activeLine[0][0]);
-          /*vm.$firebaseRefs.drawing.update({
-            path: el.childNodes[2].attributes.d.value,
-            style: el.childNodes[2].attributes.style.value
-          });*/
-          vm.$firebaseRefs.drawing.update({
-            path: activeLine[0][0].attributes.d.value,
-            style: activeLine[0][0].attributes.style.value
-          });
+          activeLine.datum().push(d3.mouse(this));
         }
         function dragged() {
           activeLine.datum().push(d3.mouse(this));
           activeLine.attr("d", renderPath);
           // console.log(activeLine[0][0].attributes.d.value);
-          vm.$firebaseRefs.drawing.update({
-            path: activeLine[0][0].attributes.d.value,
-            style: activeLine[0][0].attributes.style.value
-          });
         }
         function dragended() {
-          vm.$firebaseRefs.drawing.update({
+          vm.$firebaseRefs.drawing.child("paths").push({
             path: activeLine[0][0].attributes.d.value,
             style: activeLine[0][0].attributes.style.value
           });
