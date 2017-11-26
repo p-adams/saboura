@@ -3,19 +3,13 @@
     <v-container>
       <v-layout>
         <p>About Saboura</p>
-        <p>temp chat placement</p>
-        <whiteboard-chat></whiteboard-chat>
       </v-layout>
     </v-container>
   </div>
 </template>
 <script>
-import WhiteboardChat from "./whiteboard-chat";
 export default {
-  name: "about",
-  components: {
-    WhiteboardChat
-  }
+  name: "about"
 };
 </script>
 <style scoped>

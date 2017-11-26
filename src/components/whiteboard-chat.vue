@@ -89,7 +89,7 @@
                         <template v-for="(message, index) in messages">
                           <v-list-tile :key="index">
                             <v-list-tile-content>
-                              <span>{{ message.author }} ({{ message.time }}) said : {{ message.body }}</span>
+                              <span :style="{fontSize: '10px'}">{{ message.author }} said: {{ message.body }}</span>
                             </v-list-tile-content>
                            </v-list-tile>
                           <v-divider
@@ -135,45 +135,44 @@ import firebase from "firebase";
 import { mapGetters } from "vuex";
 export default {
   name: "WhiteboardChat",
-  firebase: {
-    messages: DB.ref("testMessages"),
-    collaborators: DB.ref("testCollaborators")
+  props: {
+    whiteboardId: {
+      type: String,
+      required: true
+    }
   },
-  created() {},
+  created() {
+    this.$bindAsArray(
+      "collaborators",
+      DB.ref(`mockWhiteboards/${this.whiteboardId}/collaborators`)
+    );
+    this.$bindAsArray(
+      "messages",
+      DB.ref(`mockWhiteboards/${this.whiteboardId}/messages`)
+    );
+  },
   data() {
     return {
-      message: "",
-      collaborators: [
-        { active: true, name: "John Smith" },
-        { active: false, name: "Mary Peters" }
-      ]
+      message: ""
     };
   },
   methods: {
     generateMockMessages() {
-      this.$firebaseRefs.messages.push({
+      DB.ref(`mockWhiteboards/${this.whiteboardId}/messages`).push({
         body: "Hi",
         author: "John",
         time: moment().format("h:mm:ss a")
-      });
-    },
-    generateMockCollaborators() {
-      this.$firebaseRefs.collaborators.push({
-        active: true,
-        name: "John Smith"
-      });
-      this.$firebaseRefs.collaborators.push({
-        active: false,
-        name: "Mary Smith"
       });
     },
     selectCollaborator(collaborator) {
       console.log(collaborator);
     },
     sendMessage() {
+      const author =
+        this.showCurrentUser === "" ? "Guest" : this.showCurrentUser;
       this.$firebaseRefs.messages.push({
         body: this.message,
-        author: "Guest",
+        author: author,
         time: moment().format("h:mm:ss a")
       });
       this.message = " ";

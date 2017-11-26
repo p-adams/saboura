@@ -2,7 +2,17 @@
     <v-container>
         <h3>Dashboard</h3>
         <!-- only if logged in/registered-->
-        <v-layout class="dashboard-layout">
+        <layout v-if="!isLoggedIn">
+            <v-flex>
+                <v-card>
+                    <v-card-title>Please login or register to view dashboard</v-card-title>
+                </v-card>
+            </v-flex>
+        </layout>
+        <v-layout
+            class="dashboard-layout"
+            v-else
+        >
             <v-flex
                 class="flex"
                 xs5
@@ -106,6 +116,7 @@ import { DB } from "../firebase";
 import firebase from "firebase";
 import cuid from "cuid";
 import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "DashboardPage",
   firebase: {
@@ -164,6 +175,9 @@ export default {
       for (let p in participants) count++;
       return count;
     }
+  },
+  computed: {
+    ...mapGetters(["isLoggedIn"])
   }
 };
 </script>

@@ -52,7 +52,8 @@
             ></v-toolbar-side-icon>
             <v-spacer></v-spacer>
             <div>
-                Welcome {{ showCurrentUser === "" ? "Guest" : showCurrentUser }}
+                <span>Welcome {{ !isLoggedIn ? "Guest" : showCurrentUser }}</span>
+                <v-icon>face</v-icon>
             </div>
             <v-toolbar-title slot="extension" class="display-1">Saboura</v-toolbar-title>
             </v-toolbar>

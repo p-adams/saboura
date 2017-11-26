@@ -19,31 +19,27 @@
   </v-container>
 </template>
 <script>
-import UserLayout from './user-layout'
+import UserLayout from "./user-layout";
 export default {
-  name: 'UserAdmin',
-  data () {
-      return {
-          adminTask: [
-              {title: 'whiteboards'},
-              {title: 'sandboxes'},
-              {title: 'contacts'}
-          ]
-      }
+  name: "UserAdmin",
+  data() {
+    return {
+      adminTask: [{ title: "whiteboards" }, { title: "contacts" }]
+    };
   },
   methods: {
-      getAdminTask (task) {
-          console.log(`task ${task}`)
-      }
+    getAdminTask(task) {
+      console.log(`task ${task}`);
+    }
   },
   components: {
-      UserLayout
+    UserLayout
   }
-}
+};
 </script>
 <style scoped>
-    .admin-item {
-        cursor: pointer;
-    }
+.admin-item {
+  cursor: pointer;
+}
 </style>
 
