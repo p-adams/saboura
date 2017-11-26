@@ -29,12 +29,7 @@ export default new Router({
     {
       path: "/user-admin",
       name: "Admin",
-      component: () => import("@/components/user-account")
-    },
-    {
-      path: "/whiteboard-sandbox",
-      name: "WhiteboardSandbox",
-      component: () => import("@/components/whiteboard-sandbox")
+      component: () => import("@/components/user-admin")
     },
     {
       path: "/dashboard-page",

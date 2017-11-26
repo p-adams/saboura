@@ -54,8 +54,6 @@ export default {
     );
   },
   mounted() {
-    console.log(this.artifactKey);
-    console.log(this.whiteboardId);
     this.draw = svg(this.$refs.shape).size(1750, 1000);
     this.initArtifact();
     DB.ref(

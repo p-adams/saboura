@@ -112,13 +112,6 @@ export default {
   name: "Appbar",
   data() {
     return {
-      appBarNavItems: [
-        { title: "Home", path: "/" },
-        { title: "Create sandbox", path: "/whiteboard-sandbox" },
-        { title: "View sandbox", path: "/whiteboard-sandbox" },
-        { title: "Login", path: "/user-login" },
-        { title: "Register", path: "/user-registration" }
-      ],
       currentUser: "",
       email: "",
       password: "",
