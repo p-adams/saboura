@@ -152,7 +152,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["selectedTool"])
+    ...mapGetters(["selectedTool", "getColorOption", "getPenThicknessOption"])
   }
 };
 </script>

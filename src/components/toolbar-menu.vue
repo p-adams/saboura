@@ -16,18 +16,38 @@
           <v-container grid-list-xl text-xs-center>
             <v-layout row wrap>
               <v-flex>
-                <ul>
-                  <li
-                    v-for="item in toolbarItems"
-                    :key="item.title"
-                  >
-                  <toolbar-icon 
-                    :icon="item.icon"
-                    :is-icon="item.isIcon"
-                    :title="item.title"
-                  ></toolbar-icon>
-                  </li>
-                </ul>
+                <!-- main toolbar -->
+               
+                      <ul>
+                        <li
+                          v-for="item in mainToolbarItems"
+                          :key="item.title"
+                        >
+                        <toolbar-icon 
+                          :icon="item.icon"
+                          :is-icon="item.isIcon"
+                          :title="item.title"
+                          :size="item.size"
+                          :color="item.color"
+                        ></toolbar-icon>
+                        </li>
+                      </ul>
+                       <!-- drawing toolbar -->
+                       <ul>
+                        <li
+                          v-for="item in penToolbarItems"
+                          :key="item.title"
+                        >
+                        <toolbar-icon
+                          :icon="item.icon"
+                          :is-icon="item.isIcon"
+                          :title="item.title"
+                          :size="item.size"
+                          :color="item.color"
+                        >
+                        </toolbar-icon>
+                        </li>
+                      </ul>
               </v-flex>
             </v-layout>
           </v-container>
@@ -57,24 +77,170 @@ export default {
   data() {
     return {
       mini: true,
-      toolbarItems: [
+      mainToolbarItems: [
         { title: "draw", icon: "mode_edit", isIcon: true },
-        { title: "erase", icon: "eraser", isIcon: false },
-        { title: "rectangle", icon: "rectangle", isIcon: false },
-        { title: "circle", icon: "circle", isIcon: false },
-        { title: "ellipse", icon: "ellipse", isIcon: false },
-        { title: "line", icon: "line", isIcon: false },
+        {
+          title: "erase",
+          icon: "eraser",
+          isIcon: false,
+          size: 36,
+          color: "ffffff"
+        },
+        {
+          title: "rectangle",
+          icon: "rectangle",
+          isIcon: false,
+          size: 36,
+          color: "ffffff"
+        },
+        {
+          title: "circle",
+          icon: "circle",
+          isIcon: false,
+          size: 36,
+          color: "ffffff"
+        },
+        {
+          title: "ellipse",
+          icon: "ellipse",
+          isIcon: false,
+          size: 36,
+          color: "ffffff"
+        },
+        {
+          title: "line",
+          icon: "line",
+          isIcon: false,
+          size: 36,
+          color: "ffffff"
+        },
         { title: "text", icon: "text_fields", isIcon: true },
-        { title: "flow", icon: "flow_chart", isIcon: false },
+        {
+          title: "flow",
+          icon: "flow_chart",
+          isIcon: false,
+          size: 36,
+          color: "ffffff"
+        },
         { title: "bubble", icon: "bubble_chart", isIcon: true },
-        { title: "note", icon: "note", isIcon: false },
+        {
+          title: "note",
+          icon: "note",
+          isIcon: false,
+          size: 36,
+          color: "ffffff"
+        },
         { title: "undo", icon: "undo", isIcon: true },
         /*
           uncomment once redo functionality is implemented
           { title: "redo", icon: "redo", isIcon: true },
         */
-        { title: "save", icon: "save", isIcon: false },
-        { title: "clear", icon: "empty_trash", isIcon: false }
+        {
+          title: "save",
+          icon: "save",
+          isIcon: false,
+          size: 36,
+          color: "ffffff"
+        },
+        {
+          title: "clear",
+          icon: "empty_trash",
+          isIcon: false,
+          size: 36,
+          color: "ffffff"
+        }
+      ],
+      penToolbarItems: [
+        {
+          title: "pen8",
+          icon: "new_moon",
+          isIcon: false,
+          size: 8,
+          color: "ffffff"
+        },
+        {
+          title: "pen10",
+          icon: "new_moon",
+          isIcon: false,
+          size: 10,
+          color: "ffffff"
+        },
+        {
+          title: "pen12",
+          icon: "new_moon",
+          isIcon: false,
+          size: 12,
+          color: "ffffff"
+        },
+        {
+          title: "color1",
+          icon: "rectangle",
+          isIcon: false,
+          size: 36,
+          color: "000000"
+        },
+        {
+          title: "color2",
+          icon: "rectangle",
+          isIcon: false,
+          size: 36,
+          color: "616161"
+        },
+        {
+          title: "color3",
+          icon: "rectangle",
+          isIcon: false,
+          size: 36,
+          color: "ffcc80"
+        },
+        {
+          title: "color4",
+          icon: "rectangle",
+          isIcon: false,
+          size: 36,
+          color: "EF5350"
+        },
+        {
+          title: "color5",
+          icon: "rectangle",
+          isIcon: false,
+          size: 36,
+          color: "66BB6A"
+        },
+        {
+          title: "color6",
+          icon: "rectangle",
+          isIcon: false,
+          size: 36,
+          color: "29B6F6"
+        },
+        {
+          title: "color7",
+          icon: "rectangle",
+          isIcon: false,
+          size: 36,
+          color: "B39DDB"
+        },
+        {
+          title: "borderColor",
+          icon: "border_color",
+          isIcon: true
+        },
+        {
+          title: "fillColor",
+          icon: "format_color_fill",
+          isIcon: true
+        },
+        {
+          title: "formatTextSize",
+          icon: "format_size",
+          isIcon: true
+        },
+        {
+          title: "formatColorText",
+          icon: "format_color_text",
+          isIcon: true
+        }
       ]
     };
   },

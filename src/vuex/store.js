@@ -8,10 +8,11 @@ const store = new Vuex.Store({
     whiteboardId: "",
     loggedIn: false,
     currentUser: "",
-    activeWhiteboards: [],
-
     previousToolbarOption: "",
     toolbarOption: "",
+    colorOption: "",
+    strokeOption: "",
+    penThicknessOption: "",
     drawingToolbarIsVisible: false
   },
   mutations: {
@@ -34,14 +35,20 @@ const store = new Vuex.Store({
       state.previousToolbarOption = state.toolbarOption;
       state.toolbarOption = option;
     },
-    setArtifactTool(state, option) {
-      state.artifactTool = option;
-    },
     setDrawingToolbarVisibility(state, visibility) {
       state.drawingToolbarIsVisible = visibility;
     },
     setWhiteboardId(state, options) {
       state.whiteboardId = options.id;
+    },
+    setColorOption(state, option) {
+      state.colorOption = option.color;
+    },
+    setStrokeOption(state, option) {
+      state.strokeOption = option.stroke;
+    },
+    setPenThicknessOption(state, option) {
+      state.penThicknessOption = option.thickness;
     }
   },
   actions: {
@@ -51,7 +58,7 @@ const store = new Vuex.Store({
     login({ commit }) {
       commit("login");
     },
-    logout({ commit, state}) {
+    logout({ commit, state }) {
       commit("logout");
     },
     setCurrentUser({ commit }, payload) {
@@ -66,27 +73,31 @@ const store = new Vuex.Store({
       // create artifact
       createArtifact(title, state.whiteboardId);
     },
-    setArtifactTool({ commit }, payload) {
-      commit("setArtifactTool", payload);
-    },
     setDrawingToolbarVisibility({ context }, payload) {
       commit("setDrawingToolbarVisibility", payload);
     },
     setWhiteboardId({ commit, state }, payload) {
       commit("setWhiteboardId", payload);
       addToWhiteboard(state.whiteboardId, state.currentUser);
+    },
+    setColorOption({ commit, state }, payload) {
+      commit("setColorOption", payload);
+    },
+    setStrokeOption({ commit, state }, payload) {
+      commit("setStrokeOption", payload);
+    },
+    setPenThicknessOption({ commit, state }, payload) {
+      commit("setPenThicknessOption", payload);
     }
   },
   getters: {
-    showMockUsers: state => state.mockUsers,
-    showMockWhiteboards: state => state.mockWhiteboards,
     isLoggedIn: state => state.loggedIn,
     showCurrentUser: state => state.currentUser,
-    activeWhiteboardCount: state => state.activeWhiteboards.length,
-    sandboxCount: state => state.sandboxes.length,
-    contactsCount: state => state.contacts.length,
     selectedTool: state => state.toolbarOption,
-    drawingToolbar: state => state.drawingToolbarIsVisible
+    drawingToolbar: state => state.drawingToolbarIsVisible,
+    getColorOption: state => state.colorOption,
+    getStrokeOption: state => state.strokeOption,
+    getPenThicknessOption: state => state.penThicknessOption
   }
 });
 

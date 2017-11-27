@@ -13,7 +13,7 @@
       v-else
       @click="setToolbarOptionAndCreateArtifact(title)"
       class="icon"
-      :src="srcURL"  
+      :src="srcURL"
     />
   </div>
 </template>
@@ -40,6 +40,12 @@ export default {
     },
     title: {
       type: String
+    },
+    size: {
+      type: Number
+    },
+    color: {
+      type: String
     }
   },
   data() {
@@ -52,7 +58,8 @@ export default {
   },
   computed: {
     srcURL() {
-      return `https://png.icons8.com/${this.icon}/win10/36/ffffff`;
+      return `https://png.icons8.com/${this.icon}/win10/${this.size}/${this
+        .color}`;
     }
   }
 };
