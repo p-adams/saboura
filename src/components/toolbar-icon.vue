@@ -3,7 +3,7 @@
     <!-- might make all icons img -->
     <v-icon
       v-if="isIcon"
-      @click="setToolbarOptionAndCreateArtifact(title)"
+      @click="setToolbarOption"
       large
       class="icon"
     >
@@ -11,7 +11,7 @@
     </v-icon>
     <img
       v-else
-      @click="setToolbarOptionAndCreateArtifact(title)"
+      @click="setToolbarOption"
       class="icon"
       :src="srcURL"
     />
@@ -42,10 +42,15 @@ export default {
       type: String
     },
     size: {
-      type: Number
+      type: Number,
+      default: 3
     },
     color: {
-      type: String
+      type: String,
+      default: "black"
+    },
+    iconSize: {
+      type: Number
     }
   },
   data() {
@@ -54,11 +59,28 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["setToolbarOptionAndCreateArtifact"])
+    ...mapActions([
+      "setToolbarOptionAndCreateArtifact",
+      "setPenThicknessOption",
+      "setColorOption",
+      "setBorderColorOption",
+      "setArtifactFillOption",
+      "setFontSizeOption",
+      "setFontColorOption"
+    ]),
+    setToolbarOption() {
+      // set main toolbar option
+      console.log(this.title);
+      this.setToolbarOptionAndCreateArtifact(this.title);
+      this.setPenThicknessOption({ thickness: this.size });
+      this.setColorOption({ color: this.color });
+      this.setBorderColorOption({ border: this.color });
+      this.setArtifactFillOption({ fill: this.color });
+    }
   },
   computed: {
     srcURL() {
-      return `https://png.icons8.com/${this.icon}/win10/${this.size}/${this
+      return `https://png.icons8.com/${this.icon}/win10/${this.iconSize}/${this
         .color}`;
     }
   }

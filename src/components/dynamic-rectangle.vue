@@ -1,6 +1,8 @@
 <template>
   <svg
     ref="shape"
+    @click.alt="colorBorder"
+    @click.meta="fillArtifact"
     @click.shift="select"
     @dblclick="deselect"
   ></svg>
@@ -12,6 +14,7 @@ import svg from "svg.js";
 import selectize from "svg.select.js";
 import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
+import { mapGetters } from "vuex";
 export default {
   name: "DynamicRectangle",
   props: {
@@ -63,6 +66,8 @@ export default {
         let prop = snapshot.val();
         this.rect.width(prop.width);
         this.rect.height(prop.height);
+        this.rect.stroke(prop.stroke);
+        this.rect.fill(prop.fill);
         this.rect.move(prop.x, prop.y);
         this.rect.transform(prop.transform);
       }
@@ -105,6 +110,22 @@ export default {
     }
   },
   methods: {
+    colorBorder() {
+      if (this.getBorderColorOption !== "") {
+        this.rect.stroke(`#${this.getBorderColorOption}`);
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ stroke: `#${this.getBorderColorOption}` });
+      }
+    },
+    fillArtifact() {
+      if (this.getArtifactFillOption !== "") {
+        this.rect.fill(`#${this.getArtifactFillOption}`);
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ fill: `#${this.getArtifactFillOption}` });
+      }
+    },
     select() {
       this.rect.fire("select");
     },
@@ -125,6 +146,9 @@ export default {
       }
       this.rect.draggable();
     }
+  },
+  computed: {
+    ...mapGetters(["getBorderColorOption", "getArtifactFillOption"])
   }
 };
 </script>

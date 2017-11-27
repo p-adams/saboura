@@ -2,16 +2,19 @@
  <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
     <svg 
         :class="{
-            boardDrawing: selectedTool === 'draw',
+            boardDrawing: selectedTool === 'draw' || selectedTool === undefined,
             boardErasing: selectedTool === 'erase',
             normal: selectedTool !== 'draw'
         }"
         :width="width"
         :height="height"
-        v-draw="selectedTool"
+        v-draw="{
+          selectedTool,
+          getPenThicknessOption,
+          getColorOption
+        }"
     >
         <rect
-        @dblclick="setToolbarOption('shape')"
         :width="rectWidth"
         :height="rectHeight"
         :x="rectX"
@@ -30,11 +33,10 @@
  <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
 </template>
 <script>
-import * as d3 from "d3";
+import { Draw } from "./directives/draw";
 import { DB } from "../firebase";
 import firebase from "firebase";
 import { mapGetters } from "vuex";
-import { mapActions } from "vuex";
 export default {
   name: "WhiteboardBaseLayer",
   props: {
@@ -53,7 +55,6 @@ export default {
     DB.ref(`mockWhiteboards/${this.whiteboardId}/artifacts`)
       .child("paths")
       .on("value", snapshot => {
-        // console.log(snapshot.val());
         const prop = snapshot.val();
         for (let i in prop) {
           this.paths.push({ path: prop[i].path, style: prop[i].style });
@@ -71,85 +72,8 @@ export default {
       paths: []
     };
   },
-  methods: {
-    ...mapActions(["setToolbarOption"])
-  },
   directives: {
-    draw: {
-      componentUpdated: (el, binding, vnode) => {
-        const vm = vnode.context;
-        let svg;
-        let activeLine;
-        let drawProps = {
-          stroke: "",
-          strokeWidth: ""
-        };
-
-        let className;
-        const renderPath = d3.svg
-          .line()
-          .x(function(d) {
-            return d[0];
-          })
-          .y(function(d) {
-            return d[1];
-          })
-          .tension(0)
-          .interpolate("cardinal");
-
-        function dragstarted() {
-          activeLine = svg
-            .append("path")
-            .datum([])
-            .style("fill", "none")
-            .style("stroke", drawProps.stroke)
-            .style("stroke-width", drawProps.strokeWidth);
-          activeLine.datum().push(d3.mouse(this));
-        }
-        function dragged() {
-          activeLine.datum().push(d3.mouse(this));
-          activeLine.attr("d", renderPath);
-        }
-        function dragended() {
-          vm.$firebaseRefs.drawing.child("paths").push({
-            path: activeLine[0][0].attributes.d.value,
-            style: activeLine[0][0].attributes.style.value
-          });
-          activeLine = null;
-        }
-        // if in drawing mode, draw on whiteboard
-        if (binding.value === "draw") {
-          drawProps.stroke = "black";
-          drawProps.strokeWidth = 3;
-          svg = d3.select(el).call(
-            d3.behavior
-              .drag()
-              .on("dragstart", dragstarted)
-              .on("drag", dragged)
-              .on("dragend", dragended)
-          );
-        } else if (binding.value === "erase") {
-          drawProps.stroke = "white";
-          drawProps.strokeWidth = 16;
-          svg = d3.select(el).call(
-            d3.behavior
-              .drag()
-              .on("dragstart", dragstarted)
-              .on("drag", dragged)
-              .on("dragend", dragended)
-          );
-        } else {
-          // if other toolbar option selected, remove draw behavior
-          svg = d3.select(el).call(
-            d3.behavior
-              .drag()
-              .on("dragstart", null)
-              .on("drag", null)
-              .on("dragend", null)
-          );
-        }
-      }
-    }
+    Draw
   },
   computed: {
     ...mapGetters(["selectedTool", "getColorOption", "getPenThicknessOption"])

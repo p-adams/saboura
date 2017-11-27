@@ -1,11 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { DB } from "../firebase";
+import firebase from "firebase";
 import { createArtifact, addToWhiteboard } from "../api/api";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
     whiteboardId: "",
+    userId: "",
     loggedIn: false,
     currentUser: "",
     previousToolbarOption: "",
@@ -13,6 +16,10 @@ const store = new Vuex.Store({
     colorOption: "",
     strokeOption: "",
     penThicknessOption: "",
+    borderColorOption: "",
+    artifactFillOption: "",
+    fontSizeOption: "",
+    fontColorOption: "",
     drawingToolbarIsVisible: false
   },
   mutations: {
@@ -41,6 +48,9 @@ const store = new Vuex.Store({
     setWhiteboardId(state, options) {
       state.whiteboardId = options.id;
     },
+    setUserId(state, payload) {
+      state.userId;
+    },
     setColorOption(state, option) {
       state.colorOption = option.color;
     },
@@ -49,13 +59,25 @@ const store = new Vuex.Store({
     },
     setPenThicknessOption(state, option) {
       state.penThicknessOption = option.thickness;
+    },
+    setBorderColorOption(state, option) {
+      state.borderColorOption = option.border;
+    },
+    setArtifactFillOption(state, option) {
+      state.artifactFillOption = option.fill;
+    },
+    setFontSizeOption(state, option) {
+      state.fontSizeOption = option.fontSize;
+    },
+    setFontColorOption(state, option) {
+      state.fontColorOption = option.fontColor;
     }
   },
   actions: {
     loadMockUsers({ commit }, payload) {
       commit("loadMockUsers", payload.users);
     },
-    login({ commit }) {
+    login({ commit, state }) {
       commit("login");
     },
     logout({ commit, state }) {
@@ -88,6 +110,18 @@ const store = new Vuex.Store({
     },
     setPenThicknessOption({ commit, state }, payload) {
       commit("setPenThicknessOption", payload);
+    },
+    setBorderColorOption({ commit, state }, payload) {
+      commit("setBorderColorOption", payload);
+    },
+    setArtifactFillOption({ commit, state }, payload) {
+      commit("setArtifactFillOption", payload);
+    },
+    setFontSizeOption({ commit, state }, payload) {
+      commit("setFontSizeOption", payload);
+    },
+    setFontColorOption({ commit, state }, payload) {
+      commit("setFontColorOption", payload);
     }
   },
   getters: {
@@ -97,7 +131,11 @@ const store = new Vuex.Store({
     drawingToolbar: state => state.drawingToolbarIsVisible,
     getColorOption: state => state.colorOption,
     getStrokeOption: state => state.strokeOption,
-    getPenThicknessOption: state => state.penThicknessOption
+    getPenThicknessOption: state => state.penThicknessOption,
+    getBorderColorOption: state => state.borderColorOption,
+    getArtifactFillOption: state => state.artifactFillOption,
+    getFontSizeOption: state => state.getArtifactFillOption,
+    getFontColorOption: state => state.getArtifactFillOption
   }
 });
 

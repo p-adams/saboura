@@ -10,7 +10,6 @@ function addToWhiteboard(id, userName) {
 }
 
 function createArtifact(title, whiteboardId) {
-  console.log("create artifact", whiteboardId);
   const artifacts = DB.ref(`mockWhiteboards/${whiteboardId}/artifacts`);
   if (DRAWABLE_ARTIFACTS.indexOf(title) !== -1) {
     switch (title) {
@@ -78,6 +77,9 @@ function createArtifact(title, whiteboardId) {
       default:
         console.log("No artifact to create");
     }
+  }
+  if (title === "clear") {
+    artifacts.remove();
   }
   undo(title);
   function undo(title) {
