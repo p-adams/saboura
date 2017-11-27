@@ -22,7 +22,8 @@
         <path
           v-for="(path, key) in paths"
           :key="key"
-          :d="path.path" :style="path.style"
+          :d="path.path"
+          :style="path.style"
         >
         </path>
     </svg>
@@ -67,8 +68,6 @@ export default {
       rectHeight: "100%",
       rectX: 0,
       rectY: 0,
-      pathValue: "",
-      pathStyle: "",
       paths: []
     };
   },
