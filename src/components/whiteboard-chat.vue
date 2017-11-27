@@ -17,7 +17,7 @@
             <v-layout>
               <v-flex>
                 <v-card>
-                <v-card-title>Collaborators</v-card-title>
+                <v-card-title>Collaborators: {{showCollabs.length}}</v-card-title>
                 <v-container
                   style="max-height: 200px"
                   class="scroll-y"
@@ -33,7 +33,7 @@
                   >
                     <v-flex>
                       <v-list>
-                        <template v-for="(collaborator, index) in collaborators">
+                        <template v-for="(collaborator, index) in showCollabs">
                           <v-list-tile :key="collaborator.name">
                             <v-list-tile-content>
                               <v-list-tile-title
@@ -157,6 +157,7 @@ export default {
     };
   },
   methods: {
+    onScroll() {},
     generateMockMessages() {
       DB.ref(`mockWhiteboards/${this.whiteboardId}/messages`).push({
         body: "Hi",
@@ -179,7 +180,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["showCurrentUser"])
+    ...mapGetters(["showCurrentUser"]),
+    showCollabs() {
+      return this.collaborators;
+    }
   }
 };
 </script>

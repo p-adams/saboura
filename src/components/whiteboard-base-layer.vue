@@ -22,7 +22,9 @@
         <path
           v-for="(path, key) in paths"
           :key="key"
-          :d="path.path" :style="path.style"></path>
+          :d="path.path" :style="path.style"
+        >
+        </path>
     </svg>
  <!-- nest svg tag to prevent draw/erase from overlapping with whiteboard artifacts -->
 </template>
@@ -55,11 +57,6 @@ export default {
         for (let i in prop) {
           this.paths.push({ path: prop[i].path, style: prop[i].style });
         }
-        /*this.pathValue = prop.path;
-        this.pathStyle = prop.style;*/
-
-        //this.pathValue = prop.path;
-        //this.pathStyle = prop.style;
       });
   },
   data() {
@@ -113,7 +110,6 @@ export default {
         function dragged() {
           activeLine.datum().push(d3.mouse(this));
           activeLine.attr("d", renderPath);
-          // console.log(activeLine[0][0].attributes.d.value);
         }
         function dragended() {
           vm.$firebaseRefs.drawing.child("paths").push({

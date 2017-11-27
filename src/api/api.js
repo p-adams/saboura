@@ -6,7 +6,22 @@ const DRAWABLE_ARTIFACTS = ["rectangle", "circle", "ellipse", "line", "text"];
 
 function addToWhiteboard(id, userName) {
   const collaborators = DB.ref(`mockWhiteboards/${id}/collaborators`);
-  collaborators.push({ name: userName });
+  collaborators.on("value", snap => {
+    // if there are no collaborators on the whiteboard
+    // add the user by username
+    if (snap.val() === null) {
+      collaborators.push({ name: userName });
+    } else {
+      // otherwise, check to see is user already exists on that
+      // whiteboard
+      const sn = snap.val();
+      for (let s in sn) {
+        if (sn[s].name !== userName) {
+          collaborators.push({ name: userName });
+        }
+      }
+    }
+  });
 }
 
 function createArtifact(title, whiteboardId) {

@@ -33,9 +33,6 @@ import { mapGetters } from "vuex";
 export default {
   name: "MainWhiteboard",
   props: ["id"],
-  created() {
-    this.$bindAsArray("wbdetails", DB.ref(`mockWhiteboards/${this.id}`));
-  },
   mounted() {
     this.interval = setInterval(this.date, 1000);
     DB.ref(`mockWhiteboards/${this.id}`).on("value", snap => {

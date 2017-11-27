@@ -51,7 +51,7 @@ const store = new Vuex.Store({
     login({ commit }) {
       commit("login");
     },
-    logout({ commit }) {
+    logout({ commit, state}) {
       commit("logout");
     },
     setCurrentUser({ commit }, payload) {

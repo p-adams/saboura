@@ -2,7 +2,11 @@
   <div class="hello">
       <main>
         <v-container>
-          <welcome-page></welcome-page>
+          <v-layout>
+            <v-flex>
+              <welcome-page></welcome-page>
+            </v-flex>
+          </v-layout>
         </v-container>
       </main>
   </div>
