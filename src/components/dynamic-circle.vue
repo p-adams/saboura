@@ -116,6 +116,8 @@ export default {
       this.circle = this.draw
         .circle(this.radius)
         .fill(this.fill)
+        .stroke({ width: 5 })
+        .stroke("#FFC107")
         .style("cursor", "move")
         .move(this.cx, this.cy);
 

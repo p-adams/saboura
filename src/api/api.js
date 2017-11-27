@@ -6,22 +6,7 @@ const DRAWABLE_ARTIFACTS = ["rectangle", "circle", "ellipse", "line", "text"];
 
 function addToWhiteboard(id, userName) {
   const collaborators = DB.ref(`mockWhiteboards/${id}/collaborators`);
-  collaborators.on("value", snap => {
-    // if there are no collaborators on the whiteboard
-    // add the user by username
-    if (snap.val() === null) {
-      collaborators.push({ name: userName });
-    } else {
-      // otherwise, check to see is user already exists on that
-      // whiteboard
-      const sn = snap.val();
-      for (let s in sn) {
-        if (sn[s].name !== userName) {
-          collaborators.push({ name: userName });
-        }
-      }
-    }
-  });
+  collaborators.push({ name: userName });
 }
 
 function createArtifact(title, whiteboardId) {
@@ -38,7 +23,7 @@ function createArtifact(title, whiteboardId) {
           y: 20,
           width: 200,
           height: 75,
-          fill: "blue"
+          fill: "none"
         });
         break;
       case "circle":
@@ -49,7 +34,7 @@ function createArtifact(title, whiteboardId) {
           cx: 100,
           cy: 120,
           radius: 100,
-          fill: "green"
+          fill: "none"
         });
         break;
       case "ellipse":
@@ -61,7 +46,7 @@ function createArtifact(title, whiteboardId) {
           cy: 80,
           rx: 175,
           ry: 75,
-          fill: "purple"
+          fill: "none"
         });
         break;
       case "line":
@@ -76,19 +61,7 @@ function createArtifact(title, whiteboardId) {
           x2: 100,
           y2: 200,
           strokeWidth: 10,
-          fill: "green"
-        });
-        break;
-      case "polyline":
-        artifacts.push({
-          cuid: cuid(),
-          type: "polyline",
-          transform: "",
-          x: 400,
-          y: 300,
-          polylinePoints: [0, 0, 100, 50, 50, 100],
-          strokeWidth: 5,
-          fill: "red"
+          fill: "#FF5722"
         });
         break;
       case "text":
@@ -98,7 +71,7 @@ function createArtifact(title, whiteboardId) {
           x: 300,
           y: 120,
           text: "Colorless green ideas sleep furiously",
-          fill: "black",
+          fill: "#424242",
           family: "Helvetica"
         });
         break;

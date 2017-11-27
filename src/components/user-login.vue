@@ -1,4 +1,7 @@
 <template>
+<v-container>
+  <v-layout>
+    <v-flex>
   <form-helper title="login">
     <div slot="transition">
       <transition name="fade">
@@ -37,6 +40,9 @@
       >login</v-btn>
     </div>
   </form-helper>
+    </v-flex>
+  </v-layout>
+</v-container>
 </template>
 <script>
 import { DB } from "../firebase";

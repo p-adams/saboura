@@ -1,44 +1,48 @@
 <template>
-    <form-helper title="registration">
-        <div slot="transition">
-          <transition name="fade">
-            <!--<v-card-text v-show="showRegistrationFailure">     
-                <v-alert error value="true">
-                {{registrationWarning}}
-                </v-alert>
-            </v-card-text>-->
-          </transition>
-        </div>
-        <div slot="elements">
-        <v-text-field
-            label="E-mail"
-            v-model="email"
-            :rules="emailRules"
-            :counter="20"
-            required
-        ></v-text-field>
-        <v-text-field
-            label="password"
-            type="password"
-            v-model="password"
-            :rules="passwordRules"
-            :counter="10"
-            required
-        ></v-text-field>
-        </div>
-        <div slot="buttons">
-            <v-btn
-                class="teal--text darken-1"
-                flat="flat"
-                @click="cancel"
-            >cancel</v-btn>
-            <v-btn
-                class="teal--text darken-1"
-                flat="flat"
-                @click="handleRegistration"
-            >register</v-btn>
-        </div>
-    </form-helper>
+  <v-container>
+    <v-layout>
+      <v-flex>
+      <form-helper title="registration">
+          <div slot="transition">
+            <transition name="fade">
+              <!--<v-card-text v-show="showRegistrationFailure">     
+                  <v-alert error value="true">
+                  {{registrationWarning}}
+                  </v-alert>
+              </v-card-text>-->
+            </transition>
+          </div>
+          <div slot="elements">
+          <v-text-field
+              label="E-mail"
+              v-model="email"
+              :rules="emailRules"
+              :counter="20"
+              required
+          ></v-text-field>
+          <v-text-field
+              label="password"
+              type="password"
+              v-model="password"
+              :rules="passwordRules"
+              :counter="10"
+              required
+          ></v-text-field>
+          </div>
+          <div slot="buttons">
+              <v-btn
+                  flat="flat"
+                  @click="cancel"
+              >cancel</v-btn>
+              <v-btn
+                  flat="flat"
+                  @click="handleRegistration"
+              >register</v-btn>
+          </div>
+      </form-helper>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 <script>
 import { DB } from "../firebase";

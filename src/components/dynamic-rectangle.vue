@@ -94,10 +94,9 @@ export default {
         this.$firebaseRefs.artifacts.child(this.artifactKey).update({ x, y });
       });
       this.rect.on("resizing", event => {
-        console.log("f");
         this.width = this.rect.node.width.animVal.value;
         this.height = this.rect.node.height.animVal.value;
-        this.artifacts.child(this.artifactKey).update({
+        this.$firebaseRefs.artifacts.child(this.artifactKey).update({
           width: this.width,
           height: this.height,
           transform: this.rect.transform()
@@ -116,7 +115,9 @@ export default {
     initArtifact() {
       this.rect = this.draw
         .rect(this.width, this.height)
-        .fill(this.fill)
+        .fill("none")
+        .stroke({ width: 5 })
+        .stroke("#5C6BC0")
         .style("cursor", "move")
         .move(this.x, this.y);
       if (this.transform !== undefined) {

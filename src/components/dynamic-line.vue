@@ -142,7 +142,7 @@ export default {
       this.line = this.draw
         .line(this.x1, this.y1, this.x2, this.y2)
         .stroke({ width: this.stroke })
-        .fill(this.artifactFill)
+        .stroke(this.artifactFill)
         .style("cursor", "move")
         .move(this.x1, this.y1);
       if (this.transform !== undefined) {

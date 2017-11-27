@@ -122,7 +122,9 @@ export default {
     initShape() {
       this.ellipse = this.draw
         .ellipse(this.rx, this.ry)
-        .fill("blue")
+        .fill(this.artifactFill)
+        .stroke("#EA80FC")
+        .stroke({ width: 5 })
         .style("cursor", "move")
         .move(this.cx, this.cy);
       if (this.transform !== undefined) {

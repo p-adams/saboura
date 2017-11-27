@@ -133,6 +133,7 @@ import moment from "moment";
 import { DB } from "../firebase";
 import firebase from "firebase";
 import { mapGetters } from "vuex";
+import uniqBy from "lodash/uniqBy";
 export default {
   name: "WhiteboardChat",
   props: {
@@ -182,7 +183,7 @@ export default {
   computed: {
     ...mapGetters(["showCurrentUser"]),
     showCollabs() {
-      return this.collaborators;
+      return uniqBy(this.collaborators, "name");
     }
   }
 };
