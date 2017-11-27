@@ -1,6 +1,8 @@
 <template>
   <svg
     ref="shape"
+    @click.alt="colorBorder"
+    @click.meta="fillArtifact"
     @click.shift="select"
     @dblclick="deselect"
   ></svg>
@@ -12,6 +14,7 @@ import svg from "svg.js";
 import selectize from "svg.select.js";
 import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
+import { mapGetters } from "vuex";
 export default {
   name: "DynamicCircle",
   props: {
@@ -58,6 +61,8 @@ export default {
       if (snapshot.val()) {
         let prop = snapshot.val();
         this.circle.radius(prop.radius);
+        this.circle.stroke(prop.stroke);
+        this.circle.fill(prop.fill);
         this.circle.move(prop.cx, prop.cy);
         this.circle.transform(prop.transform);
       }
@@ -106,6 +111,22 @@ export default {
     }
   },
   methods: {
+    colorBorder() {
+      if (this.getBorderColorOption !== "") {
+        this.circle.stroke(`#${this.getBorderColorOption}`);
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ stroke: `#${this.getBorderColorOption}` });
+      }
+    },
+    fillArtifact() {
+      if (this.getArtifactFillOption !== "") {
+        this.circle.fill(`#${this.getArtifactFillOption}`);
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ fill: `#${this.getArtifactFillOption}` });
+      }
+    },
     select() {
       this.circle.fire("select");
     },
@@ -126,6 +147,9 @@ export default {
       }
       this.circle.draggable();
     }
+  },
+  computed: {
+    ...mapGetters(["getBorderColorOption", "getArtifactFillOption"])
   }
 };
 </script>

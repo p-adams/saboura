@@ -2,6 +2,7 @@
   <svg
     ref="shape"
     @click.shift="select"
+    @click.meta="fillArtifact"
     @dblclick="deselect"
   ></svg>
 </template>
@@ -12,6 +13,7 @@ import svg from "svg.js";
 import selectize from "svg.select.js";
 import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
+import { mapGetters } from "vuex";
 export default {
   name: "DynamicLine",
   props: {
@@ -75,6 +77,7 @@ export default {
         let prop = snapshot.val();
         this.line.plot(prop.x1, prop.y1, prop.x2, prop.y2);
         this.line.move(prop.cx, prop.cy);
+        this.line.stroke(prop.fill);
         this.line.transform(prop.transform);
       }
     });
@@ -129,6 +132,14 @@ export default {
     }
   },
   methods: {
+    fillArtifact() {
+      if (this.getArtifactFillOption !== "") {
+        this.line.fill(`#${this.getArtifactFillOption}`);
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ fill: `#${this.getArtifactFillOption}` });
+      }
+    },
     select() {
       this.line.fire("select");
     },
@@ -150,6 +161,9 @@ export default {
       }
       this.line.draggable();
     }
+  },
+  computed: {
+    ...mapGetters(["getArtifactFillOption"])
   }
 };
 </script>

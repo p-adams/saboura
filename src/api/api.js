@@ -78,9 +78,6 @@ function createArtifact(title, whiteboardId) {
         console.log("No artifact to create");
     }
   }
-  if (title === "clear") {
-    artifacts.remove();
-  }
   undo(title);
   function undo(title) {
     if (title === "undo") {

@@ -172,7 +172,7 @@ export default {
         description: this.boardDescription
       });
 
-      console.log("create whiteboard");
+      console.log("create whiteboard", newWB);
     },
     participantsCount(participants) {
       let count = 0;

@@ -1,6 +1,7 @@
 <template>
   <svg
     ref="shape"
+    @click.meta="fillArtifact"
     @click.shift="select"
     @dblclick="deselect"
   ></svg>
@@ -12,7 +13,8 @@ import svg from "svg.js";
 import selectize from "svg.select.js";
 import resize from "svg.resize.js";
 import draggable from "svg.draggable.js";
-import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
+
 export default {
   name: "DynamicText",
   props: {
@@ -60,6 +62,7 @@ export default {
       if (snapshot.val()) {
         let prop = snapshot.val();
         this.text.move(prop.x, prop.y);
+        this.text.font({ fill: prop.fill });
       }
     });
   },
@@ -94,6 +97,14 @@ export default {
     }
   },
   methods: {
+    fillArtifact() {
+      if (this.getArtifactFillOption !== "") {
+        this.text.font({ fill: `#${this.getArtifactFillOption}` });
+        this.$firebaseRefs.artifacts
+          .child(this.artifactKey)
+          .update({ fill: `#${this.getArtifactFillOption}` });
+      }
+    },
     select() {
       this.text.fire("select");
     },
@@ -108,6 +119,9 @@ export default {
         .font({ fill: this.fontFill, family: this.fontFamily });
       this.text.draggable();
     }
+  },
+  computed: {
+    ...mapGetters(["getArtifactFillOption"])
   }
 };
 </script>

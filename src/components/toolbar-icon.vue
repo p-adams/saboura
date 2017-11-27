@@ -70,7 +70,6 @@ export default {
     ]),
     setToolbarOption() {
       // set main toolbar option
-      console.log(this.title);
       this.setToolbarOptionAndCreateArtifact(this.title);
       this.setPenThicknessOption({ thickness: this.size });
       this.setColorOption({ color: this.color });
