@@ -73,7 +73,6 @@ const store = new Vuex.Store({
       state.fontColorOption = option.fontColor;
     },
     toggleTextModalVisibility(state, option) {
-      console.log(option.visibility);
       state.textModalVisibility = option.visibility;
     }
   },

@@ -5,6 +5,7 @@ import firebase from "firebase";
 
 export const Draw = {
   componentUpdated(el, binding, vnode) {
+    console.log(binding.arg);
     const vm = vnode.context;
     let svg;
     let activeLine;
@@ -60,7 +61,10 @@ export const Draw = {
           .on("drag", dragged)
           .on("dragend", dragended)
       );
-    } else if (binding.value.selectedTool === "erase") {
+    } else if (
+      binding.value.selectedTool === "erase" &&
+      binding.arg !== "noerase"
+    ) {
       drawProps.stroke = "white";
       drawProps.strokeWidth = 22;
       svg = d3.select(el).call(

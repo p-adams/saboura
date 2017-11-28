@@ -20,6 +20,7 @@
           >
            <v-layout>
              <v-flex>
+               <div class="graph"></div>
               <v-form v-if="showTextModal" :style="{width: '175px'}">
                 <v-text-field
                   v-model="text"

@@ -61,7 +61,6 @@ export default {
     ]),
     setToolbarOption() {
       if (this.title === "text") {
-        console.log("meow");
         this.toggleTextModalVisibility({ visibility: true });
       } else {
         // set main toolbar option
@@ -83,7 +82,8 @@ export default {
 </script>
 <style scoped>
 .icon {
-  border: 1px solid white;
+  border: 1px solid dark;
+  box-shadow: -2px 2px 2px 1px darkgray;
   cursor: pointer;
 }
 </style>

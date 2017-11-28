@@ -1,12 +1,12 @@
 <template>
    <svg
-        :style="{border: '5px solid lightgray'}"
+        :style="{border: '2px solid lightgray'}"
         width="100%"
-        height="135px"
+        height="145px"
       >
         <rect
           width="100%"
-          height="135px"
+          height="145px"
           x="0"
           y="0"
           fill="black"
@@ -36,6 +36,7 @@
                        <!-- drawing toolbar -->
                        <ul>
                         <li
+                          class="drawingToolbar"
                           v-for="item in penToolbarItems"
                           :key="item.icon"
                         >
@@ -116,21 +117,6 @@ export default {
           color: "ffffff"
         },
         { title: "text", icon: "text_fields", isIcon: true },
-        {
-          title: "flow",
-          icon: "flow_chart",
-          isIcon: false,
-          iconSize: 36,
-          color: "ffffff"
-        },
-        { title: "bubble", icon: "bubble_chart", isIcon: true },
-        {
-          title: "note",
-          icon: "note",
-          isIcon: false,
-          iconSize: 36,
-          color: "ffffff"
-        },
         { title: "undo", icon: "undo", isIcon: true }
         /*
           uncomment once redo functionality is implemented
@@ -256,6 +242,9 @@ li {
 }
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+.drawingToolbar {
+  padding: 15px;
 }
 </style>
 
