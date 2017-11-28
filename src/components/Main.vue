@@ -5,6 +5,7 @@
           <v-layout>
             <v-flex>
               <welcome-page></welcome-page>
+              
             </v-flex>
           </v-layout>
         </v-container>

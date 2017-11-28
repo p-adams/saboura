@@ -34,6 +34,11 @@ export default {
       type: String,
       required: false
     },
+    artifactFontSize: {
+      type: Number,
+      required: false,
+      default: 12
+    },
     artifactFontFamily: {
       type: String,
       required: false
@@ -55,6 +60,7 @@ export default {
   },
   mounted() {
     this.draw = svg(this.$refs.shape).size(1750, 1000);
+    console.log(this.fontSize);
     this.initShape();
     DB.ref(
       `mockWhiteboards/${this.whiteboardId}/artifacts/${this.artifactKey}`
@@ -74,7 +80,8 @@ export default {
       y: this.artifactY,
       artText: this.artifactText,
       fontFill: this.artifactFontFill,
-      fontFamily: this.artifactFontFamily
+      fontFamily: this.artifactFontFamily,
+      fontSize: this.artifactFontSize
     };
   },
   watch: {
@@ -116,7 +123,11 @@ export default {
       this.text
         .style("cursor", "move")
         .move(this.x, this.y)
-        .font({ fill: this.fontFill, family: this.fontFamily });
+        .font({
+          fill: this.fontFill,
+          family: this.fontFamily,
+          size: this.fontSize
+        });
       this.text.draggable();
     }
   },

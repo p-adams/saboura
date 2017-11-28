@@ -19,16 +19,6 @@
 </template>
 <script>
 import { mapActions } from "vuex";
-const DRAWABLE_ARTIFACTS = [
-  "rectangle",
-  "circle",
-  "ellipse",
-  "line",
-  "polyline",
-  "polygon",
-  "path",
-  "text"
-];
 export default {
   name: "ToolbarIcon",
   props: {
@@ -66,15 +56,21 @@ export default {
       "setBorderColorOption",
       "setArtifactFillOption",
       "setFontSizeOption",
-      "setFontColorOption"
+      "setFontColorOption",
+      "toggleTextModalVisibility"
     ]),
     setToolbarOption() {
-      // set main toolbar option
-      this.setToolbarOptionAndCreateArtifact(this.title);
-      this.setPenThicknessOption({ thickness: this.size });
-      this.setColorOption({ color: this.color });
-      this.setBorderColorOption({ border: this.color });
-      this.setArtifactFillOption({ fill: this.color });
+      if (this.title === "text") {
+        console.log("meow");
+        this.toggleTextModalVisibility({ visibility: true });
+      } else {
+        // set main toolbar option
+        this.setToolbarOptionAndCreateArtifact(this.title);
+        this.setPenThicknessOption({ thickness: this.size });
+        this.setColorOption({ color: this.color });
+        this.setBorderColorOption({ border: this.color });
+        this.setArtifactFillOption({ fill: this.color });
+      }
     }
   },
   computed: {

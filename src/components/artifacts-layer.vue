@@ -63,6 +63,7 @@
           :artifact-text="artifact.text"
           :artifact-font-fill="artifact.fill"
           :artifact-font-family="artifact.family"
+          :artifact-font-size="artifact.fontSize"
         ></dynamic-text>
       </template>
     </g>

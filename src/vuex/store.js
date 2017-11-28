@@ -18,8 +18,8 @@ const store = new Vuex.Store({
     penThicknessOption: "",
     borderColorOption: "",
     artifactFillOption: "",
-    fontSizeOption: "",
     fontColorOption: "",
+    textModalVisibility: false,
     drawingToolbarIsVisible: false
   },
   mutations: {
@@ -71,6 +71,10 @@ const store = new Vuex.Store({
     },
     setFontColorOption(state, option) {
       state.fontColorOption = option.fontColor;
+    },
+    toggleTextModalVisibility(state, option) {
+      console.log(option.visibility);
+      state.textModalVisibility = option.visibility;
     }
   },
   actions: {
@@ -93,7 +97,7 @@ const store = new Vuex.Store({
       // set the toolbar option
       commit("setToolbarOption", title);
       // create artifact
-      createArtifact(title, state.whiteboardId);
+      createArtifact(title, state.whiteboardId, {});
     },
     setDrawingToolbarVisibility({ context }, payload) {
       commit("setDrawingToolbarVisibility", payload);
@@ -122,6 +126,15 @@ const store = new Vuex.Store({
     },
     setFontColorOption({ commit, state }, payload) {
       commit("setFontColorOption", payload);
+    },
+    toggleTextModalVisibility({ commit }, payload) {
+      commit("toggleTextModalVisibility", payload);
+    },
+    createTextArtifact({ commit, state }, payload) {
+      // close modal
+      commit("toggleTextModalVisibility", { visibility: false });
+      // create text artifact
+      createArtifact("text", state.whiteboardId, payload);
     }
   },
   getters: {
@@ -135,7 +148,8 @@ const store = new Vuex.Store({
     getBorderColorOption: state => state.borderColorOption,
     getArtifactFillOption: state => state.artifactFillOption,
     getFontSizeOption: state => state.getArtifactFillOption,
-    getFontColorOption: state => state.getArtifactFillOption
+    getFontColorOption: state => state.getArtifactFillOption,
+    showTextModal: state => state.textModalVisibility
   }
 });
 

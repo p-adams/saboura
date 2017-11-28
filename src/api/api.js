@@ -9,7 +9,7 @@ function addToWhiteboard(id, userName) {
   collaborators.push({ name: userName });
 }
 
-function createArtifact(title, whiteboardId) {
+function createArtifact(title, whiteboardId, obj) {
   const artifacts = DB.ref(`mockWhiteboards/${whiteboardId}/artifacts`);
   if (DRAWABLE_ARTIFACTS.indexOf(title) !== -1) {
     switch (title) {
@@ -69,8 +69,9 @@ function createArtifact(title, whiteboardId) {
           type: "text",
           x: 300,
           y: 120,
-          text: "Colorless green ideas sleep furiously",
+          text: obj.text,
           fill: "#424242",
+          fontSize: obj.fontSize,
           family: "Helvetica"
         });
         break;

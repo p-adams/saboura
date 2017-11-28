@@ -131,18 +131,11 @@ export default {
           iconSize: 36,
           color: "ffffff"
         },
-        { title: "undo", icon: "undo", isIcon: true },
+        { title: "undo", icon: "undo", isIcon: true }
         /*
           uncomment once redo functionality is implemented
           { title: "redo", icon: "redo", isIcon: true },
         */
-        {
-          title: "clear",
-          icon: "empty_trash",
-          isIcon: false,
-          iconSize: 36,
-          color: "ffffff"
-        }
       ],
       penToolbarItems: [
         {
