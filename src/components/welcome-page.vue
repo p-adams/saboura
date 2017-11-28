@@ -3,7 +3,7 @@
     <v-container grid-list-xl text-xs-center>
       <v-layout>
         <v-flex>
-            <h6>Our collaborative, interactive whiteboards make sharing ideas with colleagues a breeze</h6>
+            <h6 class="tagline">Our collaborative, interactive whiteboards make sharing ideas with colleagues a breeze</h6>
             <v-icon x-large>picture_in_picture</v-icon>
         </v-flex>
       </v-layout>
