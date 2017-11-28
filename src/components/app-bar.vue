@@ -120,8 +120,7 @@ export default {
       navDrawerItems: [
         { title: "Home", path: "/", icon: "home" },
         { title: "Dashboard", path: "/dashboard-page", icon: "dashboard" },
-        { title: "Account", path: "/user-account", icon: "account_box" },
-        { title: "Admin", path: "/user-admin", icon: "gavel" }
+        { title: "Account", path: "/user-account", icon: "account_box" }
       ],
       drawerIsOpen: true
     };

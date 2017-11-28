@@ -17,12 +17,12 @@
                 class="flex"
                 xs5
             >      
-                <v-expansion-panel popout light>
+                <v-expansion-panel popout dark>
                     <v-expansion-panel-content>
                         <div slot="header">
                             <h5>Create a whiteboard</h5>
                         </div>
-                        <v-card>
+                        <v-card class="black">
                             <v-card-text>
                                 <div>
                                     <v-alert info dismissible>
@@ -67,12 +67,12 @@
                 class="flex"
                 xs5
             >
-               <v-expansion-panel popout light>
+               <v-expansion-panel popout dark>
                     <v-expansion-panel-content>
                         <div slot="header">
                             <h5>Join a whiteboard</h5>
                         </div>
-                        <v-card>
+                        <v-card class="black">
                             <v-card-text>
                                 <div v-if="whiteboards.length === 0">
                                     <h6>no whiteboards to join</h6>
@@ -87,7 +87,7 @@
                                         <v-list-tile-content class="tile-content">
                                             <v-list-tile-title class="tile-title">
                                                 <span
-                                                    :style="{color: 'blue', cursor: 'pointer'}"
+                                                    :style="{color: 'black', cursor: 'pointer'}"
                                                     @click="loadWhiteboard(whiteboard['.key'])"
                                                 >{{ whiteboard.name }}</span>
                                             </v-list-tile-title>
@@ -199,9 +199,9 @@ h3 {
 .tile-style {
   margin-top: 10px;
   padding: 10px;
-  border: 1px solid lightgray;
-  background: white;
-  height: 175px;
+
+  background: #424242;
+  height: 100px;
 }
 .board-description {
   margin-top: 5px;

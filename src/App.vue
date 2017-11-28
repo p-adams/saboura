@@ -6,15 +6,14 @@
         <v-container>
           <v-layout>
             <v-flex>
+              <transition name="slide-fade" mode="out-in">
               <router-view></router-view>
+              </transition>
             </v-flex>
           </v-layout>
         </v-container>
       </div>
-      <v-footer class="pa-3">
-        <v-spacer></v-spacer>
-        <div>© {{ new Date().getFullYear() }}</div>
-      </v-footer>
+      
     </v-app>
   </div>
 </template>
@@ -39,5 +38,16 @@ export default {
 }
 .router-view {
   margin-top: 60px;
+}
+.slide-fade-enter-active {
+  transition: all 0.9s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
 }
 </style>

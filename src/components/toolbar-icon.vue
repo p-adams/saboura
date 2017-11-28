@@ -82,8 +82,7 @@ export default {
 </script>
 <style scoped>
 .icon {
-  border: 1px solid dark;
-  box-shadow: -2px 2px 2px 1px darkgray;
+  border: 1px solid #212121;
   cursor: pointer;
 }
 </style>

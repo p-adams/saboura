@@ -27,11 +27,6 @@ export default new Router({
       component: () => import("@/components/user-account")
     },
     {
-      path: "/user-admin",
-      name: "Admin",
-      component: () => import("@/components/user-admin")
-    },
-    {
       path: "/dashboard-page",
       name: "DashboardPage",
       component: () => import("@/components/dashboard-page")

@@ -9,50 +9,37 @@
                 </v-list-tile-title>
             </v-list-tile-content>
         </v-list-tile>
-         <v-divider></v-divider>
-        <v-list-tile>
-            <v-list-tile-content>
-                <v-list-tile-title>
-                    Active whiteboards: {{ activeWhiteboardCount }}
-                </v-list-tile-title>
-            </v-list-tile-content>
-        </v-list-tile>
-        <v-divider></v-divider>
-        <v-list-tile>
-            <v-list-tile-content>
-                <v-list-tile-title>
-                    Sandboxes: {{ sandboxCount }}
-                </v-list-tile-title>
-            </v-list-tile-content>
-        </v-list-tile>
-        <v-divider></v-divider>
-        <v-list-tile>
-            <v-list-tile-content>
-                <v-list-tile-title>
-                    Contacts: {{ contactsCount }}
-                </v-list-tile-title>
-            </v-list-tile-content>
-        </v-list-tile>
-        <v-divider></v-divider>
     </user-layout>
   </v-container>
 </template>
 <script>
-import UserLayout from './user-layout'
-import { mapGetters } from 'vuex'
+import UserLayout from "./user-layout";
+import { DB } from "../firebase";
+import firebase from "firebase";
+import { mapGetters } from "vuex";
 export default {
-  name: 'UserAccount',
+  name: "UserAccount",
+  mounted() {
+    this.activeWhiteboards();
+  },
+  methods: {
+    activeWhiteboards() {
+      DB.ref("mockWhiteBoards").value(snap => {
+        console.log(snap.val());
+      });
+    }
+  },
   computed: {
-      ...mapGetters([
-          'showCurrentUser',
-          'activeWhiteboardCount',
-          'sandboxCount',
-          'contactsCount'
-      ])
+    ...mapGetters([
+      "showCurrentUser",
+      "activeWhiteboardCount",
+      "sandboxCount",
+      "contactsCount"
+    ])
   },
   components: {
-      UserLayout
+    UserLayout
   }
-}
+};
 </script>
 

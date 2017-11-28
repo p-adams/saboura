@@ -42,11 +42,11 @@
                                 v-html="collaborator.name"
                               ></v-list-tile-title>
                             </v-list-tile-content>
-                            <v-list-tile-action>
+                            <!--<v-list-tile-action>
                               <v-icon
                                 :style="{cursor: 'pointer'}"
                                 :color="collaborator.active ? 'teal' : 'grey'">chat_bubble</v-icon>
-                            </v-list-tile-action>
+                            </v-list-tile-action>-->
                           </v-list-tile>
                           <v-divider
                             v-if="index + 1 < collaborators.length"
