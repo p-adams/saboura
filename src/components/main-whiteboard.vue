@@ -15,6 +15,14 @@
         <v-chip color="primary" text-color="white">{{ boardDescription }}</v-chip>
         <v-chip color="primary" text-color="white">{{ dateToday }}</v-chip>
         <v-chip color="primary" text-color="white">{{ showCurrentUser }}</v-chip>
+        <v-container>
+          <v-layout>
+            <v-flex>
+              <h6>Whiteboard controls</h6>
+              <span>shift + click on shape to resize, alt + click on shape to color border, command + click on shape to fill</span>
+            </v-flex>
+          </v-layout>
+        </v-container>
         <drawing-area :whiteboard-id="id"></drawing-area>
           <v-navigation-drawer  stateless permanent dark right value="true">
             <whiteboard-chat :whiteboard-id="id"></whiteboard-chat>
