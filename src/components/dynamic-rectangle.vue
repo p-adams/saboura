@@ -57,7 +57,7 @@ export default {
     );
   },
   mounted() {
-    this.draw = svg(this.$refs.shape).size(1750, 1000);
+    this.draw = svg(this.$refs.shape).size(2000, 1000);
     this.initArtifact();
     DB.ref(
       `mockWhiteboards/${this.whiteboardId}/artifacts/${this.artifactKey}`

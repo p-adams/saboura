@@ -13,15 +13,12 @@
        <!-- render artifacts layer -->
         <artifacts-layer :whiteboard-id="whiteboardId"></artifacts-layer>
        <!-- render artifacts layer -->
-       <foreignObject width="200" height="800" x="25" y="20">
-         <v-container
-          v-if="showTextModal"
-          class="grey"
-          >
+       <foreignObject  v-if="showTextModal" width="200" height="800" x="25" y="20">
+         <v-container class="grey">
            <v-layout>
              <v-flex>
                <div class="graph"></div>
-              <v-form v-if="showTextModal" :style="{width: '175px'}">
+              <v-form :style="{width: '175px'}">
                 <v-text-field
                   v-model="text"
                   placeholder="text"
