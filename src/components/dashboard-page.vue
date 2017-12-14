@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <h3>Dashboard</h3>
+        <h3 class="wall">Dashboard</h3>
         <!-- only if logged in/registered-->
         <v-layout v-if="!isLoggedIn">
             <v-flex>
